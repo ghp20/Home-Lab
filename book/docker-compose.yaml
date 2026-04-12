@@ -1,0 +1,114 @@
+version: "3.9"
+
+networks:
+  books_net:
+
+services:
+
+  bookshelf:
+    image: ghcr.io/pennydreadful/bookshelf:hardcover
+    container_name: bookshelf
+    restart: unless-stopped
+
+    ports:
+      - "8787:8787"
+
+    environment:
+      - TZ=America/Los_Angeles
+      - PUID=3001
+      - PGID=3000
+
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+
+    volumes:
+      # Config
+      - /path/to/your/data:/config
+
+      # Downloads (normalized)
+      - /path/to/your/data:/downloads/torrents
+      - /path/to/your/data:/downloads/usenet
+
+      # Final libraries
+      - /path/to/your/data:/ebooks
+      - /path/to/your/data:/audiobooks
+
+    security_opt:
+      - no-new-privileges:true
+  # ---------------- Calibre ----------------
+  calibre:
+    image: lscr.io/linuxserver/calibre:latest
+    container_name: calibre
+    networks:
+      - books_net
+    ports:
+      - 8099:8080
+    environment:
+      - PUID=3001
+      - PGID=3000
+      - TZ=America/Los_Angeles
+    volumes:
+      - /path/to/your/data:/config
+      - /path/to/your/data:/books/ebooks
+      - /path/to/your/data:/inbox
+    restart: unless-stopped
+
+  # ---------------- Calibre-Web ----------------
+  calibre-web:
+    image: lscr.io/linuxserver/calibre-web:latest
+    container_name: calibre-web
+    networks:
+      - books_net
+    ports:
+      - 8101:8083
+    environment:
+      - PUID=3001
+      - PGID=3000
+      - TZ=America/Los_Angeles
+    volumes:
+      - /path/to/your/data:/config
+      - /path/to/your/data:/books
+    restart: unless-stopped
+
+  # ---------------- Audiobookshelf ----------------
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    container_name: audiobookshelf
+    networks:
+      - books_net
+    ports:
+      - 13378:80
+    environment:
+      - PUID=3001
+      - PGID=3000
+      - TZ=America/Los_Angeles
+    volumes:
+      - /path/to/your/data:/config
+      - /path/to/your/data:/metadata
+      - /path/to/your/data:/audiobooks
+    restart: unless-stopped
+
+  calibre-importer:
+    image: lscr.io/linuxserver/calibre:latest
+    container_name: calibre-importer
+    networks:
+      - books_net
+    depends_on:
+      - calibre
+    environment:
+      - PUID=3001
+      - PGID=3000
+      - TZ=America/Los_Angeles
+    volumes:
+      - /path/to/your/data:/books
+      - /path/to/your/data:/incoming
+      - /path/to/your/data:/scripts
+      - /path/to/your/data:/config
+    command: >
+      bash -c "
+      apt-get update &&
+      apt-get install -y inotify-tools &&
+      bash /scripts/import.sh
+      "
+    restart: unless-stopped

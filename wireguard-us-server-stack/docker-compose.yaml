@@ -1,0 +1,35 @@
+version: "3.8"
+
+x-logging: &gelf_logging
+  driver: gelf
+  options:
+    gelf-address: "udp://your-server-ip:12201"
+    tag: "{{.Name}}"
+    
+services:
+  wireguard-us-server:
+    image: lscr.io/linuxserver/wireguard:latest
+    container_name: wireguard-us-server
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE         # Allows loading kernel module if needed (optional, but recommended)
+    network_mode: host
+    environment:
+      - PUID=3001
+      - PGID=3000
+      - TZ=America/Los_Angeles
+
+      - SERVERMODE=off       # VERY IMPORTANT â disable auto-generator
+    volumes:
+      - /path/to/your/data:/config   # Persistent config storage
+      - /lib/modules:/lib/modules:ro    # (Optional) access to host kernel modules
+    ports:
+      #- "51820:51820/udp"
+      - "22:22/tcp"
+      - "443:443/tcp"  
+    #ports:
+      #- 51820:51820/udp    # Expose UDP port 51820 to host (and itâs forwarded from router)
+    #sysctls:
+      #- net.ipv4.conf.all.src_valid_mark=1  # Required for some routing scenarios (policy routing)
+    restart: unless-stopped
+    logging: *gelf_logging

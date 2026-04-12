@@ -1,0 +1,68 @@
+version: "3.9"
+
+x-logging: &gelf_logging
+  driver: gelf
+  options:
+    gelf-address: "udp://your-server-ip:12201"
+    tag: "{{.Name}}"
+    
+services:
+  db:
+    image: postgis/postgis:16-3.5
+    container_name: adventurelog_db
+    restart: unless-stopped
+    logging: *gelf_logging
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}               # default value from docs  [oai_citation:0â¡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
+      POSTGRES_USER: ${POSTGRES_USER}            # default value  [oai_citation:1â¡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
+      POSTGRES_PASSWORD: changeme
+    volumes:
+      #- /path/to/your/data/apps_config/adventurelog/.env:/app/.env
+      - /path/to/your/data/apps_config/postgres:/var/lib/postgresql/data
+
+  backend:
+    image: ghcr.io/seanmorley15/adventurelog-backend:latest
+    container_name: adventurelog_backend
+    restart: unless-stopped
+    logging: *gelf_logging
+    depends_on:
+      - db
+    environment:
+      PGHOST: db                            # default from docs  [oai_citation:2â¡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
+      POSTGRES_DB: ${POSTGRES_DB}                # from docs
+      POSTGRES_USER: ${POSTGRES_USER}             # from docs
+      POSTGRES_PASSWORD: changeme
+      SECRET_KEY: changeme
+      DJANGO_ADMIN_USERNAME: ${DJANGO_ADMIN_USERNAME}         # default  [oai_citation:4â¡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
+      DJANGO_ADMIN_PASSWORD: ${DJANGO_ADMIN_PASSWORD}         # default  [oai_citation:5â¡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
+      DJANGO_ADMIN_EMAIL: ${DJANGO_ADMIN_EMAIL} # default  [oai_citation:6â¡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
+      PUBLIC_URL: http://your-server-ip:8016    # adjust to your public backend URL  [oai_citation:7â¡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
+      CSRF_TRUSTED_ORIGINS: http://your-server-ip:8016,http://your-server-ip:8015 # adjust for your env  [oai_citation:8â¡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
+      FRONTEND_URL: http://your-server-ip:8015  # URL of the frontend, for email summaries  [oai_citation:9â¡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
+      #BACKEND_PORT: 8016                   # default inside container  [oai_citation:10â¡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
+      DEBUG: False                         # recommended for production  [oai_citation:11â¡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
+    ports:
+      - "8016:8000"
+    volumes:
+      #- /path/to/your/data/apps_config/adventurelog/.env:/app/.env
+      - /path/to/your/data/apps_config/media:/code/media
+
+  frontend:
+    image: ghcr.io/seanmorley15/adventurelog-frontend:latest
+    container_name: adventurelog_frontend
+    restart: unless-stopped
+    logging: *gelf_logging
+    depends_on:
+      - backend
+    environment:
+      PUBLIC_SERVER_URL: http://backend:8000   # connect to backend URL â adjust accordingly  [oai_citation:12â¡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
+      VITE_API_URL: http://backend:8000
+      ORIGIN: http://your-server-ip:8015                 # domain or IP youâll use to access frontend  [oai_citation:13â¡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
+      BODY_SIZE_LIMIT: Infinity                      # default  [oai_citation:14â¡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
+      FRONTEND_PORT: 8015                             # default internal port  [oai_citation:15â¡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
+    ports:
+      - "8015:3000"
+
+volumes:
+  postgres_data: {}
+  adventurelog_media: {}

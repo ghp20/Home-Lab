@@ -1,0 +1,35 @@
+version: '3.8'
+
+x-logging: &gelf_logging
+  driver: gelf
+  options:
+    gelf-address: "udp://your-server-ip:12201"
+    tag: "{{.Name}}"
+    
+services:
+  collabora:
+    image: collabora/code:latest
+    container_name: collabora
+    restart: unless-stopped
+    logging: *gelf_logging
+    environment:
+      - domain=${domain}  # ð Your Nextcloud domain (escaped)
+      - server_name=${server_name}
+      - username=${username}
+      - password=${password}
+      - extra_params=--o:ssl.enable=false --o:ssl.termination=true --o:net.proxy_prefix=true
+    ports:
+      - "9980:9980"
+    cap_add:
+      - MKNOD
+      - SYS_CHROOT
+      - CHOWN
+      - FOWNER
+      - FSETID
+      - SETGID
+      - SETUID
+      - SYS_ADMIN
+    security_opt:
+      - seccomp:unconfined
+    volumes:
+      - /path/to/your/data:/etc/loolwsd

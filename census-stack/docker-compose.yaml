@@ -1,0 +1,37 @@
+version: "3.8"
+
+x-logging: &gelf_logging
+  driver: gelf
+  options:
+    gelf-address: "udp://your-server-ip:12201"
+    tag: "{{.Name}}"
+services:
+  census-server:
+    image: ghcr.io/selfhosters-cc/container-census:latest
+    container_name: census-server
+    restart: unless-stopped
+    logging: *gelf_logging
+
+    group_add:
+      - "${DOCKER_GID:-999}"
+
+    ports:
+      - "8087:8080"
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /path/to/your/data:/app/data
+      - /path/to/your/data:/app/config
+
+    environment:
+      AUTH_ENABLED: false
+      AUTH_USERNAME: ${AUTH_USERNAME}
+      AUTH_PASSWORD: ${AUTH_PASSWORD}
+      TZ: ${TZ:-UTC}
+
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/api/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s

@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: cashlytics-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: cashlytics
+      POSTGRES_USER: cashlytics
+      POSTGRES_PASSWORD: changeme
+
+    volumes:
+      - /path/to/your/data:/var/lib/postgresql/data
+
+  cashlytics:
+    image: ghcr.io/aaronjoeldev/cashlytics-ai:latest
+    container_name: cashlytics
+    restart: unless-stopped
+    depends_on:
+      - postgres
+
+    ports:
+      - "3050:3000"
+
+
+    environment:
+      DATABASE_URL: postgresql://cashlytics:${POSTGRES_PASSWORD}@postgres:5432/cashlytics
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
+      NEXT_PUBLIC_DEFAULT_LOCALE: ${NEXT_PUBLIC_DEFAULT_LOCALE}
+      NEXT_PUBLIC_DEFAULT_CURRENCY: ${NEXT_PUBLIC_DEFAULT_CURRENCY}
+      AUTH_SECRET: changeme
+      AUTH_TRUST_HOST: ${AUTH_TRUST_HOST}
+      SINGLE_USER_MODE: ${SINGLE_USER_MODE}
+      SINGLE_USER_EMAIL: ${SINGLE_USER_EMAIL}
+      OPENAI_API_KEY: changeme
+      CRON_SECRET: ${CRON_SECRET}
+
+    user: "3001:3000"
+
+  cashlytics-cron:
+    image: alpine:3.20
+    container_name: cashlytics-cron
+    restart: unless-stopped
+
+    command: >
+      sh -c "while true; do
+      wget -qO- http://cashlytics:3000/api/cron/${CRON_SECRET};
+      sleep 3600;
+      done"
+
+    depends_on:
+      - cashlytics

@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  jellystat-db:
+    image: postgres:17
+    container_name: jellystat-db
+    environment:
+      POSTGRES_DB: jellystat
+      POSTGRES_USER: jellystat
+      POSTGRES_PASSWORD: ${ADMIN_PASSWORD}
+      TZ: "America/Los_Angeles"
+    volumes:
+      - /path/to/your/data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  jellystat:
+    image: cyfershepard/jellystat:latest
+    container_name: jellystat
+    ports:
+      - "8090:3000"   # WebUI -> http://truenas-ip:8090
+    environment:
+      - TZ=America/Los_Angeles
+
+      # Jellystat DB configuration
+      - POSTGRES_USER=jellystat
+      - POSTGRES_PASSWORD=CHANGEME
+      - POSTGRES_IP=jellystat-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=jellystat
+
+      # Change this to a long random string
+      - JWT_SECRET=CHANGEME
+    volumes:
+      - /path/to/your/data:/app/backend/backup-data
+    depends_on:
+      - jellystat-db
+    restart: unless-stopped

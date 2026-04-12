@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  homarr:
+    image: ghcr.io/homarr-labs/homarr:v1.56.1
+    container_name: homarr
+    ports:
+      - "8080:3000"
+    environment:
+      - TZ=America/Los_Angeles
+    volumes:
+      - /path/to/homarr/data:/data
+      - /path/to/homarr/configs:/app/configs
+    restart: unless-stopped

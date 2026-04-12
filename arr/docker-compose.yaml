@@ -1,0 +1,118 @@
+version: "3.9"
+
+x-logging: &gelf_logging
+  driver: gelf
+  options:
+    gelf-address: "udp://your-server-ip:12201"
+    tag: "{{.Name}}"
+
+networks:
+  arrnet:
+    external: true
+
+services:
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    networks: [arrnet]
+    ports:
+      - "9696:9696"
+    environment:
+      - PUID=3001
+      - PGID=3000
+      - TZ=America/Los_Angeles
+    volumes:
+      - /path/to/your/data:/config
+    restart: unless-stopped
+    logging: *gelf_logging
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    networks: [arrnet]
+    ports:
+      - "7878:7878"
+    environment:
+      - PUID=3001
+      - PGID=3000
+      - TZ=America/Los_Angeles
+    volumes:
+      - /path/to/your/data:/config
+      - /path/to/your/data:/movies
+      - /path/to/your/data:/downloadsq
+      - /path/to/your/data:/downloads
+    restart: unless-stopped
+    logging: *gelf_logging
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    networks: [arrnet]
+    ports:
+      - "8989:8989"
+    environment:
+      - PUID=3001
+      - PGID=3000
+      - TZ=America/Los_Angeles
+    volumes:
+      - /path/to/your/data:/config
+      - /path/to/your/data:/downloadsq
+      - /path/to/your/data:/downloads
+      - /path/to/your/data:/tv
+    restart: unless-stopped
+    logging: *gelf_logging
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    restart: unless-stopped
+    networks: [arrnet]
+    ports:
+      - "6767:6767"
+    environment:
+      PUID: 3001
+      PGID: 3000
+      TZ: America/Los_Angeles
+    volumes:
+      - /path/to/your/data:/config
+      - /path/to/your/data:/movies
+      - /path/to/your/data:/tv
+    logging: *gelf_logging
+  
+  lazylibrarian:
+    image: lscr.io/linuxserver/lazylibrarian:latest
+    container_name: lazylibrarian
+    networks: [arrnet]
+    ports:
+      - "5299:5299"
+    restart: unless-stopped
+
+    environment:
+      - PUID=3001                 # User ID (match your dataset permissions)
+      - PGID=3000                 # Group ID (match your dataset permissions)
+      - TZ=America/Los_Angeles
+      
+    volumes:
+      - /path/to/your/data:/config
+      - /path/to/your/data:/downloadsq
+      - /path/to/your/data:/complete
+      - /path/to/your/data:/books/ebooks
+      - /path/to/your/data:/books/audiobooks
+    logging: *gelf_logging
+
+  cleanuparr:
+    image: ghcr.io/cleanuparr/cleanuparr:latest
+    container_name: cleanuparr
+    networks: [arrnet]
+    ports:
+      - "11011:11011"
+    environment:
+      - PUID=3001
+      - PGID=3000
+      - TZ=America/Los_Angeles
+    volumes:
+      - /path/to/your/data:/config
+      - /path/to/your/data:/downloadsq
+    restart: unless-stopped
+    logging: *gelf_logging

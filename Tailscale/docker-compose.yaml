@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  tailscale:
+    image: ghcr.io/tailscale/tailscale:v1.94.2
+    container_name: tailscale
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - TS_USERSPACE=false
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_AUTH_KEY=changeme
+      - TS_SERVER_URL=https://controlplane.tailscale.com
+      - TS_ROUTES=your-lan-subnet
+    volumes:
+      - /path/to/tailscale/state:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    restart: unless-stopped

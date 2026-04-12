@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  rustdesk-server:
+    image: rustdesk/rustdesk-server:latest
+    container_name: rustdesk-server
+    ports:
+      - "21115:21115"
+      - "21116:21116"
+      - "21117:21117"
+      - "21118:21118"
+      - "21119:21119"
+    environment:
+      - TZ=America/Los_Angeles
+    restart: unless-stopped
+
+  rustdesk-relay:
+    image: rustdesk/rustdesk-server:latest
+    container_name: rustdesk-relay
+    command: relay
+    ports:
+      - "21116:21116"
+    environment:
+      - TZ=America/Los_Angeles
+    restart: unless-stopped

@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  bitmagnet:
+    image: ghcr.io/bitmagnet-io/bitmagnet:latest
+    container_name: bitmagnet
+    ports:
+      - "3333:3333"
+      - "58888:58888"
+    environment:
+      - TZ=America/Los_Angeles
+      - DATABASE_URL=postgresql://bitmagnet:changeme@bitmagnet-db:5432/bitmagnet
+    volumes:
+      - /path/to/bitmagnet:/data
+      - /path/to/your/media:/media
+    depends_on:
+      - bitmagnet-db
+    restart: unless-stopped
+
+  bitmagnet-db:
+    image: postgres:16
+    container_name: bitmagnet-postgres
+    environment:
+      - POSTGRES_DB=bitmagnet
+      - POSTGRES_USER=bitmagnet
+      - POSTGRES_PASSWORD=changeme
+    volumes:
+      - /path/to/bitmagnet/db:/var/lib/postgresql/data
+    restart: unless-stopped

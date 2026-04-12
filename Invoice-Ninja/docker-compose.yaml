@@ -1,0 +1,90 @@
+version: "3.9"
+
+x-logging: &gelf_logging
+  driver: gelf
+  options:
+    gelf-address: "udp://your-server-ip:12201"
+    tag: "{{.Name}}"
+
+services:
+  invoiceninja:
+    image: invoiceninja/invoiceninja-octane:5.12.28-o
+    container_name: invoiceninja
+    ports:
+      - "8003:9000"
+    environment:
+      - TZ=America/Los_Angeles
+      - APP_ENV=production
+      - APP_DEBUG=0
+      - APP_URL=https://your-invoice-ninja-url
+      - DB_HOST=invoiceninja-db
+      - DB_DATABASE=invoiceninja
+      - DB_USERNAME=invoiceninja
+      - DB_PASSWORD=changeme
+      - CACHE_DRIVER=redis
+      - REDIS_HOST=invoiceninja-redis
+      - QUEUE_CONNECTION=redis
+    volumes:
+      - /path/to/invoiceninja/docker/docker/nginx/invoiceninja.conf:/etc/nginx/conf.d/invoiceninja.conf:ro
+      - /path/to/invoiceninja/data:/storage
+    depends_on:
+      - invoiceninja-db
+      - invoiceninja-redis
+    restart: unless-stopped
+    logging: *gelf_logging
+
+  invoiceninja-db:
+    image: mariadb:12.2.2
+    container_name: invoiceninja-mariadb
+    environment:
+      - MYSQL_DATABASE=invoiceninja
+      - MYSQL_USER=invoiceninja
+      - MYSQL_PASSWORD=changeme
+    volumes:
+      - /path/to/invoiceninja/db:/var/lib/mysql
+    restart: unless-stopped
+    logging: *gelf_logging
+
+  invoiceninja-redis:
+    image: valkey/valkey:9.0.3
+    container_name: invoiceninja-redis
+    volumes:
+      - /path/to/invoiceninja/redis:/data
+    restart: unless-stopped
+    logging: *gelf_logging
+
+  invoiceninja-scheduler:
+    image: invoiceninja/invoiceninja-octane:5.12.28-o
+    container_name: invoiceninja-scheduler
+    command: schedule:run
+    environment:
+      - TZ=America/Los_Angeles
+      - DB_HOST=invoiceninja-db
+      - DB_DATABASE=invoiceninja
+      - DB_USERNAME=invoiceninja
+      - DB_PASSWORD=changeme
+      - CACHE_DRIVER=redis
+      - REDIS_HOST=invoiceninja-redis
+    depends_on:
+      - invoiceninja-db
+      - invoiceninja-redis
+    restart: unless-stopped
+    logging: *gelf_logging
+
+  invoiceninja-worker:
+    image: invoiceninja/invoiceninja-octane:5.12.28-o
+    container_name: invoiceninja-worker
+    command: queue:work --stop-when-empty
+    environment:
+      - TZ=America/Los_Angeles
+      - DB_HOST=invoiceninja-db
+      - DB_DATABASE=invoiceninja
+      - DB_USERNAME=invoiceninja
+      - DB_PASSWORD=changeme
+      - CACHE_DRIVER=redis
+      - REDIS_HOST=invoiceninja-redis
+    depends_on:
+      - invoiceninja-db
+      - invoiceninja-redis
+    restart: unless-stopped
+    logging: *gelf_logging

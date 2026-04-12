@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+    volumes:
+      - /path/to/your/data:/etc/prometheus/prometheus.yml:ro
+      - /path/to/your/data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring-net
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    environment:
+      - TZ=America/Los_Angeles
+    volumes:
+      - /path/to/your/data:/var/lib/grafana
+    ports:
+      - "3002:3000"
+    networks:
+      - monitoring-net
+
+networks:
+  monitoring-net:
+    driver: bridge

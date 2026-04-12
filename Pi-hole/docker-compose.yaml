@@ -1,0 +1,19 @@
+services:
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    restart: unless-stopped
+    network_mode: host
+
+    environment:
+      TZ: "America/Los_Angeles"
+      WEB_PORT: "3000"
+      FTLCONF_webserver_port: "3000"
+      FTLCONF_dns_listeningMode: "all"
+      FTLCONF_NTP_IPV4_ACTIVE: "false"
+      FTLCONF_NTP_IPV6_ACTIVE: "false"
+      FTLCONF_admin_password: "changeme"
+
+    volumes:
+      - /path/to/your/data/apps_config/pihole/etc-pihole:/etc/pihole
+      - /path/to/your/data/apps_config/pihole/etc-dnsmasq.d:/etc/dnsmasq.d

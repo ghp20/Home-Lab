@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+
+  seerr-db:
+    image: postgres:16
+    container_name: seerr-db
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: seerr
+      POSTGRES_USER: seerr
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+
+    volumes:
+      - /path/to/your/data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U seerr -d seerr"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+
+  seerr:
+    image: ghcr.io/seerr-team/seerr:latest
+    container_name: seerr
+    restart: unless-stopped
+
+    ports:
+      - "5055:5055"
+
+    depends_on:
+      seerr-db:
+        condition: service_healthy
+
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: seerr-db
+      DB_PORT: 5432
+      DB_USER: seerr
+      DB_PASS: ${DB_PASSWORD}
+      DB_NAME: seerr
+
+      TZ: America/Los_Angeles
+
+    volumes:
+      - /path/to/your/data:/app/config

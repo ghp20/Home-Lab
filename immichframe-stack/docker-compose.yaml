@@ -1,0 +1,38 @@
+name: immichframe
+services:
+  immichframe:
+    container_name: immichframe
+    image: ghcr.io/immichframe/immichframe:latest
+    restart: unless-stopped
+    ports:
+      - "30042:8080"
+    environment:
+      TZ: America/Los_Angeles
+      ImmichServerUrl: http://your-server-ip:30041
+      ApiKey: ${API_KEY}
+      AuthenticationSecret: "${AUTHENTICATION_SECRET}"
+      Interval: 10
+      TransitionDuration: 2
+      ImageZoom: true
+      ImageFill: false
+      Layout: single
+      DownloadImages: "true"
+      RenewImagesDuration: "30"
+      Albums: "36f94242-561a-4188-b383-89e4f788c5fc"
+      PLAYBACK_MODE: random
+      ShowClock: true
+      ClockFormat: hh:mm
+      ShowPhotoDate: true
+      PhotoDateFormat: dd-MMM-yyyy
+      ShowPeopleDesc: true
+      ShowImageLocation: true
+      ImageLocationFormat: City, Country
+      ImagePan: true
+      ShowVideos: true
+      WeatherApiKey: ${WEATHER_API_KEY}
+      ShowWeatherDescription: true
+      UnitSystem: imperial
+      WeatherLatLong: 37.40868, -121.93778
+      Language: en
+    volumes:
+      - /path/to/your/data:/app/ImageCache

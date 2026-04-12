@@ -1,0 +1,121 @@
+# ix-immich - TrueNAS SCALE Immich deployment
+# Immich version: v2.5.6 (commit: 3be8e265cd5bd6ca921ff9e665e274c5de45caa0)
+# For full installation docs: https://docs.immich.app/
+
+version: "3.9"
+
+x-logging: &gelf_logging
+  driver: gelf
+  options:
+    gelf-address: "udp://your-server-ip:12201"
+    tag: "{{.Name}}"
+
+services:
+  immich:
+    image: ghcr.io/immich-app/immich-server:release
+    container_name: ix-immich-server-1
+    restart: unless-stopped
+    logging: *gelf_logging
+    ports:
+      - "30041:30041"
+    environment:
+      - DB_HOSTNAME=pgvecto
+      - DB_PORT=5432
+      - DB_DATABASE_NAME=immich
+      - DB_USERNAME=immich
+      - DB_PASSWORD=changeme
+      - REDIS_HOSTNAME=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=changeme
+      - IMMICH_MACHINE_LEARNING_ENABLED=true
+      - IMMICH_MACHINE_LEARNING_URL=http://machine-learning:32002
+      - IMMICH_LOG_LEVEL=log
+      - UID=568
+      - GID=568
+      - PUID=568
+      - PGID=568
+      - UMASK=002
+      - TZ=America/Los_Angeles
+    volumes:
+      - immich_upload:/data
+      - /path/to/your/immich/postgres:/var/lib/postgresql
+      - /path/to/your/immich/external:/external
+    depends_on:
+      - pgvecto
+      - redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:30041/api/server/health/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  machine-learning:
+    image: ghcr.io/immich-app/immich-machine-learning:release
+    container_name: ix-immich-machine-learning-1
+    restart: unless-stopped
+    logging: *gelf_logging
+    environment:
+      - IMMICH_MACHINE_LEARNING_ENABLED=true
+      - IMMICH_LOG_LEVEL=log
+      - MACHINE_LEARNING_DEVICE=cuda
+      - MACHINE_LEARNING_CACHE_FOLDER=/mlcache
+      - DB_HOSTNAME=pgvecto
+      - DB_PORT=5432
+      - DB_DATABASE_NAME=immich
+      - DB_USERNAME=immich
+      - DB_PASSWORD=changeme
+      - REDIS_HOSTNAME=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=changeme
+      - UID=568
+      - GID=568
+      - PUID=568
+      - PGID=568
+      - TZ=America/Los_Angeles
+    volumes:
+      - immich_mlcache:/mlcache
+    depends_on:
+      - pgvecto
+      - redis
+
+  pgvecto:
+    image: ghcr.io/immich-app/postgres:15-vectorchord0.4.3-pgvectors0.2.0
+    container_name: ix-immich-pgvecto-1
+    restart: unless-stopped
+    logging: *gelf_logging
+    environment:
+      - POSTGRES_DB=immich
+      - POSTGRES_USER=immich
+      - POSTGRES_PASSWORD=changeme
+      - PGID=568
+      - PUID=568
+      - TZ=America/Los_Angeles
+    volumes:
+      - immich_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U immich"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  redis:
+    image: valkey/valkey:9
+    container_name: ix-immich-redis-1
+    restart: unless-stopped
+    logging: *gelf_logging
+    command: valkey-server --requirepass changeme
+    environment:
+      - REDIS_PASSWORD=changeme
+      - UID=568
+      - GID=568
+      - PUID=568
+      - PGID=568
+      - TZ=America/Los_Angeles
+    volumes:
+      - immich_redis:/data
+
+volumes:
+  immich_upload:
+  immich_postgres:
+  immich_redis:
+  immich_mlcache:

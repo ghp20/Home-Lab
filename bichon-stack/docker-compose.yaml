@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  bichon:
+    image: rustmailer/bichon:latest
+    container_name: bichon
+    restart: unless-stopped
+    environment:
+      # Logging level (debug|info|warn|error)
+      - BICHON_LOG_LEVEL=info
+
+      # Root data directory *inside* container
+      - BICHON_ROOT_DIR=/data
+
+      # Enable token-based access (recommended)
+      - BICHON_ENABLE_ACCESS_TOKEN=true
+
+      # CORS origins (adjust if you access via domain/VPN)
+      - BICHON_CORS_ORIGINS=${BICHON_CORS_ORIGINS}
+
+    ports:
+      # Expose UI/API
+      - "15630:15630"
+
+    volumes:
+      # Persist all email archive + index + metadata here
+      - /path/to/your/data:/data:rw
+
+    # Security options (optional but good practice)
+    security_opt:
+      - no-new-privileges:true

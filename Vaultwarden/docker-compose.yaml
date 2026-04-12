@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    container_name: vaultwarden-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: vaultwarden
+      POSTGRES_USER: vaultwarden
+      POSTGRES_PASSWORD: changeme
+    volumes:
+      - /path/to/your/data:/var/lib/postgresql/data
+    networks:
+      - vaultwarden-net
+
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://vaultwarden:${DB_PASSWORD}@vaultwarden-postgres/vaultwarden
+      ADMIN_TOKEN: ${ADMIN_TOKEN}
+      ROCKET_PORT: 30032
+      DOMAIN: http://your-server-ip:30032
+      WEBSOCKET_ENABLED: "true"
+    ports:
+      - "30032:30032"
+    volumes:
+      - /path/to/your/data:/data
+    networks:
+      - vaultwarden-net
+
+networks:
+  vaultwarden-net:
+    driver: bridge

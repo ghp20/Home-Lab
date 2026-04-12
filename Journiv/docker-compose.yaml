@@ -1,0 +1,164 @@
+version: "3.8"
+
+x-logging: &default_logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: journiv-postgres-db
+    restart: unless-stopped
+    init: true
+
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: ${POSTGRES_DB}
+
+    volumes:
+      - /path/to/your/data:/var/lib/postgresql/data
+
+    networks:
+      - backend
+
+    logging: *default_logging
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+
+
+  redis:
+    image: redis:7
+    container_name: journiv-redis-cache
+    restart: unless-stopped
+    init: true
+
+    command: redis-server --appendonly yes
+
+    volumes:
+      - /path/to/your/data:/data
+
+    networks:
+      - backend
+
+    logging: *default_logging
+
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+
+
+  celery-worker:
+    image: swalabtech/journiv-app:latest
+    container_name: journiv-celery-worker
+    restart: unless-stopped
+    init: true
+
+    command: celery -A app.core.celery_app worker --loglevel=info
+
+    environment:
+      ENVIRONMENT: ${ENVIRONMENT}
+      SERVICE_ROLE: ${SERVICE_ROLE}
+      DB_DRIVER: ${DB_DRIVER}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: changeme
+      REDIS_URL: ${REDIS_URL}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+      CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
+      SECRET_KEY: changeme
+      DOMAIN_NAME: ${DOMAIN_NAME}
+
+    volumes:
+      - /path/to/your/data:/data
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+    networks:
+      - backend
+
+    logging: *default_logging
+
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep -f 'celery worker' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+
+
+  app:
+    image: swalabtech/journiv-app:latest
+    container_name: journiv-app
+    restart: unless-stopped
+    init: true
+
+    ports:
+      - "8000:8000"
+
+    environment:
+      ENVIRONMENT: ${ENVIRONMENT}
+      SERVICE_ROLE: ${SERVICE_ROLE}
+      DB_DRIVER: ${DB_DRIVER}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: changeme
+      REDIS_URL: ${REDIS_URL}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+      CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
+      RATE_LIMIT_STORAGE_URI: ${RATE_LIMIT_STORAGE_URI}
+      SECRET_KEY: changeme
+      DOMAIN_NAME: ${DOMAIN_NAME}
+
+    volumes:
+      - /path/to/your/data:/data
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      celery-worker:
+        condition: service_started
+
+    networks:
+      - backend
+      - frontend
+
+    logging: *default_logging
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/api/v1/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+
+
+networks:
+  backend:
+    driver: bridge
+
+  frontend:
+    driver: bridge

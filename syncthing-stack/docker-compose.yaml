@@ -1,0 +1,17 @@
+version: '3'
+services:
+  syncthing:
+    image: syncthing/syncthing:latest
+    container_name: syncthing
+    user: "3001:3000"
+    restart: unless-stopped
+    hostname: truenas-us  # or truenas-us
+    volumes:
+      - /path/to/your/data:/data/movies
+      - /path/to/your/data:/data/tv
+      - /path/to/your/data:/var/syncthing
+    ports:
+      - 8384:8384    # Web UI
+      - 22000:22000/tcp
+      - 22000:22000/udp
+      - 21027:21027/udp  # local discovery

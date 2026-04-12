@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  timelinize:
+    image: ghcr.io/timelinize/timelinize:latest
+    container_name: timelinize
+    restart: unless-stopped
+
+    ports:
+      - "12002:12002"
+
+    volumes:
+      - /path/to/your/data:/repo
+      - /path/to/your/data:/config
+      - /path/to/your/data:/import
+      # Immich media (READ-ONLY)
+      - /path/to/your/data:/immich:ro
+
+    environment:
+      TZ: America/Los_Angeles
+      XDG_CONFIG_HOME: /config
+      TLZ_ORIGIN: http://your-server-ip:12002
+
+    user: "3001:3000"

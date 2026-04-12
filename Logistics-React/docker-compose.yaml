@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  logistics-react:
+    image: node:20-alpine
+    container_name: logistics-react
+    ports:
+      - "3000:3000"
+    environment:
+      - TZ=America/Los_Angeles
+      - REACT_APP_API_URL=http://your-backend:8080
+    volumes:
+      - /path/to/logistics-react:/app
+    restart: unless-stopped
