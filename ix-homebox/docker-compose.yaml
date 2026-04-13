@@ -1,0 +1,27 @@
+services:
+  homebox:
+    image: "ghcr.io/sysadminsmedia/homebox:0.24.2-rootless"
+    container_name: "ix-homebox-homebox-1"
+    environment:
+      UID: 568
+      HBOX_MODE: production
+      HBOX_WEB_PORT: 30149
+      GROUP_ID: 568
+      HBOX_STORAGE_DATA: /data
+      USER_ID: 568
+      GID: 568
+      UMASK: 002
+      TZ: America/Los_Angeles
+      UMASK_SET: 002
+      PGID: 568
+      PUID: 568
+      HBOX_STORAGE_CONN_STRING: "file:///?no_tmp_dir=true"
+      HBOX_STORAGE_PREFIX_PATH: data
+      HBOX_DATABASE_SQLITE_PATH: /data/homebox.db?_pragma=busy_timeout=2000&_pragma=journal_mode=WAL&_fk=1&_time_format=sqlite
+    ports:
+      - "30149:30149"
+    volumes:
+      - ${DATA_PATH}:/data
+    restart: "unless-stopped"
+    networks:
+      - homebox

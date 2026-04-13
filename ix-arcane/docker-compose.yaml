@@ -1,0 +1,33 @@
+services:
+  arcane:
+    image: "ghcr.io/getarcaneapp/arcane:v1.16.4"
+    container_name: "ix-arcane-arcane-1"
+    environment:
+      ENCRYPTION_KEY: "${ENCRYPTION_KEY}"
+      TZ: America/Los_Angeles
+      UMASK_SET: 002
+      PGID: 568
+      UID: 568
+      JWT_SECRET: "${JWT_SECRET}"
+      PORT: 30258
+      UMASK: 002
+      PUID: 568
+      GID: 568
+      USER_ID: 568
+      GROUP_ID: 568
+      GIN_MODE: release
+      ENVIRONMENT: production
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+      ROCR_VISIBLE_DEVICES: all
+      HIP_VISIBLE_DEVICES: all
+      ONEAPI_DEVICE_SELECTOR: "level_zero:*,opencl:*"
+      LD_LIBRARY_PATH: "/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/opt/rocm/lib:/opt/intel/oneapi/lib:/opt/intel/oneapi/lib/intel64:/usr/lib/x86_64-linux-gnu:/usr/lib/aarch64-linux-gnu:/usr/lib64:/usr/lib:/lib64:/lib"
+    ports:
+      - "30258:30258"
+    volumes:
+      - ${DATA_PATH}:/app/data
+      - /mnt/storagepool:/mnt/storagepool
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: "unless-stopped"
+    networks:
+      - arcane

@@ -1,6 +1,6 @@
-# ix-immich
+# ix-invoice-ninja
 
-TrueNAS SCALE app deployment for **immich**.
+TrueNAS SCALE app deployment for **invoice-ninja**.
 
 > ⚠️ This is a TrueNAS SCALE managed app (ix- prefix). It is NOT deployed via Portainer or docker-compose. The compose file here is auto-generated from `docker inspect` for documentation purposes only.
 

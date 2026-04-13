@@ -1,0 +1,47 @@
+services:
+  rust-desk-relay:
+    image: "rustdesk/rustdesk-server:1.1.15"
+    container_name: "ix-rust-desk-rust-desk-relay-1"
+    environment:
+      USER_ID: 568
+      UMASK: 002
+      UMASK_SET: 002
+      TZ: Etc/UTC
+      UID: 568
+      PUID: 568
+      GID: 568
+      PGID: 568
+      GROUP_ID: 568
+      HOME: /root
+    ports:
+      - "21117:21117"
+      - "21119:21119"
+    volumes:
+      - ${DATA_PATH}:/root
+    restart: "unless-stopped"
+    networks:
+      - rust-desk_internal-rust-desk-net
+  rust-desk:
+    image: "rustdesk/rustdesk-server:1.1.15"
+    container_name: "ix-rust-desk-rust-desk-1"
+    environment:
+      UMASK: 002
+      UID: 568
+      UMASK_SET: 002
+      PGID: 568
+      GROUP_ID: 568
+      USER_ID: 568
+      PUID: 568
+      TZ: Etc/UTC
+      GID: 568
+      HOME: /root
+    ports:
+      - "21115:21115"
+      - "21116:21116"
+      - "21116:21116"
+      - "21118:21118"
+    volumes:
+      - ${DATA_PATH}:/root
+    restart: "unless-stopped"
+    networks:
+      - rust-desk_internal-rust-desk-net

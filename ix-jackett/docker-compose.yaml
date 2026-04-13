@@ -1,0 +1,23 @@
+services:
+  jackett:
+    image: "ghcr.io/home-operations/jackett:0.24.1450"
+    container_name: "ix-jackett-jackett-1"
+    environment:
+      PGID: 950
+      GID: 950
+      UMASK: 002
+      USER_ID: 950
+      GROUP_ID: 950
+      PUID: 950
+      UID: 950
+      TZ: America/Los_Angeles
+      UMASK_SET: 002
+      XDG_CONFIG_HOME: /config
+    ports:
+      - "30118:30118"
+    volumes:
+      - ${DATA_PATH}:/downloads
+      - ${DATA_PATH}:/config
+    restart: "unless-stopped"
+    networks:
+      - jackett

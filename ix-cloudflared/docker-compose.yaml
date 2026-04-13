@@ -1,0 +1,22 @@
+services:
+  cloudflared:
+    image: "cloudflare/cloudflared:2026.3.0"
+    container_name: "ix-cloudflared-cloudflared-1"
+    environment:
+      NO_AUTOUPDATE: true
+      TZ: Etc/UTC
+      TUNNEL_TOKEN: "${TUNNEL_TOKEN}"
+      UID: 568
+      UMASK: 002
+      GID: 568
+      PGID: 568
+      UMASK_SET: 002
+      PUID: 568
+      USER_ID: 568
+      GROUP_ID: 568
+      SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
+    volumes:
+      - ${DATA_PATH}:/cloudflared
+    restart: "unless-stopped"
+    networks:
+      - cloudflared

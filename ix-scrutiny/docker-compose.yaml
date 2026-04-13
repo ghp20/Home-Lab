@@ -1,0 +1,29 @@
+services:
+  scrutiny:
+    image: "ghcr.io/analogj/scrutiny:v0.8.6-omnibus"
+    container_name: "ix-scrutiny-scrutiny-1"
+    environment:
+      SCRUTINY_WEB_INFLUXDB_PORT: 8086
+      SCRUTINY_WEB_LISTEN_PORT: 8080
+      UMASK: 002
+      SCRUTINY_WEB_DATABASE_LOCATION: /opt/scrutiny/config/scrutiny.db
+      UMASK_SET: 002
+      COLLECTOR_API_ENDPOINT: "http://127.0.0.1:8080"
+      SCRUTINY_WEB_LISTEN_HOST: 0.0.0.0
+      SCRUTINY_WEB_INFLUXDB_HOST: 127.0.0.1
+      TZ: Etc/UTC
+      INFLUXD_CONFIG_PATH: /opt/scrutiny/influxdb
+      S6VER: 3.1.6.2
+      INFLUXVER: 2.2.0
+      S6_SERVICES_READYTIME: 1000
+    ports:
+      - "31054:8080"
+      - "31055:8086"
+    volumes:
+      - /dev:/dev
+      - ${DATA_PATH}:/opt/scrutiny/config
+      - ${DATA_PATH}:/opt/scrutiny/influxdb
+      - /run/udev:/run/udev
+    restart: "unless-stopped"
+    networks:
+      - scrutiny

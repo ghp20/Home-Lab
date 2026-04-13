@@ -1,0 +1,24 @@
+services:
+  flaresolverr:
+    image: "flaresolverr/flaresolverr:v3.4.6"
+    container_name: "ix-flaresolverr-flaresolverr-1"
+    environment:
+      HOST: 0.0.0.0
+      LOG_HTML: false
+      TZ: America/Los_Angeles
+      UMASK_SET: 002
+      LOG_LEVEL: info
+      UMASK: 002
+      PORT: 30098
+      CAPTCHA_SOLVER: 
+      GPG_KEY: 7169605F62C751356D054A26A821E680E5FA6305
+      PYTHON_VERSION: 3.13.9
+      PYTHON_SHA256: "${PYTHON_SHA256}"
+    ports:
+      - "30098:30098"
+    volumes:
+      - ${DATA_PATH}:/data
+      - ${DATA_PATH}:/config
+    restart: "unless-stopped"
+    networks:
+      - flaresolverr

@@ -1,0 +1,17 @@
+services:
+  portainer:
+    image: "portainer/portainer-ce:2.39.1"
+    container_name: "ix-portainer-portainer-1"
+    environment:
+      TZ: Etc/UTC
+      UMASK: 002
+      UMASK_SET: 002
+    ports:
+      - "31015:31015"
+      - "31016:31016"
+    volumes:
+      - ${DATA_PATH}:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: "unless-stopped"
+    networks:
+      - portainer

@@ -1,0 +1,22 @@
+services:
+  clamav:
+    image: "clamav/clamav:1.5.2"
+    container_name: "ix-clamav-clamav-1"
+    environment:
+      UMASK: 002
+      CLAMAV_NO_MILTERD: true
+      CLAMAV_NO_CLAMD: false
+      TZ: Etc/UTC
+      CLAMAV_NO_FRESHCLAMD: false
+      UMASK_SET: 002
+      CLAMD_STARTUP_TIMEOUT: 1800
+      FRESHCLAMD_CHECKS: 1
+    ports:
+      - "30005:3310"
+    volumes:
+      - ${DATA_PATH}:/tmp
+      - ${DATA_PATH}:/var/lib/clamav
+      - ${DATA_PATH}:/scandir
+    restart: "unless-stopped"
+    networks:
+      - clamav

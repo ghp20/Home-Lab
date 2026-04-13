@@ -1,0 +1,163 @@
+services:
+  cron:
+    image: "ix-nextcloud:latest"
+    container_name: "ix-nextcloud-cron-1"
+    environment:
+      NEXTCLOUD_TRUSTED_DOMAINS: "127.0.0.1 localhost nextcloud nginx"
+      PHP_MEMORY_LIMIT: 512M
+      UMASK_SET: 002
+      NEXTCLOUD_ADMIN_USER: gaurav
+      APACHE_DISABLE_REWRITE_IP: 1
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_USER: nextcloud
+      TZ: America/Los_Angeles
+      POSTGRES_HOST: "postgres:5432"
+      POSTGRES_DB: nextcloud
+      REDIS_HOST_PASSWORD: "${REDIS_HOST_PASSWORD}"
+      OVERWRITEPROTOCOL: https
+      NEXTCLOUD_ADMIN_PASSWORD: "${NEXTCLOUD_ADMIN_PASSWORD}"
+      REDIS_HOST: redis
+      OVERWRITEHOST: cloud.gsynch.com
+      TRUSTED_PROXIES: "127.0.0.1 192.168.0.0/16 172.16.0.0/12 10.0.0.0/8"
+      PHP_UPLOAD_LIMIT: 3G
+      REDIS_HOST_PORT: 6379
+      UMASK: 002
+      NEXTCLOUD_DATA_DIR: /var/www/html/data
+      OVERWRITECLIURL: cloud.gsynch.com
+      PHPIZE_DEPS: "autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-dev 		make 		pkg-config 		re2c"
+      PHP_INI_DIR: /usr/local/etc/php
+      APACHE_CONFDIR: /etc/apache2
+      APACHE_ENVVARS: /etc/apache2/envvars
+      PHP_CFLAGS: "-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+      PHP_CPPFLAGS: "-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+      PHP_LDFLAGS: "-Wl,-O1 -pie"
+      GPG_KEYS: "AFD8691FDAEDF03BDF6E460563F15A9B715376CA 9D7F99A0CB8F05C8A6958D6256A97AF7600A39A6 0616E93D95AF471243E26761770426E17EBBB3DD"
+      PHP_VERSION: 8.4.18
+      PHP_URL: "https://www.php.net/distributions/php-8.4.18.tar.xz"
+      PHP_ASC_URL: "https://www.php.net/distributions/php-8.4.18.tar.xz.asc"
+      PHP_SHA256: "${PHP_SHA256}"
+      PHP_OPCACHE_MEMORY_CONSUMPTION: 128
+      APACHE_BODY_LIMIT: 1073741824
+      NEXTCLOUD_VERSION: 33.0.0
+    volumes:
+      - ${DATA_PATH}:/tmp
+      - ${DATA_PATH}:/var/www/html
+      - ${DATA_PATH}:/var/www/html/data
+    restart: "unless-stopped"
+    networks:
+      - nextcloud_internal-nextcloud-net
+  nginx:
+    image: "nginx:1.29.6"
+    container_name: "ix-nextcloud-nginx-1"
+    environment:
+      TZ: America/Los_Angeles
+      UMASK: 002
+      UMASK_SET: 002
+      NGINX_VERSION: 1.29.6
+      NJS_VERSION: 0.9.6
+      NJS_RELEASE: 1~trixie
+      ACME_VERSION: 0.3.1
+      PKG_RELEASE: 1~trixie
+      DYNPKG_RELEASE: 1~trixie
+    ports:
+      - "30027:30027"
+    volumes:
+      - ${DATA_PATH}:/tmp
+    restart: "unless-stopped"
+    networks:
+      - nextcloud_internal-nextcloud-net
+  nextcloud:
+    image: "ix-nextcloud:latest"
+    container_name: "ix-nextcloud-nextcloud-1"
+    environment:
+      NEXTCLOUD_ADMIN_PASSWORD: "${NEXTCLOUD_ADMIN_PASSWORD}"
+      REDIS_HOST_PASSWORD: "${REDIS_HOST_PASSWORD}"
+      POSTGRES_HOST: "postgres:5432"
+      UMASK_SET: 002
+      PHP_MEMORY_LIMIT: 512M
+      POSTGRES_USER: nextcloud
+      TZ: America/Los_Angeles
+      PHP_UPLOAD_LIMIT: 3G
+      REDIS_HOST_PORT: 6379
+      NEXTCLOUD_ADMIN_USER: gaurav
+      OVERWRITEPROTOCOL: https
+      TRUSTED_PROXIES: "127.0.0.1 192.168.0.0/16 172.16.0.0/12 10.0.0.0/8"
+      UMASK: 002
+      OVERWRITECLIURL: cloud.gsynch.com
+      REDIS_HOST: redis
+      APACHE_DISABLE_REWRITE_IP: 1
+      OVERWRITEHOST: cloud.gsynch.com
+      NEXTCLOUD_TRUSTED_DOMAINS: "127.0.0.1 localhost nextcloud nginx"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      NEXTCLOUD_DATA_DIR: /var/www/html/data
+      POSTGRES_DB: nextcloud
+      PHPIZE_DEPS: "autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-dev 		make 		pkg-config 		re2c"
+      PHP_INI_DIR: /usr/local/etc/php
+      APACHE_CONFDIR: /etc/apache2
+      APACHE_ENVVARS: /etc/apache2/envvars
+      PHP_CFLAGS: "-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+      PHP_CPPFLAGS: "-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+      PHP_LDFLAGS: "-Wl,-O1 -pie"
+      GPG_KEYS: "AFD8691FDAEDF03BDF6E460563F15A9B715376CA 9D7F99A0CB8F05C8A6958D6256A97AF7600A39A6 0616E93D95AF471243E26761770426E17EBBB3DD"
+      PHP_VERSION: 8.4.18
+      PHP_URL: "https://www.php.net/distributions/php-8.4.18.tar.xz"
+      PHP_ASC_URL: "https://www.php.net/distributions/php-8.4.18.tar.xz.asc"
+      PHP_SHA256: "${PHP_SHA256}"
+      PHP_OPCACHE_MEMORY_CONSUMPTION: 128
+      APACHE_BODY_LIMIT: 1073741824
+      NEXTCLOUD_VERSION: 33.0.0
+    volumes:
+      - ${DATA_PATH}:/tmp
+      - ${DATA_PATH}:/var/www/html
+      - ${DATA_PATH}:/var/www/html/data
+    restart: "unless-stopped"
+    networks:
+      - nextcloud_internal-nextcloud-net
+  postgres:
+    image: "postgres:17.9-bookworm"
+    container_name: "ix-nextcloud-postgres-1"
+    environment:
+      TZ: America/Los_Angeles
+      POSTGRES_USER: nextcloud
+      POSTGRES_DB: nextcloud
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      PGDATA: /var/lib/postgresql/17/docker
+      UMASK_SET: 002
+      UMASK: 002
+      PGPORT: 5432
+      GOSU_VERSION: 1.19
+      LANG: en_US.utf8
+      PG_MAJOR: 17
+      PG_VERSION: 17.9-1.pgdg12+1
+    volumes:
+      - ${DATA_PATH}:/var/lib/postgresql/data
+      - ${DATA_PATH}:/var/lib/postgresql
+    restart: "unless-stopped"
+    networks:
+      - nextcloud_internal-nextcloud-net
+  redis:
+    image: "valkey/valkey:9.0.3"
+    container_name: "ix-nextcloud-redis-1"
+    environment:
+      UMASK_SET: 002
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      TZ: America/Los_Angeles
+      UMASK: 002
+      VALKEY_VERSION: 9.0.3
+    volumes:
+      - /mnt/.ix-apps/docker/volumes/ix-nextcloud_redis-data/_data:/data
+    restart: "unless-stopped"
+    networks:
+      - nextcloud_internal-nextcloud-net
+  imaginary:
+    image: "ghcr.io/nextcloud-releases/aio-imaginary:20260306_081319"
+    container_name: "ix-nextcloud-imaginary-1"
+    environment:
+      TZ: America/Los_Angeles
+      UMASK: 002
+      UMASK_SET: 002
+      PORT: 9000
+      MALLOC_ARENA_MAX: 2
+    restart: "unless-stopped"
+    networks:
+      - nextcloud_internal-nextcloud-net

@@ -1,0 +1,193 @@
+services:
+  scheduler:
+    image: "invoiceninja/invoiceninja-octane:5.12.28-o"
+    container_name: "ix-invoice-ninja-scheduler-1"
+    environment:
+      DB_PORT: 3306
+      CACHE_DRIVER: redis
+      REDIS_CACHE_DB: 1
+      APP_KEY: "${APP_KEY}"
+      UMASK_SET: 002
+      REDIS_DB: 0
+      TZ: Etc/UTC
+      DB_HOST: mariadb
+      SESSION_DRIVER: redis
+      DB_USERNAME: ninja
+      REDIS_HOST: redis
+      IN_USER_EMAIL: "${EMAIL}"
+      DB_CONNECTION: mysql
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      REQUIRE_HTTPS: false
+      REDIS_USERNAME: default
+      IN_PASSWORD: "${IN_PASSWORD}"
+      LARAVEL_ROLE: scheduler
+      APP_URL: "https://invoice.gsynch.com"
+      UMASK: 002
+      DB_PASSWORD: "${DB_PASSWORD}"
+      PDF_GENERATOR: snappdf
+      DB_DATABASE: ninja
+      SCOUT_DRIVER: None
+      QUEUE_CONNECTION: redis
+      REDIS_PORT: 6379
+      FILESYSTEM_DISK: debian_docker
+      APP_ENV: production
+      IS_DOCKER: true
+      PHANTOMJS_PDF_GENERATION: false
+      PHPIZE_DEPS: "autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-dev 		make 		pkg-config 		re2c"
+      PHP_INI_DIR: /usr/local/etc/php
+      PHP_CFLAGS: "-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+      PHP_CPPFLAGS: "-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+      PHP_LDFLAGS: "-Wl,-O1 -pie"
+      GPG_KEYS: "AFD8691FDAEDF03BDF6E460563F15A9B715376CA 9D7F99A0CB8F05C8A6958D6256A97AF7600A39A6 0616E93D95AF471243E26761770426E17EBBB3DD"
+      PHP_VERSION: 8.4.13
+      PHP_URL: "https://www.php.net/distributions/php-8.4.13.tar.xz"
+      PHP_ASC_URL: "https://www.php.net/distributions/php-8.4.13.tar.xz.asc"
+      PHP_SHA256: "${PHP_SHA256}"
+      XDG_CONFIG_HOME: /config
+      XDG_DATA_HOME: /data
+      GODEBUG: cgocheck=0
+    volumes:
+      - ${DATA_PATH}:/app/storage
+    restart: "unless-stopped"
+    networks:
+      - invoice-ninja_internal-invoice-ninja-net
+  worker:
+    image: "invoiceninja/invoiceninja-octane:5.12.28-o"
+    container_name: "ix-invoice-ninja-worker-1"
+    environment:
+      SESSION_DRIVER: redis
+      DB_HOST: mariadb
+      LARAVEL_ROLE: worker
+      PHANTOMJS_PDF_GENERATION: false
+      REDIS_USERNAME: default
+      PDF_GENERATOR: snappdf
+      DB_CONNECTION: mysql
+      QUEUE_CONNECTION: redis
+      REDIS_DB: 0
+      DB_PASSWORD: "${DB_PASSWORD}"
+      UMASK_SET: 002
+      APP_KEY: "${APP_KEY}"
+      DB_DATABASE: ninja
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      IS_DOCKER: true
+      APP_URL: "https://invoice.gsynch.com"
+      REDIS_PORT: 6379
+      CACHE_DRIVER: redis
+      IN_PASSWORD: "${IN_PASSWORD}"
+      FILESYSTEM_DISK: debian_docker
+      DB_PORT: 3306
+      APP_ENV: production
+      IN_USER_EMAIL: "${EMAIL}"
+      SCOUT_DRIVER: None
+      UMASK: 002
+      TZ: Etc/UTC
+      DB_USERNAME: ninja
+      REQUIRE_HTTPS: false
+      REDIS_HOST: redis
+      REDIS_CACHE_DB: 1
+      PHPIZE_DEPS: "autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-dev 		make 		pkg-config 		re2c"
+      PHP_INI_DIR: /usr/local/etc/php
+      PHP_CFLAGS: "-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+      PHP_CPPFLAGS: "-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+      PHP_LDFLAGS: "-Wl,-O1 -pie"
+      GPG_KEYS: "AFD8691FDAEDF03BDF6E460563F15A9B715376CA 9D7F99A0CB8F05C8A6958D6256A97AF7600A39A6 0616E93D95AF471243E26761770426E17EBBB3DD"
+      PHP_VERSION: 8.4.13
+      PHP_URL: "https://www.php.net/distributions/php-8.4.13.tar.xz"
+      PHP_ASC_URL: "https://www.php.net/distributions/php-8.4.13.tar.xz.asc"
+      PHP_SHA256: "${PHP_SHA256}"
+      XDG_CONFIG_HOME: /config
+      XDG_DATA_HOME: /data
+      GODEBUG: cgocheck=0
+    volumes:
+      - ${DATA_PATH}:/app/storage
+    restart: "unless-stopped"
+    networks:
+      - invoice-ninja_internal-invoice-ninja-net
+  invoice-ninja:
+    image: "invoiceninja/invoiceninja-octane:5.12.28-o"
+    container_name: "ix-invoice-ninja-invoice-ninja-1"
+    environment:
+      APP_KEY: "${APP_KEY}"
+      DB_CONNECTION: mysql
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      REDIS_PORT: 6379
+      REDIS_USERNAME: default
+      SESSION_DRIVER: redis
+      REDIS_CACHE_DB: 1
+      REDIS_DB: 0
+      FILESYSTEM_DISK: debian_docker
+      APP_ENV: production
+      TZ: Etc/UTC
+      REQUIRE_HTTPS: false
+      DB_DATABASE: ninja
+      IS_DOCKER: true
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      PHANTOMJS_PDF_GENERATION: false
+      QUEUE_CONNECTION: redis
+      APP_URL: "https://invoice.gsynch.com"
+      DB_USERNAME: ninja
+      DB_PASSWORD: "${DB_PASSWORD}"
+      UMASK: 002
+      PDF_GENERATOR: snappdf
+      LARAVEL_ROLE: app
+      REDIS_HOST: redis
+      UMASK_SET: 002
+      CACHE_DRIVER: redis
+      SCOUT_DRIVER: None
+      IN_PASSWORD: "${IN_PASSWORD}"
+      IN_USER_EMAIL: "${EMAIL}"
+      PHPIZE_DEPS: "autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-dev 		make 		pkg-config 		re2c"
+      PHP_INI_DIR: /usr/local/etc/php
+      PHP_CFLAGS: "-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+      PHP_CPPFLAGS: "-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+      PHP_LDFLAGS: "-Wl,-O1 -pie"
+      GPG_KEYS: "AFD8691FDAEDF03BDF6E460563F15A9B715376CA 9D7F99A0CB8F05C8A6958D6256A97AF7600A39A6 0616E93D95AF471243E26761770426E17EBBB3DD"
+      PHP_VERSION: 8.4.13
+      PHP_URL: "https://www.php.net/distributions/php-8.4.13.tar.xz"
+      PHP_ASC_URL: "https://www.php.net/distributions/php-8.4.13.tar.xz.asc"
+      PHP_SHA256: "${PHP_SHA256}"
+      XDG_CONFIG_HOME: /config
+      XDG_DATA_HOME: /data
+      GODEBUG: cgocheck=0
+    ports:
+      - "31105:31105"
+    volumes:
+      - ${DATA_PATH}:/app/storage
+    restart: "unless-stopped"
+    networks:
+      - invoice-ninja_internal-invoice-ninja-net
+  mariadb:
+    image: "mariadb:12.2.2"
+    container_name: "ix-invoice-ninja-mariadb-1"
+    environment:
+      MARIADB_ROOT_PASSWORD: "${MARIADB_ROOT_PASSWORD}"
+      MARIADB_PASSWORD: "${MARIADB_PASSWORD}"
+      TZ: Etc/UTC
+      MARIADB_DATABASE: ninja
+      UMASK_SET: 002
+      UMASK: 002
+      MARIADB_AUTO_UPGRADE: true
+      MARIADB_USER: ninja
+      GOSU_VERSION: 1.19
+      LANG: C.UTF-8
+      MARIADB_VERSION: "1:12.2.2+maria~ubu2404"
+    volumes:
+      - ${DATA_PATH}:/var/lib/mysql
+    restart: "unless-stopped"
+    networks:
+      - invoice-ninja_internal-invoice-ninja-net
+  redis:
+    image: "valkey/valkey:9.0.3"
+    container_name: "ix-invoice-ninja-redis-1"
+    environment:
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      TZ: Etc/UTC
+      UMASK: 002
+      UMASK_SET: 002
+      VALKEY_VERSION: 9.0.3
+    volumes:
+      - /mnt/.ix-apps/docker/volumes/ix-invoice-ninja_redis-data/_data:/data
+    restart: "unless-stopped"
+    networks:
+      - invoice-ninja_internal-invoice-ninja-net

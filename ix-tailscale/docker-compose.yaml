@@ -1,0 +1,21 @@
+services:
+  tailscale:
+    image: "ghcr.io/tailscale/tailscale:v1.96.5"
+    container_name: "ix-tailscale-tailscale-1"
+    environment:
+      TS_STATE_DIR: /var/lib/tailscale
+      TS_SOCKET: /var/run/tailscale/tailscaled.sock
+      UMASK_SET: 002
+      TS_AUTH_ONCE: true
+      TS_EXTRA_ARGS: "--advertise-exit-node=true --reset=false --accept-routes=false"
+      TS_AUTHKEY: tskey-auth-katZuAL3j621CNTRL-pgB58fWKWHdo9dMSfEUAJdKuXcndprK39
+      TS_HOSTNAME: truenas-scale
+      UMASK: 002
+      TS_USERSPACE: false
+      TS_ACCEPT_DNS: true
+      TZ: America/Los_Angeles
+    volumes:
+      - ${DATA_PATH}:/var/lib/tailscale
+    restart: "unless-stopped"
+    networks:
+      - host

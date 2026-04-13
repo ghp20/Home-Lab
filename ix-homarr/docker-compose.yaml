@@ -1,0 +1,33 @@
+services:
+  homarr:
+    image: "ghcr.io/homarr-labs/homarr:v1.56.1"
+    container_name: "ix-homarr-homarr-1"
+    environment:
+      UMASK_SET: 002
+      DB_URL: /appdata/db/db.sqlite
+      DB_DIALECT: sqlite
+      GID: 568
+      UMASK: 002
+      UID: 568
+      USER_ID: 568
+      TZ: America/Los_Angeles
+      PUID: 568
+      SECRET_ENCRYPTION_KEY: "${SECRET_ENCRYPTION_KEY}"
+      DB_DRIVER: better-sqlite3
+      PGID: 568
+      GROUP_ID: 568
+      NODE_VERSION: 24.14.0
+      YARN_VERSION: 1.22.22
+      AUTH_PROVIDERS: credentials
+      REDIS_IS_EXTERNAL: false
+      NODE_ENV: production
+    ports:
+      - "30100:7575"
+    volumes:
+      - ${DATA_PATH}:/icons
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${DATA_PATH}:/appdata
+      - ${DATA_PATH}:/configs
+    restart: "unless-stopped"
+    networks:
+      - homarr
