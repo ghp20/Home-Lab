@@ -60,7 +60,7 @@ services:
         max-size: 10m
         max-file: '3'
 networks:
-  jellyfin-stack_default:
-    external: true
   jellyfin-telegram-stack_default:
+    external: true
+  jellyfin-stack_default:
     external: true
