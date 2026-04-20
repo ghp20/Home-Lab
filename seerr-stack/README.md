@@ -1,39 +1,47 @@
 # seerr-stack
 
-Docker Compose stack for **seerr-stack**.
+Media request management — Seerr
 
-## Services
+## Stack: seerr-stack
 
-| Service | Image |
-|---------|-------|
-| seerr-db | `postgres:16` |
-| seerr | `ghcr.io/seerr-team/seerr:latest` |
+### Services
 
-## Environment Variables
+```
+  • seerr-db
+  • seerr
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Key Environment Variables
 
-- `DB_HOST` — see compose for default
-- `DB_NAME` — see compose for default
-- `DB_PASS` — replace with actual value
-- `DB_PORT` — see compose for default
-- `DB_TYPE` — see compose for default
-- `DB_USER` — see compose for default
-- `POSTGRES_DB` — see compose for default
-- `POSTGRES_PASSWORD` — replace with actual value
-- `POSTGRES_USER` — see compose for default
-- `TZ` — see compose for default
+- `DB_HOST`
+- `DB_NAME`
+- `DB_PASS`
+- `DB_PORT`
+- `DB_TYPE`
+- `DB_USER`
+- `POSTGRES_DB`
+- `POSTGRES_PASSWORD`
+- `POSTGRES_USER`
+- `TZ`
 
-## Volumes
+### Volumes
 
-- /path/to/your/data
+- `/mnt/storagepool/apps_config/seerr/db`
+- `/mnt/storagepool/apps_config/seerr/config`
 
-## Networks
+### Ports Exposed
 
-default
+- `5055`
 
-## Notes
+### Deployment
 
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
-- Adjust volume paths to match your storage layout
+```bash
+cd seerr-stack
+docker compose up -d
+```
+
+### Notes
+
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

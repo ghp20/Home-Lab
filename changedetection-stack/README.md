@@ -1,39 +1,48 @@
 # changedetection-stack
 
-Docker Compose stack for **changedetection-stack**.
+Website change detection
 
-## Services
+## Stack: changedetection-stack
 
-| Service | Image |
-|---------|-------|
-| changedetection | `ghcr.io/dgtlmoon/changedetection.io:latest` |
-| browser-sockpuppet-chrome | `dgtlmoon/sockpuppetbrowser:latest` |
+### Services
 
-## Environment Variables
+```
+  • changedetection
+  • browser-sockpuppet-chrome
+  • changedetection_net
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Key Environment Variables
 
-- `BASE_URL` — see compose for default
-- `FETCH_WORKERS` — see compose for default
-- `HIDE_REFERER` — see compose for default
-- `MAX_CONCURRENT_CHROME_PROCESSES` — see compose for default
-- `MINIMUM_SECONDS_RECHECK_TIME` — see compose for default
-- `PLAYWRIGHT_DRIVER_URL` — see compose for default
-- `SCREEN_DEPTH` — see compose for default
-- `SCREEN_HEIGHT` — see compose for default
-- `SCREEN_WIDTH` — see compose for default
-- `TZ` — see compose for default
+- `BASE_URL`
+- `FETCH_WORKERS`
+- `HIDE_REFERER`
+- `MAX_CONCURRENT_CHROME_PROCESSES`
+- `MINIMUM_SECONDS_RECHECK_TIME`
+- `PLAYWRIGHT_DRIVER_URL`
+- `SCREEN_DEPTH`
+- `SCREEN_HEIGHT`
+- `SCREEN_WIDTH`
+- `TZ`
 
-## Volumes
+### Volumes
 
-- /path/to/your/data
+- `/mnt/storagepool/apps_config/changedetection/datastore`
+- `/tmp`
 
-## Networks
+### Ports Exposed
 
-changedetection_net
+- `30159`
 
-## Notes
+### Deployment
 
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
-- Adjust volume paths to match your storage layout
+```bash
+cd changedetection-stack
+docker compose up -d
+```
+
+### Notes
+
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

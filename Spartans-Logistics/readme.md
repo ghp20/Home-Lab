@@ -1,35 +1,45 @@
-# Spartans Logistics
+# spartans-logistics
 
-## What this stack is for
+Spartans logistics platform
 
-Custom logistics application with backend, frontend, and database services.
+## Stack: spartans-logistics
 
-## Included services
+### Services
 
-- `db` — `postgres`
-- `backend` — `spartans-backend`
-- `frontend` — `spartans-frontend`
+```
+  • db
+  • backend
+  • frontend
+```
 
-## Deploy with Portainer
+### Key Environment Variables
 
-1. In Portainer, open **Stacks** and choose **Add stack**.
-2. Use the folder name from this repo as the stack name, then paste or upload the `docker-compose.yaml` from this directory.
-3. Replace placeholders such as `changeme`, `/path/to/your/data`, `your-*`, and any `${ENV_VAR}` values.
-4. Create any required bind-mount paths, datasets, secrets, and external Docker networks before deployment.
-5. Deploy the stack, then check **Container logs**, **Health**, and published ports in Portainer.
+- `ACCESS_TOKEN_EXPIRE_MINUTES`
+- `ADMIN_PASSWORD`
+- `ADMIN_USERNAME`
+- `CORS_ORIGINS`
+- `DATABASE_URL`
+- `POSTGRES_DB`
+- `POSTGRES_PASSWORD`
+- `POSTGRES_USER`
+- `SECRET_KEY`
 
-## Warnings & gotchas
+### Volumes
 
-- Replace all placeholders (`changeme`, `/path/to/your/data`, `your-*`, `${...}`) before deploying.
-- Persistent database/cache volumes matter here; make sure datasets/volumes exist and are backed up.
-- Check container health status after deploy, not just whether the containers started.
-- Deploy the whole stack together in Portainer; the services depend on each other.
+- `/mnt/storagepool/apps_config/Spartans/db`
+- `/mnt/storagepool/apps_config/Spartans/backend`
+- `/mnt/storagepool/apps_config/Spartans/frontend/nginx.conf`
+- `/mnt/storagepool/apps_config/Spartans/frontend/logo.png`
 
-## Exposed ports
+### Deployment
 
-No explicit host port mappings in this compose file.
+```bash
+cd spartans-logistics
+docker compose up -d
+```
 
-## Files in this folder
+### Notes
 
-- `docker-compose.yaml` — stack definition used by Portainer / Docker Compose.
-- `README.md` — high-level notes for what the stack does and how to deploy it.
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

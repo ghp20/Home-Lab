@@ -1,29 +1,33 @@
 # spartans-stack
 
-Docker Compose stack for **spartans-stack**.
+Spartans web app
 
-## Services
+## Stack: spartans-stack
 
-| Service | Image |
-|---------|-------|
-| react-app | `node:16-alpine` |
+### Services
 
-## Environment Variables
+```
+  • react-app
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Volumes
 
-No environment variables requiring configuration.
+- `/mnt/storagepool/apps_config/Spartans/build`
+- `/mnt/storagepool/master/build`
 
-## Volumes
+### Ports Exposed
 
-- /path/to/your/data
+- `3001`
 
-## Networks
+### Deployment
 
-default
+```bash
+cd spartans-stack
+docker compose up -d
+```
 
-## Notes
+### Notes
 
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
-- Adjust volume paths to match your storage layout
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

@@ -1,33 +1,42 @@
 # metube-stack
 
-Docker Compose stack for **metube-stack**.
+YouTube downloader — MeTube
 
-## Services
+## Stack: metube-stack
 
-| Service | Image |
-|---------|-------|
-| metube | `ghcr.io/alexta69/metube:latest` |
+### Services
 
-## Environment Variables
+```
+  • metube
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Key Environment Variables
 
-- `DOWNLOAD_DIR` — see compose for default
-- `GID` — see compose for default
-- `STATE_DIR` — see compose for default
-- `UID` — see compose for default
-- `YTDL_OPTIONS` — see compose for default
+- `DOWNLOAD_DIR`
+- `GID`
+- `STATE_DIR`
+- `UID`
+- `YTDL_OPTIONS`
 
-## Volumes
+### Volumes
 
-- /path/to/your/data
+- `/mnt/storagepool/master/Media/youtube`
+- `/mnt/storagepool/apps_config/metube/state`
+- `/mnt/storagepool/master/Media/youtube/metube-config/cookies.txt`
 
-## Networks
+### Ports Exposed
 
-default
+- `8086`
 
-## Notes
+### Deployment
 
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
-- Adjust volume paths to match your storage layout
+```bash
+cd metube-stack
+docker compose up -d
+```
+
+### Notes
+
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

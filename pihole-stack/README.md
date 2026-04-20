@@ -1,35 +1,34 @@
 # pihole-stack
 
-Docker Compose stack for **pihole-stack**.
+Network-wide ad blocking — Pi-hole
 
-## Services
+## Stack: pihole-stack
 
-| Service | Image |
-|---------|-------|
-| pihole | `pihole/pihole:latest` |
+### Services
 
-## Environment Variables
+```
+  • pihole
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Key Environment Variables
 
-- `FTLCONF_NTP_IPV4_ACTIVE` — see compose for default
-- `FTLCONF_NTP_IPV6_ACTIVE` — see compose for default
-- `FTLCONF_admin_password` — replace with actual value
-- `FTLCONF_dns_listeningMode` — see compose for default
-- `FTLCONF_webserver_port` — see compose for default
-- `TZ` — see compose for default
-- `WEB_PORT` — see compose for default
+- `TZ`
+- `WEB_PORT`
 
-## Volumes
+### Volumes
 
-- /path/to/your/data
+- `/mnt/storagepool/apps_config/pihole/etc-pihole`
+- `/mnt/storagepool/apps_config/pihole/etc-dnsmasq.d`
 
-## Networks
+### Deployment
 
-default
+```bash
+cd pihole-stack
+docker compose up -d
+```
 
-## Notes
+### Notes
 
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
-- Adjust volume paths to match your storage layout
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

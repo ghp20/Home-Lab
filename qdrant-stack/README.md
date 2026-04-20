@@ -1,33 +1,42 @@
 # qdrant-stack
 
-Docker Compose stack for **qdrant-stack**.
+Vector database — Qdrant
 
-## Services
+## Stack: qdrant-stack
 
-| Service | Image |
-|---------|-------|
-| qdrant | `qdrant/qdrant:latest` |
+### Services
 
-## Environment Variables
+```
+  • qdrant
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Key Environment Variables
 
-- `QDRANT__SERVICE__GRPC_PORT` — see compose for default
-- `QDRANT__SERVICE__HTTP_PORT` — see compose for default
-- `QDRANT__STORAGE__WAL_CAPACITY_MB` — see compose for default
-- `QDRANT__STORAGE__WAL_SEGMENTS_AHEAD` — see compose for default
+- `QDRANT__SERVICE__GRPC_PORT`
+- `QDRANT__SERVICE__HTTP_PORT`
+- `QDRANT__STORAGE__WAL_CAPACITY_MB`
+- `QDRANT__STORAGE__WAL_SEGMENTS_AHEAD`
 
-## Volumes
+### Volumes
 
-- /mnt/nvmepool/appsconfig/qdrant/storage
-- /path/to/your/data
+- `/mnt/nvmepool/appsconfig/qdrant/storage`
+- `/mnt/storagepool/apps_config/qdrant/snapshots`
+- `/mnt/storagepool/apps_config/qdrant/config`
 
-## Networks
+### Ports Exposed
 
-default
+- `6333`
+- `6334`
 
-## Notes
+### Deployment
 
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
-- Adjust volume paths to match your storage layout
+```bash
+cd qdrant-stack
+docker compose up -d
+```
+
+### Notes
+
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

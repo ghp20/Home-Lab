@@ -1,32 +1,44 @@
 # crowdsec-stack
 
-Docker Compose stack for **crowdsec-stack**.
+Security — CrowdSec
 
-## Services
+## Stack: crowdsec-stack
 
-| Service | Image |
-|---------|-------|
-| crowdsec | `crowdsecurity/crowdsec:latest` |
-| crowdsec-cloudflare-bouncer | `crowdsecurity/cloudflare-bouncer:latest` |
+### Services
 
-## Environment Variables
+```
+  • crowdsec
+  • crowdsec-cloudflare-bouncer
+  • crowdsec-net
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Key Environment Variables
 
-- `COLLECTIONS` — see compose for default
-- `TZ` — see compose for default
+- `COLLECTIONS`
+- `TZ`
 
-## Volumes
+### Volumes
 
-- /path/to/your/data
-- /var/log
+- `/mnt/storagepool/apps_config/crowdsec/config/acquis.yaml`
+- `/mnt/storagepool/apps_config/crowdsec/data`
+- `/var/log`
+- `/mnt/storagepool/apps_config/npm/data/logs`
+- `/mnt/storagepool/apps_config/crowdsec/cloudflare-bouncer/cfg.yaml`
 
-## Networks
+### Ports Exposed
 
-crowdsec-net
+- `6060`
+- `1514`
 
-## Notes
+### Deployment
 
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
-- Adjust volume paths to match your storage layout
+```bash
+cd crowdsec-stack
+docker compose up -d
+```
+
+### Notes
+
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

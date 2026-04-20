@@ -1,37 +1,46 @@
 # vaultwarden-stack
 
-Docker Compose stack for **vaultwarden-stack**.
+Password manager — VaultWarden
 
-## Services
+## Stack: vaultwarden-stack
 
-| Service | Image |
-|---------|-------|
-| db | `postgres:15` |
-| vaultwarden | `vaultwarden/server:latest` |
+### Services
 
-## Environment Variables
+```
+  • db
+  • vaultwarden
+  • vaultwarden-net
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Key Environment Variables
 
-- `ADMIN_TOKEN` — replace with actual value
-- `DATABASE_URL` — see compose for default
-- `DOMAIN` — see compose for default
-- `POSTGRES_DB` — see compose for default
-- `POSTGRES_PASSWORD` — replace with actual value
-- `POSTGRES_USER` — see compose for default
-- `ROCKET_PORT` — see compose for default
-- `WEBSOCKET_ENABLED` — see compose for default
+- `ADMIN_TOKEN`
+- `DATABASE_URL`
+- `DOMAIN`
+- `POSTGRES_DB`
+- `POSTGRES_PASSWORD`
+- `POSTGRES_USER`
+- `ROCKET_PORT`
+- `WEBSOCKET_ENABLED`
 
-## Volumes
+### Volumes
 
-- /path/to/your/data
+- `/mnt/storagepool/apps_config/vaultwarden/postgres`
+- `/mnt/storagepool/apps_config/vaultwarden/data`
 
-## Networks
+### Ports Exposed
 
-vaultwarden-net
+- `30032`
 
-## Notes
+### Deployment
 
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
-- Adjust volume paths to match your storage layout
+```bash
+cd vaultwarden-stack
+docker compose up -d
+```
+
+### Notes
+
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

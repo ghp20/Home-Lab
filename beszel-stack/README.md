@@ -1,35 +1,45 @@
 # beszel-stack
 
-Docker Compose stack for **beszel-stack**.
+Server monitoring — Beszel
 
-## Services
+## Stack: beszel-stack
 
-| Service | Image |
-|---------|-------|
-| beszel | `henrygd/beszel:latest` |
-| beszel-agent | `henrygd/beszel-agent:latest` |
+### Services
 
-## Environment Variables
+```
+  • beszel
+  • beszel-agent
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Key Environment Variables
 
-- `HUB_URL` — replace with actual value
-- `KEY` — replace with actual value
-- `LISTEN` — see compose for default
-- `TOKEN` — replace with actual value
-- `TZ` — see compose for default
+- `HUB_URL`
+- `KEY`
+- `LISTEN`
+- `TOKEN`
+- `TZ`
 
-## Volumes
+### Volumes
 
-- /path/to/your/data
-- /var/run/docker.sock
+- `/mnt/storagepool/apps_config/beszel/hub-data`
+- `/mnt/storagepool/apps_config/beszel/socket`
+- `/mnt/storagepool/apps_config/beszel/agent-data`
+- `/mnt/storagepool/apps_config/beszel/socket`
+- `/var/run/docker.sock`
 
-## Networks
+### Ports Exposed
 
-default
+- `8097`
 
-## Notes
+### Deployment
 
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
-- Adjust volume paths to match your storage layout
+```bash
+cd beszel-stack
+docker compose up -d
+```
+
+### Notes
+
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

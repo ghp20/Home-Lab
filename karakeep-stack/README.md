@@ -1,37 +1,46 @@
 # karakeep-stack
 
-Docker Compose stack for **karakeep-stack**.
+Bookmark keeper — Karakeep
 
-## Services
+## Stack: karakeep-stack
 
-| Service | Image |
-|---------|-------|
-| web | `ghcr.io/karakeep-app/karakeep:release` |
-| chrome | `gcr.io/zenika-hub/alpine-chrome:124` |
-| meilisearch | `getmeili/meilisearch:v1.13.3` |
+### Services
 
-## Environment Variables
+```
+  • options
+  • web
+  • chrome
+  • meilisearch
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Key Environment Variables
 
-- `BROWSER_WEB_URL` — see compose for default
-- `DATA_DIR` — see compose for default
-- `MEILI_ADDR` — see compose for default
-- `MEILI_NO_ANALYTICS` — see compose for default
-- `NEXTAUTH_SECRET` — replace with actual value
-- `NEXTAUTH_URL` — see compose for default
-- `OPENAI_API_KEY` — replace with actual value
+- `BROWSER_WEB_URL`
+- `DATA_DIR`
+- `MEILI_ADDR`
+- `MEILI_NO_ANALYTICS`
+- `NEXTAUTH_SECRET`
+- `NEXTAUTH_URL`
+- `OPENAI_API_KEY`
 
-## Volumes
+### Volumes
 
-- /path/to/your/data
+- `/mnt/storagepool/apps_config/karakeep/data`
+- `/mnt/storagepool/apps_config/karakeep/meilisearch`
 
-## Networks
+### Ports Exposed
 
-default
+- `30147`
 
-## Notes
+### Deployment
 
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
-- Adjust volume paths to match your storage layout
+```bash
+cd karakeep-stack
+docker compose up -d
+```
+
+### Notes
+
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

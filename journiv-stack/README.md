@@ -1,44 +1,58 @@
 # journiv-stack
 
-Docker Compose stack for **journiv-stack**.
+Personal journal/writing platform
 
-## Services
+## Stack: journiv-stack
 
-| Service | Image |
-|---------|-------|
-| postgres | `postgres:15` |
-| redis | `redis:7` |
-| celery-worker | `swalabtech/journiv-app:latest` |
-| app | `swalabtech/journiv-app:latest` |
+### Services
 
-## Environment Variables
+```
+  • options
+  • postgres
+  • redis
+  • celery-worker
+  • app
+  • backend
+  • frontend
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Key Environment Variables
 
-- `CELERY_BROKER_URL` — replace with actual value
-- `CELERY_RESULT_BACKEND` — replace with actual value
-- `DB_DRIVER` — replace with actual value
-- `DOMAIN_NAME` — replace with actual value
-- `ENVIRONMENT` — replace with actual value
-- `POSTGRES_DB` — replace with actual value
-- `POSTGRES_HOST` — replace with actual value
-- `POSTGRES_PASSWORD` — replace with actual value
-- `POSTGRES_USER` — replace with actual value
-- `RATE_LIMIT_STORAGE_URI` — replace with actual value
-- `REDIS_URL` — replace with actual value
-- `SECRET_KEY` — replace with actual value
-- `SERVICE_ROLE` — replace with actual value
+- `CELERY_BROKER_URL`
+- `CELERY_RESULT_BACKEND`
+- `DB_DRIVER`
+- `DOMAIN_NAME`
+- `ENVIRONMENT`
+- `POSTGRES_DB`
+- `POSTGRES_HOST`
+- `POSTGRES_PASSWORD`
+- `POSTGRES_USER`
+- `RATE_LIMIT_STORAGE_URI`
+- `REDIS_URL`
+- `SECRET_KEY`
+- `SERVICE_ROLE`
 
-## Volumes
+### Volumes
 
-- /path/to/your/data
+- `/var/run/postgresql`
+- `/mnt/storagepool/apps_config/journiv/postgres_data`
+- `/mnt/storagepool/apps_config/journiv/redis_data`
+- `/mnt/storagepool/apps_config/journiv/app_data`
+- `/mnt/storagepool/apps_config/journiv/app_data`
 
-## Networks
+### Ports Exposed
 
-backend, frontend
+- `8000`
 
-## Notes
+### Deployment
 
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
-- Adjust volume paths to match your storage layout
+```bash
+cd journiv-stack
+docker compose up -d
+```
+
+### Notes
+
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

@@ -6,7 +6,7 @@ services:
     container_name: nebula-sync
     environment:
       # REQUIRED:
-      - PRIMARY=http://${TRUENAS_HOST}:3000|Ellipsis007!
+      - PRIMARY=http://${TRUENAS_HOST}:3000|${NEBULA_PASSWORD}
       - REPLICAS=http://100.74.68.110:3000|Ellipsis
       - FULL_SYNC=false         # or "false" if you want selective sync
       - RUN_GRAVITY=false      # recommended false if using Dockerized Pi-hole — see issues  

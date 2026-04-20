@@ -1,16 +1,33 @@
 # collabora-stack
 
-Docker Compose stack for **collabora-stack**.
+Online document editing — Collabora Online
 
-## Services
+## Stack: collabora-stack
 
-Services:   driver gelf,  options,  collabora,
+### Services
 
-## Environment Variables
+```
+  • options
+  • collabora
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Volumes
 
-## Notes
+- `/mnt/storagepool/apps_config/collabora/config`
 
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
+### Ports Exposed
+
+- `9980`
+
+### Deployment
+
+```bash
+cd collabora-stack
+docker compose up -d
+```
+
+### Notes
+
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

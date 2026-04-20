@@ -1,29 +1,30 @@
 # syncthing-stack
 
-Docker Compose stack for **syncthing-stack**.
+File sync — Syncthing
 
-## Services
+## Stack: syncthing-stack
 
-| Service | Image |
-|---------|-------|
-| syncthing | `syncthing/syncthing:latest` |
+### Services
 
-## Environment Variables
+```
+  • syncthing
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Volumes
 
-No environment variables requiring configuration.
+- `/mnt/storagepool/master/Media/Movies`
+- `/mnt/storagepool/master/Media/Tv`
+- `/mnt/storagepool/apps_config/syncthing/config`
 
-## Volumes
+### Deployment
 
-- /path/to/your/data
+```bash
+cd syncthing-stack
+docker compose up -d
+```
 
-## Networks
+### Notes
 
-default
-
-## Notes
-
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
-- Adjust volume paths to match your storage layout
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

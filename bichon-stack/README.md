@@ -1,32 +1,39 @@
 # bichon-stack
 
-Docker Compose stack for **bichon-stack**.
+AI digest bot — Bichon
 
-## Services
+## Stack: bichon-stack
 
-| Service | Image |
-|---------|-------|
-| bichon | `rustmailer/bichon:latest` |
+### Services
 
-## Environment Variables
+```
+  • bichon
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Key Environment Variables
 
-- `BICHON_CORS_ORIGINS` — replace with actual value
-- `BICHON_ENABLE_ACCESS_TOKEN` — see compose for default
-- `BICHON_LOG_LEVEL` — see compose for default
-- `BICHON_ROOT_DIR` — see compose for default
+- `BICHON_CORS_ORIGINS`
+- `BICHON_ENABLE_ACCESS_TOKEN`
+- `BICHON_LOG_LEVEL`
+- `BICHON_ROOT_DIR`
 
-## Volumes
+### Volumes
 
-- /path/to/your/data
+- `/mnt/storagepool/apps_config/bichon/data`
 
-## Networks
+### Ports Exposed
 
-default
+- `15630`
 
-## Notes
+### Deployment
 
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
-- Adjust volume paths to match your storage layout
+```bash
+cd bichon-stack
+docker compose up -d
+```
+
+### Notes
+
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

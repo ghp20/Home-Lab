@@ -1,30 +1,39 @@
 # searxng-stack
 
-Docker Compose stack for **searxng-stack**.
+Privacy-respecting meta search — SearXNG
 
-## Services
+## Stack: searxng-stack
 
-| Service | Image |
-|---------|-------|
-| redis | `redis:7-alpine` |
-| searxng | `searxng/searxng:latest` |
+### Services
 
-## Environment Variables
+```
+  • redis
+  • searxng
+  • searxng-network
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Key Environment Variables
 
-- `TZ` — see compose for default
+- `TZ`
 
-## Volumes
+### Volumes
 
-- /path/to/your/data
+- `/mnt/storagepool/apps_config/searxng/redis`
+- `/mnt/storagepool/apps_config/searxng/config`
 
-## Networks
+### Ports Exposed
 
-searxng-network
+- `8091`
 
-## Notes
+### Deployment
 
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
-- Adjust volume paths to match your storage layout
+```bash
+cd searxng-stack
+docker compose up -d
+```
+
+### Notes
+
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

@@ -1,30 +1,33 @@
 # autoheal-stack
 
-Docker Compose stack for **autoheal-stack**.
+Container auto-heal watcher
 
-## Services
+## Stack: autoheal-stack
 
-| Service | Image |
-|---------|-------|
-| autoheal | `willfarrell/autoheal` |
+### Services
 
-## Environment Variables
+```
+  • autoheal
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Key Environment Variables
 
-- `AUTOHEAL_INTERVAL` — see compose for default
-- `AUTOHEAL_START_PERIOD` — see compose for default
+- `AUTOHEAL_INTERVAL`
+- `AUTOHEAL_START_PERIOD`
 
-## Volumes
+### Volumes
 
-- /var/run/docker.sock
+- `/var/run/docker.sock`
 
-## Networks
+### Deployment
 
-default
+```bash
+cd autoheal-stack
+docker compose up -d
+```
 
-## Notes
+### Notes
 
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
-- Adjust volume paths to match your storage layout
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

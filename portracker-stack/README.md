@@ -1,33 +1,36 @@
 # portracker-stack
 
-Docker Compose stack for **portracker-stack**.
+Port tracking dashboard
 
-## Services
+## Stack: portracker-stack
 
-| Service | Image |
-|---------|-------|
-| portracker | `mostafawahied/portracker:latest` |
+### Services
 
-## Environment Variables
+```
+  • portracker
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Key Environment Variables
 
-- `DATABASE_PATH` — see compose for default
-- `PORT` — see compose for default
-- `TRUENAS_API_KEY` — replace with actual value
-- `TRUENAS_WS_BASE` — see compose for default
+- `DATABASE_PATH`
+- `PORT`
+- `TRUENAS_API_KEY`
+- `TRUENAS_WS_BASE`
 
-## Volumes
+### Volumes
 
-- /path/to/your/data
-- /var/run/docker.sock
+- `/mnt/storagepool/apps_config/portracker/data`
+- `/var/run/docker.sock`
 
-## Networks
+### Deployment
 
-default
+```bash
+cd portracker-stack
+docker compose up -d
+```
 
-## Notes
+### Notes
 
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
-- Adjust volume paths to match your storage layout
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration

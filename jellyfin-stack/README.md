@@ -1,33 +1,44 @@
 # jellyfin-stack
 
-Docker Compose stack for **jellyfin-stack**.
+Media server — Jellyfin
 
-## Services
+## Stack: jellyfin-stack
 
-| Service | Image |
-|---------|-------|
-| jellyfin | `lscr.io/linuxserver/jellyfin:latest` |
+### Services
 
-## Environment Variables
+```
+  • jellyfin
+```
 
-All secrets are referenced via `${VAR}` placeholders. Create a `.env` file or set them in your Portainer stack configuration.
+### Key Environment Variables
 
-- `NVIDIA_DRIVER_CAPABILITIES` — see compose for default
-- `NVIDIA_VISIBLE_DEVICES` — see compose for default
-- `PGID` — see compose for default
-- `PUID` — see compose for default
-- `TZ` — see compose for default
+- `NVIDIA_DRIVER_CAPABILITIES`
+- `NVIDIA_VISIBLE_DEVICES`
+- `PGID`
+- `PUID`
+- `TZ`
 
-## Volumes
+### Volumes
 
-- /path/to/your/data
+- `/mnt/storagepool/apps_config/jellyfin/config`
+- `/mnt/storagepool/apps_config/jellyfin/cache`
+- `/mnt/storagepool/apps_config/jellyfin/transcode`
+- `/mnt/storagepool/master/Media`
 
-## Networks
+### Ports Exposed
 
-default
+- `8096`
+- `8920`
 
-## Notes
+### Deployment
 
-- Deploy via Portainer or `docker compose up -d`
-- Update all `${VAR}` placeholders with actual values before deploying
-- Adjust volume paths to match your storage layout
+```bash
+cd jellyfin-stack
+docker compose up -d
+```
+
+### Notes
+
+- Managed by **Portainer** on TrueNAS SCALE
+- All secrets injected as environment variables via Portainer stack
+- See `docker-compose.yaml` for full configuration
