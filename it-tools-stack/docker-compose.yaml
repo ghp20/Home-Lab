@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  it-tools:
+    image: ghcr.io/corentinth/it-tools:latest
+    container_name: it-tools
+    restart: unless-stopped
+    ports:
+      - "8088:80"       # Exposes the app on port 8088
+    labels:
+      - "traefik.enable=false"
+    volumes:
+      # Optional: Map a dataset for persistent storage
+      - /mnt/storagepool/apps_config/it-tools:/data
+    

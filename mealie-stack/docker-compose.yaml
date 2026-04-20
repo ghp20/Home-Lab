@@ -1,98 +1,60 @@
-version: '3.9'
+version: "3.8"
+
 services:
-  mealie:
-    image: ghcr.io/mealie-recipes/mealie:v3.9.2
-    container_name: mealie
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      OPENAI_MAX_TOKENS: ${OPENAI_MAX_TOKENS}
-      PGID: '3000'
-      SMTP_USER: garry00720
-      OPENAI_MODEL: gpt-4o-mini
-      SMTP_FROM_EMAIL: ${USER_EMAIL}
-      SMTP_TLS: 'true'
-      PUID: '3001'
-      DB_ENGINE: postgres
-      SMTP_FROM_NAME: Mealie
-      OPENAI_TEMPERATURE: '0.2'
-      TZ: Los Angeles/America
-      SMTP_PORT: '587'
-      ALLOW_SIGNUP: 'true'
-      POSTGRES_SERVER: postgres
-      BASE_URL: https://${MEALIE_DOMAIN}
-      SMTP_HOST: smtp.gmail.com
-      SMTP_PASSWORD: ${SMTP_PASSWORD}
-      POSTGRES_USER: mealie
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
-      POSTGRES_PORT: '5432'
-      POSTGRES_DB: mealie
-      PATH: /opt/mealie/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      LANG: C.UTF-8
-      GPG_KEY: ${GPG_KEY}
-      PYTHON_VERSION: 3.12.11
-      PYTHON_SHA256: c30bb24b7f1e9a19b11b55a546434f74e739bb4c271a3e3a80ff4380d49f7adb
-      MEALIE_HOME: /app
-      PYTHONUNBUFFERED: '1'
-      PYTHONDONTWRITEBYTECODE: '1'
-      PIP_NO_CACHE_DIR: 'off'
-      PIP_DISABLE_PIP_VERSION_CHECK: 'on'
-      PIP_DEFAULT_TIMEOUT: '100'
-      VENV_PATH: /opt/mealie
-      PRODUCTION: 'true'
-      TESTING: 'false'
-      GIT_COMMIT_HASH: 3be7056f2c2628f98f372ed4f8ae077a2be24ef2
-      NLTK_DATA: /nltk_data/
-      APP_PORT: '9000'
-      HOST: 0.0.0.0
-    ports:
-    - 9926:9000/tcp
-    networks: mealie-net
-    volumes:
-    - ${DATA_PATH}:/app/data:rw
-    healthcheck:
-      test:
-      - CMD-SHELL
-      - python -m mealie.scripts.healthcheck || exit 1
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
-  mealie-postgres:
+
+  postgres:
     image: postgres:17
     container_name: mealie-postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: mealie
       POSTGRES_USER: mealie
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/17/bin
-      GOSU_VERSION: '1.19'
-      LANG: en_US.utf8
-      PG_MAJOR: '17'
-      PG_VERSION: 17.9-1.pgdg13+1
-      PGDATA: /var/lib/postgresql/data
-    networks: mealie-net
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      POSTGRES_DB: mealie
     volumes:
-    - ${DATA_PATH}:/var/lib/postgresql/data:rw
+      - /mnt/storagepool/apps_config/mealie/postgres:/var/lib/postgresql/data
     healthcheck:
-      test:
-      - CMD
-      - pg_isready
-      - -U
-      - mealie
-      interval: 30000000000
-      timeout: 20000000000
+      test: ["CMD", "pg_isready", "-U", "mealie"]
+      interval: 30s
+      timeout: 20s
       retries: 5
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
+
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:v3.9.2
+    container_name: mealie
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "9926:9000"
+    environment:
+      ALLOW_SIGNUP: "true"
+      PUID=${PUID}
+      PGID=${PGID}
+      TZ=${TZ}
+      BASE_URL: "https://mealie.${N8N_DOMAIN}"
+      DB_ENGINE: "postgres"
+      POSTGRES_SERVER: "postgres"
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: "mealie"
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      POSTGRES_DB: "mealie"
+      # ---- OpenAI Integration ----
+      OPENAI_API_KEY=${API_KEY}
+      OPENAI_MODEL: "gpt-4o-mini"
+      OPENAI_TEMPERATURE: "0.2"
+      OPENAI_MAX_TOKENS: "4096"
+      # ---- Email / SMTP ----
+      SMTP_HOST: smtp.gmail.com
+      SMTP_PORT: "587"
+      SMTP_FROM_NAME: "Mealie"
+      SMTP_FROM_EMAIL: "${USER_EMAIL}"
+      SMTP_USER: "garry00720"
+      SMTP_PASSWORD=${SMTP_PASSWORD}
+      SMTP_TLS: "true"
+    volumes:
+      - /mnt/storagepool/apps_config/mealie/mealie/data:/app/data
+    restart: always
+
 networks:
-  mealie-net:
-    external: true
+  default:
+    name: mealie-net

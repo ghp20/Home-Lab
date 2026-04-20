@@ -1,41 +1,37 @@
-version: '3.9'
+version: "3.8"
+    
 services:
-  crowdsec-cloudflare-bouncer:
-    image: crowdsecurity/cloudflare-bouncer:latest
-    container_name: crowdsec-cloudflare-bouncer
-    restart: unless-stopped
-    environment:
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-    networks: crowdsec-stack_crowdsec-net
-    volumes:
-    - ${DATA_PATH}.yaml:/etc/crowdsec/bouncers/crowdsec-cloudflare-bouncer.yaml:ro
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
   crowdsec:
     image: crowdsecurity/crowdsec:latest
     container_name: crowdsec
     restart: unless-stopped
     environment:
-      COLLECTIONS: crowdsecurity/linux crowdsecurity/http-cve
-      TZ: America/Los_Angeles
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-    ports:
-    - 1514:1514/udp
-    - 6060:6060/tcp
-    networks: crowdsec-stack_crowdsec-net
+      - TZ=${TZ}
+      - COLLECTIONS=crowdsecurity/linux crowdsecurity/http-cve
     volumes:
-    - ${DATA_PATH}:/var/lib/crowdsec/data:rw
-    - /var/log:/var/log:ro
-    - ${DATA_PATH}:/var/log/nginx:ro
-    - ${DATA_PATH}.yaml:/etc/crowdsec/acquis.yaml:rw
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
+      - /mnt/storagepool/apps_config/crowdsec/config/acquis.yaml:/etc/crowdsec/acquis.yaml
+      - /mnt/storagepool/apps_config/crowdsec/data:/var/lib/crowdsec/data
+      - /var/log:/var/log:ro
+      - /mnt/storagepool/apps_config/npm/data/logs:/var/log/nginx:ro
+    ports:
+      - "6060:6060"   # Prometheus metrics
+      - "1514:1514/udp"          # Syslog ingest from Graylog (UDP)
+
+    networks:
+      - crowdsec-net
+
+
+  crowdsec-cloudflare-bouncer:
+    image: crowdsecurity/cloudflare-bouncer:latest
+    container_name: crowdsec-cloudflare-bouncer
+    restart: unless-stopped
+    volumes:
+      - /mnt/storagepool/apps_config/crowdsec/cloudflare-bouncer/cfg.yaml:/etc/crowdsec/bouncers/crowdsec-cloudflare-bouncer.yaml:ro
+    depends_on:
+      - crowdsec
+    networks:
+      - crowdsec-net
+
 networks:
-  crowdsec-stack_crowdsec-net:
-    external: true
+  crowdsec-net:
+    driver: bridge

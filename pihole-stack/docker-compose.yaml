@@ -1,36 +1,19 @@
-version: '3.9'
 services:
   pihole:
     image: pihole/pihole:latest
     container_name: pihole
     restart: unless-stopped
-    environment:
-      FTLCONF_admin_password: ${FTLCONF_ADMIN_PASSWORD}
-      TZ: America/Los_Angeles
-      WEB_PORT: '3000'
-      FTLCONF_webserver_port: '3000'
-      FTLCONF_dns_listeningMode: all
-      FTLCONF_NTP_IPV4_ACTIVE: 'false'
-      FTLCONF_NTP_IPV6_ACTIVE: 'false'
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      DNSMASQ_USER: pihole
-      FTL_CMD: no-daemon
     network_mode: host
+
+    environment:
+      TZ=${TZ}
+      WEB_PORT: "3000"
+      FTLCONF_webserver_port: "3000"
+      FTLCONF_dns_listeningMode: "all"
+      FTLCONF_NTP_IPV4_ACTIVE: "false"
+      FTLCONF_NTP_IPV6_ACTIVE: "false"
+      FTLCONF_admin_password: "${PIHOLE_PASSWORD}"
+
     volumes:
-    - ${DATA_PATH}:/etc/pihole:rw
-    - ${DATA_PATH}.d:/etc/dnsmasq.d:rw
-    healthcheck:
-      test:
-      - CMD-SHELL
-      - dig -p $(pihole-FTL --config dns.port) +short +norecurse +retry=0 @127.0.0.1
-        pi.hole || exit 1
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
-networks:
-  host: {}
+      - /mnt/storagepool/apps_config/pihole/etc-pihole:/etc/pihole
+      - /mnt/storagepool/apps_config/pihole/etc-dnsmasq.d:/etc/dnsmasq.d

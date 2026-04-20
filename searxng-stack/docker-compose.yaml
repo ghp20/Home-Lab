@@ -1,55 +1,36 @@
-version: '3.9'
+version: "3.9"
+
 services:
+
+  redis:
+    image: redis:7-alpine
+    container_name: searxng-redis
+    restart: unless-stopped
+    volumes:
+      - /mnt/storagepool/apps_config/searxng/redis:/data
+    command: redis-server --save 60 1 --loglevel warning
+    networks:
+      - searxng-network
+
   searxng:
     image: searxng/searxng:latest
     container_name: searxng
     restart: unless-stopped
-    environment:
-      TZ: America/Los_Angeles
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      SSL_CERT_DIR: /etc/ssl/certs
-      SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
-      HISTFILE: /dev/null
-      CONFIG_PATH: /etc/searxng
-      DATA_PATH: /var/cache/searxng
-      SEARXNG_VERSION: 2026.3.10-8b95b2058
-      SEARXNG_SETTINGS_PATH: /etc/searxng/settings.yml
-      GRANIAN_PROCESS_NAME: searxng
-      GRANIAN_INTERFACE: wsgi
-      GRANIAN_HOST: '::'
-      GRANIAN_PORT: '8080'
-      GRANIAN_WEBSOCKETS: 'false'
-      GRANIAN_BLOCKING_THREADS: '4'
-      GRANIAN_WORKERS_KILL_TIMEOUT: 30s
-      GRANIAN_BLOCKING_THREADS_IDLE_TIMEOUT: 5m
+    depends_on:
+      - redis
+
     ports:
-    - 8091:8080/tcp
-    networks: searxng-stack_searxng-network
-    volumes:
-    - ${DATA_PATH}:/etc/searxng:rw
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
-  searxng-redis:
-    image: redis:7-alpine
-    container_name: searxng-redis
-    restart: unless-stopped
+      - "8091:8080"
+
     environment:
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      GOSU_VERSION: '1.17'
-      REDIS_VERSION: 7.4.8
-      REDIS_DOWNLOAD_URL: http://download.redis.io/releases/redis-7.4.8.tar.gz
-      REDIS_DOWNLOAD_SHA: f6773cb7d63be236c59c2917a82f1f08e47b77d89b2f0c9f53becb22b8ea4172
-    networks: searxng-stack_searxng-network
+      - TZ=${TZ}
+
     volumes:
-    - ${DATA_PATH}:/data:rw
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
+      - /mnt/storagepool/apps_config/searxng/config:/etc/searxng
+
+    networks:
+      - searxng-network
+
 networks:
-  searxng-stack_searxng-network:
-    external: true
+  searxng-network:
+    driver: bridge

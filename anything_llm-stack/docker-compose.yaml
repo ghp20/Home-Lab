@@ -1,0 +1,34 @@
+version: "3.8"
+
+x-logging: &gelf_logging
+  driver: gelf
+  options:
+    gelf-address: "udp://${TRUENAS_HOST}:12201"
+    tag: "{{.Name}}"
+    
+services:
+  anything-llm:
+    image: mintplexlabs/anythingllm:latest
+    container_name: anything-llm
+    environment:
+      - SERVER_PORT=3001
+      - STORAGE_DIR=/app/server/storage
+      - DATABASE_URL=file:/app/server/storage/anythingllm.db
+      # Optional:
+      - JWT_SECRET=${JWT_SECRET}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - DISABLE_TELEMETRY=1
+    volumes:
+      # Primary, expected path
+      - /mnt/storagepool/apps_config/anything_llm/data:/app/server/storage
+      # Safety net for Prisma's "../storage" resolution
+      - /mnt/storagepool/apps_config/anything_llm/data:/app/storage
+    ports:
+      - "30239:3001"
+    restart: unless-stopped
+    logging: *gelf_logging
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail http://localhost:3001/api/ping >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 10

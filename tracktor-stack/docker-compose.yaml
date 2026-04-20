@@ -1,0 +1,13 @@
+services:
+  app:
+    image: ghcr.io/javedh-dev/tracktor:latest
+    container_name: tracktor-app
+    restart: unless-stopped
+    ports:
+      - "3334:3000"
+    volumes:
+      - /mnt/storagepool/apps_configs/tracktor/data:/data
+    environment:
+      - TRACKTOR_DEMO_MODE=false
+      - FORCE_DATA_SEED=false
+      - CORS_ORIGINS=http://${TRUENAS_HOST}:3333

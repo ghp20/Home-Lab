@@ -1,0 +1,12 @@
+version: '3'
+services:
+  dashapp:
+    image: python:3.11-slim
+    container_name: dashapp
+
+    command: sh -c "pip install dash dash-daq psutil && python /app/app.py"
+    volumes:
+      - /mnt/storagepool/apps_config/dashapp:/app
+    ports:
+      - "8050:8050"
+    restart: unless-stopped

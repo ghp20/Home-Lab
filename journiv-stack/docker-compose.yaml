@@ -1,151 +1,171 @@
-version: '3.9'
+version: "3.8"
+
+x-logging: &default_logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
 services:
-  journiv-postgres-db:
+
+  postgres:
     image: postgres:15
     container_name: journiv-postgres-db
     restart: unless-stopped
+    mem_limit: 256m
+    read_only: true
+    tmpfs:
+      - /var/run/postgresql:rw,noexec,nosuid,size=64m
+    init: true
+
     environment:
-      POSTGRES_USER: journiv
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: journiv_prod
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/15/bin
-      GOSU_VERSION: '1.19'
-      LANG: en_US.utf8
-      PG_MAJOR: '15'
-      PG_VERSION: 15.17-1.pgdg13+1
-      PGDATA: /var/lib/postgresql/data
-    networks: 150_backend
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
     volumes:
-    - ${DATA_PATH}:/var/lib/postgresql/data:rw
-    healthcheck:
-      test:
-      - CMD-SHELL
-      - pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
-      interval: 10000000000
-      timeout: 5000000000
-      retries: 5
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
-  journiv-app:
-    image: swalabtech/journiv-app:latest
-    container_name: journiv-app
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: journiv
-      SECRET_KEY: ${SECRET_KEY}
-      ENVIRONMENT: production
-      DB_DRIVER: postgres
-      POSTGRES_DB: journiv_prod
-      POSTGRES_HOST: postgres
-      REDIS_URL: redis://redis:6379/0
-      CELERY_RESULT_BACKEND: redis://redis:6379/0
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      CELERY_BROKER_URL: redis://redis:6379/0
-      RATE_LIMIT_STORAGE_URI: redis://redis:6379/1
-      SERVICE_ROLE: app
-      DOMAIN_NAME: ${JOURNAL_DOMAIN}
-      PATH: /opt/venv/bin:/root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      LANG: C.UTF-8
-      GPG_KEY: ${GPG_KEY}
-      PYTHON_VERSION: 3.12.12
-      PYTHON_SHA256: fb85a13414b028c49ba18bbd523c2d055a30b56b18b92ce454ea2c51edc656c4
-      PYTHONDONTWRITEBYTECODE: '1'
-      PYTHONUNBUFFERED: '1'
-      PYTHONPATH: /app
-      LOG_LEVEL: INFO
-    ports:
-    - 8000:8000/tcp
+      - /mnt/storagepool/apps_config/journiv/postgres_data:/var/lib/postgresql/data
+
     networks:
-    - journiv-stack_backend
-    - journiv-stack_frontend
-    volumes:
-    - ${DATA_PATH}:/data:rw
+      - backend
+
+    logging: *default_logging
+
     healthcheck:
-      test:
-      - CMD-SHELL
-      - curl -f http://localhost:8000/api/v1/health || exit 1
-      interval: 30000000000
-      timeout: 10000000000
-      retries: 3
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
-  journiv-celery-worker:
-    image: swalabtech/journiv-app:latest
-    container_name: journiv-celery-worker
-    restart: unless-stopped
-    environment:
-      ENVIRONMENT: production
-      CELERY_BROKER_URL: redis://redis:6379/0
-      POSTGRES_HOST: postgres
-      REDIS_URL: redis://redis:6379/0
-      SECRET_KEY: ${SECRET_KEY}
-      CELERY_RESULT_BACKEND: redis://redis:6379/0
-      SERVICE_ROLE: app
-      DB_DRIVER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      DOMAIN_NAME: ${JOURNAL_DOMAIN}
-      POSTGRES_USER: journiv
-      POSTGRES_DB: journiv_prod
-      PATH: /opt/venv/bin:/root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      LANG: C.UTF-8
-      GPG_KEY: ${GPG_KEY}
-      PYTHON_VERSION: 3.12.12
-      PYTHON_SHA256: fb85a13414b028c49ba18bbd523c2d055a30b56b18b92ce454ea2c51edc656c4
-      PYTHONDONTWRITEBYTECODE: '1'
-      PYTHONUNBUFFERED: '1'
-      PYTHONPATH: /app
-      LOG_LEVEL: INFO
-    networks: journiv-stack_backend
-    volumes:
-    - ${DATA_PATH}:/data:rw
-    healthcheck:
-      test:
-      - CMD-SHELL
-      - pgrep -f 'celery worker' || exit 1
-      interval: 30000000000
-      timeout: 10000000000
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
       retries: 5
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
-  journiv-redis-cache:
+      start_period: 20s
+
+
+
+  redis:
     image: redis:7
     container_name: journiv-redis-cache
     restart: unless-stopped
-    environment:
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      GOSU_VERSION: '1.17'
-      REDIS_VERSION: 7.4.8
-      REDIS_DOWNLOAD_URL: http://download.redis.io/releases/redis-7.4.8.tar.gz
-      REDIS_DOWNLOAD_SHA: f6773cb7d63be236c59c2917a82f1f08e47b77d89b2f0c9f53becb22b8ea4172
-    networks: journiv-stack_backend
+    mem_limit: 128m
+    init: true
+
+    command: redis-server --appendonly yes
+
     volumes:
-    - ${DATA_PATH}:/data:rw
+      - /mnt/storagepool/apps_config/journiv/redis_data:/data
+
+    networks:
+      - backend
+
+    logging: *default_logging
+
     healthcheck:
-      test:
-      - CMD
-      - redis-cli
-      - ping
-      interval: 10000000000
-      timeout: 5000000000
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
       retries: 5
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
+      start_period: 10s
+
+
+
+  celery-worker:
+    image: swalabtech/journiv-app:latest
+    container_name: journiv-celery-worker
+    restart: unless-stopped
+    mem_limit: 512m
+    init: true
+
+    command: celery -A app.core.celery_app worker --loglevel=info
+
+    environment:
+      ENVIRONMENT: ${ENVIRONMENT}
+      SERVICE_ROLE: ${SERVICE_ROLE}
+      DB_DRIVER: ${DB_DRIVER}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      REDIS_URL: ${REDIS_URL}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+      CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
+      SECRET_KEY=${SECRET_KEY}
+      DOMAIN_NAME: ${DOMAIN_NAME}
+
+    volumes:
+      - /mnt/storagepool/apps_config/journiv/app_data:/data
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+    networks:
+      - backend
+
+    logging: *default_logging
+
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep -f 'celery worker' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+
+
+  app:
+    image: swalabtech/journiv-app:latest
+    container_name: journiv-app
+    restart: unless-stopped
+    mem_limit: 1g
+    init: true
+
+    ports:
+      - "8000:8000"
+
+    environment:
+      ENVIRONMENT: ${ENVIRONMENT}
+      SERVICE_ROLE: ${SERVICE_ROLE}
+      DB_DRIVER: ${DB_DRIVER}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      REDIS_URL: ${REDIS_URL}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+      CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
+      RATE_LIMIT_STORAGE_URI: ${RATE_LIMIT_STORAGE_URI}
+      SECRET_KEY=${SECRET_KEY}
+      DOMAIN_NAME: ${DOMAIN_NAME}
+
+    volumes:
+      - /mnt/storagepool/apps_config/journiv/app_data:/data
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      celery-worker:
+        condition: service_started
+
+    networks:
+      - backend
+      - frontend
+
+    logging: *default_logging
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/api/v1/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+
+
 networks:
-  journiv-stack_frontend:
-    external: true
-  journiv-stack_backend:
-    external: true
-  150_backend:
-    external: true
+  backend:
+    driver: bridge
+
+  frontend:
+    driver: bridge

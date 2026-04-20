@@ -1,0 +1,149 @@
+version: "3.9"
+
+networks:
+  arrnet:
+    external: true
+
+x-logging: &gelf_logging
+  driver: gelf
+  options:
+    gelf-address: "udp://${TRUENAS_HOST}:12201"
+    tag: "{{.Name}}"
+
+services:
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+
+    cap_add:
+      - NET_ADMIN
+
+    devices:
+      - /dev/net/tun:/dev/net/tun
+
+    networks:
+      - arrnet
+
+    ports:
+      - "8085:8085"
+      - "6881:6881"
+      - "6881:6881/udp"
+      - "3333:3333"
+      - "8089:8080"
+
+    environment:
+      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}
+      - VPN_TYPE=${VPN_TYPE}
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - SERVER_COUNTRIES=${SERVER_COUNTRIES}
+
+      - TZ=${TZ}
+      - CONTROL_SERVER_ADDRESS=:8000
+
+      # DNS
+      - DOT=on
+      - DNS_ADDRESS=1.1.1.1
+      - DNS_KEEP_NAMESERVER=off
+      - BLOCK_IPV6=on
+
+      # Firewall
+      - FIREWALL=on
+      - FIREWALL_INPUT_PORTS=${FIREWALL_INPUT_PORTS}
+      - FIREWALL_OUTBOUND_SUBNETS=${FIREWALL_OUTBOUND_SUBNETS}
+
+      # Security
+      - BLOCK_MALICIOUS=on
+
+      # Health check
+      - HEALTH_TARGET_ADDRESS=${CF_DOMAIN}:443
+
+    volumes:
+      - /mnt/storagepool/apps_config/gluetun:/gluetun
+
+    restart: unless-stopped
+    logging: *gelf_logging
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    network_mode: "service:gluetun"
+    depends_on:
+      - gluetun
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - WEBUI_PORT=8085
+    volumes:
+      - /mnt/storagepool/apps_config/qbittorrent/config:/config
+      - /mnt/storagepool/master/Media/downloads:/downloadsq
+    restart: unless-stopped
+
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    network_mode: "service:gluetun"
+    depends_on:
+      - gluetun
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/storagepool/apps_config/sabnzbd/config:/config
+      # Example media paths — adjust as needed
+      #- /mnt/storagepool/media/usenet_incomplete:/incomplete-downloads
+      #- /mnt/storagepool/media/usenet_complete:/downloads
+      - /mnt/storagepool/master/Media/usenet/downloads:/downloads
+    restart: unless-stopped
+
+  postgres-bitmagnet:
+    image: postgres:16
+    container_name: postgres-bitmagnet
+    restart: unless-stopped
+    network_mode: "service:gluetun"
+    depends_on:
+      - gluetun
+    environment:
+      POSTGRES_DB: bitmagnet
+      POSTGRES_USER: bitmagnet
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - /mnt/storagepool/apps_config/bitmagnet/postgres:/var/lib/postgresql/data
+
+
+  bitmagnet-process:
+    image: ghcr.io/bitmagnet-io/bitmagnet:latest
+    container_name: bitmagnet-process
+    restart: unless-stopped
+    network_mode: "service:gluetun"
+    depends_on:
+      - postgres-bitmagnet
+    environment:
+      - TZ=${TZ}
+      - BITMAGNET__HTTP__ENABLED=true
+      - BITMAGNET__HTTP__ADDR=0.0.0.0:3333
+      - POSTGRES_DSN=postgres://bitmagnet:bitmagnetpassword@127.0.0.1:5432/bitmagnet?sslmode=disable
+    volumes:
+      - /mnt/storagepool/apps_config/bitmagnet/config:/config
+      - /mnt/storagepool/apps_config/bitmagnet/data:/data
+    command: ["process"]
+
+
+  bitmagnet-worker:
+    image: ghcr.io/bitmagnet-io/bitmagnet:latest
+    container_name: bitmagnet-worker
+    restart: unless-stopped
+    network_mode: "service:gluetun"
+    depends_on:
+      - postgres-bitmagnet
+    environment:
+      - TZ=${TZ}
+      - POSTGRES_DSN=postgres://bitmagnet:bitmagnetpassword@127.0.0.1:5432/bitmagnet?sslmode=disable
+    volumes:
+      - /mnt/storagepool/apps_config/bitmagnet/config:/config
+      - /mnt/storagepool/apps_config/bitmagnet/data:/data
+    command:
+      - worker
+      - run
+      - --all

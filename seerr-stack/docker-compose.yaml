@@ -1,61 +1,48 @@
-version: '3.9'
+version: "3.8"
+
 services:
-  seerr:
-    image: ghcr.io/seerr-team/seerr:latest
-    container_name: seerr
-    restart: unless-stopped
-    environment:
-      TZ: America/Los_Angeles
-      DB_TYPE: postgres
-      DB_HOST: seerr-db
-      DB_PORT: '5432'
-      DB_USER: seerr
-      DB_PASS: seerrpassword
-      DB_NAME: seerr
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      NODE_VERSION: 22.22.0
-      YARN_VERSION: 1.22.22
-      NODE_ENV: production
-      COMMIT_TAG: 94a70bb5fc9a4486857071a6fc048c8081fa7ca9
-    ports:
-    - 5055:5055/tcp
-    networks: seerr-stack_default
-    volumes:
-    - ${DATA_PATH}:/app/config:rw
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
+
   seerr-db:
     image: postgres:16
     container_name: seerr-db
     restart: unless-stopped
+
     environment:
       POSTGRES_DB: seerr
       POSTGRES_USER: seerr
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/16/bin
-      GOSU_VERSION: '1.19'
-      LANG: en_US.utf8
-      PG_MAJOR: '16'
-      PG_VERSION: 16.13-1.pgdg13+1
-      PGDATA: /var/lib/postgresql/data
-    networks: seerr-stack_default
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
     volumes:
-    - ${DATA_PATH}:/var/lib/postgresql/data:rw
+      - /mnt/storagepool/apps_config/seerr/db:/var/lib/postgresql/data
+
     healthcheck:
-      test:
-      - CMD-SHELL
-      - pg_isready -U seerr -d seerr
-      interval: 10000000000
-      timeout: 5000000000
+      test: ["CMD-SHELL", "pg_isready -U seerr -d seerr"]
+      interval: 10s
+      timeout: 5s
       retries: 10
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
-networks:
-  seerr-stack_default:
-    external: true
+
+
+  seerr:
+    image: ghcr.io/seerr-team/seerr:latest
+    container_name: seerr
+    restart: unless-stopped
+
+    ports:
+      - "5055:5055"
+
+    depends_on:
+      seerr-db:
+        condition: service_healthy
+
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: seerr-db
+      DB_PORT: 5432
+      DB_USER: seerr
+      DB_PASS=${DB_PASS}
+      DB_NAME: seerr
+
+      TZ=${TZ}
+
+    volumes:
+      - /mnt/storagepool/apps_config/seerr/config:/app/config

@@ -1,35 +1,36 @@
-version: '3.9'
+version: "3.9"
+
 services:
   metube:
     image: ghcr.io/alexta69/metube:latest
     container_name: metube
     restart: unless-stopped
-    environment:
-      YTDL_OPTIONS: '{"writethumbnail":true,"convertthumbnails":"jpg"}'
-      UID: '3001'
-      GID: '3000'
-      DOWNLOAD_DIR: /downloads
-      STATE_DIR: /downloads/.metube
-      PATH: /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      GPG_KEY: ${GPG_KEY}
-      PYTHON_VERSION: 3.13.12
-      PYTHON_SHA256: 2a84cd31dd8d8ea8aaff75de66fc1b4b0127dd5799aa50a64ae9a313885b4593
-      PUID: '1000'
-      PGID: '1000'
-      UMASK: '022'
-      TEMP_DIR: /downloads
-      METUBE_VERSION: 2026.03.08
+
+    # Ports
     ports:
-    - 8086:8081/tcp
-    networks: metube-stack_default
+      - "8086:8081"
+
+    # Volumes
     volumes:
-    - ${DATA_PATH}:/downloads:rw
-    - ${DATA_PATH}:/downloads/.metube:rw
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
-networks:
-  metube-stack_default:
-    external: true
+      # Main download folder
+      - /mnt/storagepool/master/Media/youtube:/downloads:rw
+      # Optional: state persistence (MeTube queue, settings)
+      - /mnt/storagepool/apps_config/metube/state:/downloads/.metube:rw
+
+    # Environment Variables
+    environment:
+      # Set proper user IDs for permissions (adjust to your system)
+      - UID=3001
+      - GID=3000
+      # (Optional) control where downloads are stored
+      - DOWNLOAD_DIR=/downloads
+      - STATE_DIR=/downloads/.metube
+      - YTDL_OPTIONS={"writethumbnail":true,"convertthumbnails":"jpg"}
+      # (Optional) if you want audio only separate
+      # - AUDIO_DOWNLOAD_DIR=/downloads/audio
+
+    # (Optional) Uncomment if you use YouTube cookies
+    # volumes:
+    #   - /mnt/storagepool/master/Media/youtube/metube-config/cookies.txt:/cookies.txt:ro
+    # environment:
+    #   - YTDL_OPTIONS={"cookiefile":"/cookies.txt"}

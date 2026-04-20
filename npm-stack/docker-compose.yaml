@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  npm:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: npm
+    restart: unless-stopped
+    ports:
+      - "80:80"     # Public HTTP
+      - "443:443"   # Public HTTPS
+      - "30020:81"     # NPM Admin UI
+    volumes:
+      - /mnt/storagepool/apps_config/npm/data:/data
+      - /mnt/storagepool/apps_config/npm/certs:/etc/letsencrypt
+    environment:
+      - TZ=${TZ}

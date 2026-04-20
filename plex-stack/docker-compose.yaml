@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    restart: unless-stopped
+
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - VERSION=docker
+      - PLEX_CLAIM=${PLEX_CLAIM}
+
+    volumes:
+      - /mnt/storagepool/apps_config/plex/config:/config
+      - /mnt/storagepool/apps_config/plex/transcode:/transcode
+      - /mnt/storagepool/master/Media:/media
+
+    ports:
+      - "32400:32400"
+    devices:
+      # Optional – enable ONLY if you plan to use hardware transcoding
+      - /dev/dri:/dev/dri

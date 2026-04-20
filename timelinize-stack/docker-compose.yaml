@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  timelinize:
+    image: ghcr.io/timelinize/timelinize:latest
+    container_name: timelinize
+    restart: unless-stopped
+
+    ports:
+      - "12002:12002"
+
+    volumes:
+      - /mnt/storagepool/apps_config/timelinize/repo:/repo
+      - /mnt/storagepool/apps_config/timelinize/config:/config
+      - /mnt/storagepool/master/timelinize:/import
+      # Immich media (READ-ONLY)
+      - /mnt/storagepool/apps_config/Immich/data:/immich:ro
+
+    environment:
+      TZ=${TZ}
+      XDG_CONFIG_HOME: /config
+      TLZ_ORIGIN: http://${TRUENAS_HOST}:12002
+
+    user: "3001:3000"

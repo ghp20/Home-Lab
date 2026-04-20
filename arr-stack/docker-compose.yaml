@@ -1,0 +1,118 @@
+version: "3.9"
+
+x-logging: &gelf_logging
+  driver: gelf
+  options:
+    gelf-address: "udp://${TRUENAS_HOST}:12201"
+    tag: "{{.Name}}"
+
+networks:
+  arrnet:
+    external: true
+
+services:
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    networks: [arrnet]
+    ports:
+      - "9696:9696"
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/storagepool/apps_config/prowlarr/config:/config
+    restart: unless-stopped
+    logging: *gelf_logging
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    networks: [arrnet]
+    ports:
+      - "7878:7878"
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/storagepool/apps_config/radarr/config:/config
+      - /mnt/storagepool/master/Media/Movies:/movies
+      - /mnt/storagepool/master/Media/downloads:/downloadsq
+      - /mnt/storagepool/master/Media/usenet/downloads:/downloads
+    restart: unless-stopped
+    logging: *gelf_logging
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    networks: [arrnet]
+    ports:
+      - "8989:8989"
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/storagepool/apps_config/sonarr/config:/config
+      - /mnt/storagepool/master/Media/downloads:/downloadsq
+      - /mnt/storagepool/master/Media/usenet/downloads:/downloads
+      - /mnt/storagepool/master/Media/Tv:/tv
+    restart: unless-stopped
+    logging: *gelf_logging
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    restart: unless-stopped
+    networks: [arrnet]
+    ports:
+      - "6767:6767"
+    environment:
+      PUID=${PUID}
+      PGID=${PGID}
+      TZ=${TZ}
+    volumes:
+      - /mnt/storagepool/apps_config/bazarr/config:/config
+      - /mnt/storagepool/master/Media/Movies:/movies
+      - /mnt/storagepool/master/Media/Tv:/tv
+    logging: *gelf_logging
+  
+  lazylibrarian:
+    image: lscr.io/linuxserver/lazylibrarian:latest
+    container_name: lazylibrarian
+    networks: [arrnet]
+    ports:
+      - "5299:5299"
+    restart: unless-stopped
+
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      
+    volumes:
+      - /mnt/storagepool/apps_config/lazylibrarian:/config
+      - /mnt/storagepool/master/Media/downloads/lazylibrarian:/downloadsq
+      - /mnt/storagepool/master/Media/downloads/complete:/complete
+      - /mnt/storagepool/master/Media/Books/ebooks:/books/ebooks
+      - /mnt/storagepool/master/Media/Books/audiobooks:/books/audiobooks
+    logging: *gelf_logging
+
+  cleanuparr:
+    image: ghcr.io/cleanuparr/cleanuparr:latest
+    container_name: cleanuparr
+    networks: [arrnet]
+    ports:
+      - "11011:11011"
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/storagepool/apps_config/cleanuparr/config:/config
+      - /mnt/storagepool/master/Media/downloads:/downloadsq
+    restart: unless-stopped
+    logging: *gelf_logging

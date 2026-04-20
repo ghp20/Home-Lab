@@ -1,0 +1,102 @@
+version: "3.8"
+
+services:
+  tdarr:
+    image: ghcr.io/haveagitgat/tdarr:latest
+    container_name: tdarr
+    restart: unless-stopped
+
+    ports:
+      - "8265:8265"   # WebUI
+      - "8266:8266"   # Server API
+
+    environment:
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=002
+
+      # Tdarr recommended paths
+      - serverIP=0.0.0.0
+      - serverPort=8266
+      - webUIPort=8265
+
+    volumes:
+      - /mnt/storagepool/apps_config/tdarr/server:/app/server
+      - /mnt/storagepool/apps_config/tdarr/config:/app/configs
+      - /mnt/storagepool/apps_config/tdarr/log:/app/logs
+      - /mnt/nvmepool/appsconfig/tdarr/temp:/temp
+
+      # Media (read-only is safer; Tdarr will output to your transcoded folders)
+      - /mnt/storagepool/master/Media/:/media
+      #- /mnt/storagepool/master/Media/Movies:/media/movies:ro
+      #- /mnt/storagepool/master/Media/TV:/media/tv:ro
+
+      # Output folders (write)
+      - /mnt/storagepool/master/Media/Movies:/output/movies
+      - /mnt/storagepool/master/Media/Tv:/output/tv
+
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/card0:/dev/dri/card0
+
+    group_add:
+      - "44"     # video
+      - "107"    # render (common on Debian/Ubuntu based containers)
+
+    privileged: true
+
+    deploy:
+      resources:
+        limits:
+          cpus: "8.0"
+          memory: 32G
+
+  tdarr-node:
+    image: ghcr.io/haveagitgat/tdarr_node:latest
+    container_name: tdarr-node
+    restart: unless-stopped
+
+    environment:
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=002
+
+      # Node -> Server connection
+      - serverIP=tdarr
+      - serverPort=8266
+
+      # Node identity
+      - nodeName=truenas-us-node
+
+    volumes:
+      - /mnt/storagepool/apps_config/tdarr/config:/app/configs
+      - /mnt/storagepool/apps_config/tdarr/log:/app/logs
+      - /mnt/nvmepool/appsconfig/tdarr/temp:/temp
+
+      - /mnt/storagepool/master/Media/:/media
+      #- /mnt/storagepool/master/Media/Movies:/media/movies:ro
+      #- /mnt/storagepool/master/Media/TV:/media/tv:ro
+
+      - /mnt/storagepool/master/Media/Movies:/output/movies
+      - /mnt/storagepool/master/Media/Tv:/output/tv
+
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/card0:/dev/dri/card0
+
+    group_add:
+      - "44"     # video
+      - "107"    # render (common on Debian/Ubuntu based containers)
+
+    privileged: true
+
+    depends_on:
+      - tdarr
+
+    deploy:
+      resources:
+        limits:
+          cpus: "8.0"
+          memory: 32G

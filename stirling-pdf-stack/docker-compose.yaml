@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  stirling-pdf:
+    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+    ports:
+      - '8084:8080'
+    restart: unless-stopped
+    volumes:
+      - /mnt/storagepool/apps_config/stirlingpdf/tesseract_data:/usr/share/tessdata
+      - /mnt/storagepool/apps_config/stirlingpdf/config:/configs
+      - /mnt/storagepool/apps_config/stirlingpdf/files_storage:/output
+      - /mnt/storagepool/apps_config/stirlingpdf/logs:/logs
+      - /mnt/storagepool/apps_config/stirlingpdf/pipeline:/pipeline
+    environment:
+      - DOCKER_ENABLE_SECURITY=false
+      - LANGS=en_GB
+      - SERVER_PORT=8080
+      - ALLOWED_HOSTS=pdf.${N8N_DOMAIN},100.119.204.23,${TRUENAS_HOST}
+      - PASSWORD_PROTECT=true
+      - USERNAME=Gaurav
+      - PASSWORD=7E_CZL@T8vKh-FNM
+      - SECURITY_ENABLELOGIN=true

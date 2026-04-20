@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: homeassistant-postgres
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: homeassistant
+      POSTGRES_USER: homeassistant
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      TZ=${TZ}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - /mnt/storagepool/apps_config/homeassistant/postgres:/var/lib/postgresql/data
+
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: homeassistant
+    network_mode: host
+    privileged: false
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      TZ=${TZ}
+    volumes:
+      - /mnt/storagepool/apps_config/homeassistant/config:/config
+      - /mnt/storagepool/apps_config/homeassistant/media:/media
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro

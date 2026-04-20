@@ -1,0 +1,114 @@
+version: "3.9"
+
+networks:
+  books_net:
+
+services:
+
+  bookshelf:
+    image: ghcr.io/pennydreadful/bookshelf:hardcover
+    container_name: bookshelf
+    restart: unless-stopped
+
+    ports:
+      - "8787:8787"
+
+    environment:
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+
+    volumes:
+      # Config
+      - /mnt/storagepool/apps_config/bookshelf/config:/config
+
+      # Downloads (normalized)
+      - /mnt/storagepool/master/Media/downloads:/downloads/torrents
+      - /mnt/storagepool/master/Media/usenet/downloads:/downloads/usenet
+
+      # Final libraries
+      - /mnt/storagepool/master/Media/Books/ebooks:/ebooks
+      - /mnt/storagepool/master/Media/Books/audiobooks:/audiobooks
+
+    security_opt:
+      - no-new-privileges:true
+  # ---------------- Calibre ----------------
+  calibre:
+    image: lscr.io/linuxserver/calibre:latest
+    container_name: calibre
+    networks:
+      - books_net
+    ports:
+      - 8099:8080
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/storagepool/apps_config/calibre/config:/config
+      - /mnt/storagepool/master/Media/Books/ebooks:/books/ebooks
+      - /mnt/storagepool/apps_config/calibre/inbox:/inbox
+    restart: unless-stopped
+
+  # ---------------- Calibre-Web ----------------
+  calibre-web:
+    image: lscr.io/linuxserver/calibre-web:latest
+    container_name: calibre-web
+    networks:
+      - books_net
+    ports:
+      - 8101:8083
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/storagepool/apps_config/calibre-web/config:/config
+      - /mnt/storagepool/master/Media/Books/ebooks:/books
+    restart: unless-stopped
+
+  # ---------------- Audiobookshelf ----------------
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    container_name: audiobookshelf
+    networks:
+      - books_net
+    ports:
+      - 13378:80
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/storagepool/apps_config/audiobookshelf/config:/config
+      - /mnt/storagepool/apps_config/audiobookshelf/metadata:/metadata
+      - /mnt/storagepool/master/Media/Books/audiobooks:/audiobooks
+    restart: unless-stopped
+
+  calibre-importer:
+    image: lscr.io/linuxserver/calibre:latest
+    container_name: calibre-importer
+    networks:
+      - books_net
+    depends_on:
+      - calibre
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/storagepool/master/Media/Books/ebooks:/books
+      - /mnt/storagepool/master/Media/Books/ebooks:/incoming
+      - /mnt/storagepool/scripts/calibre-importer:/scripts
+      - /mnt/storagepool/apps_config/calibre-importer:/config
+    command: >
+      bash -c "
+      apt-get update &&
+      apt-get install -y inotify-tools &&
+      bash /scripts/import.sh
+      "
+    restart: unless-stopped

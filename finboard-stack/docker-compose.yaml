@@ -1,0 +1,55 @@
+services:
+  backend:
+    image: finboard-backend:latest
+    container_name: fin-backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      JWT_SECRET=${JWT_SECRET}
+      #ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      DB_PATH: /data/finance.db
+      DB_BACKUP_DIR: /data/backups
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_SECURE: ${SMTP_SECURE}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS=${SMTP_PASS}
+      SMTP_FROM: ${SMTP_FROM}
+      APP_URL: ${APP_URL}
+      PLAID_CLIENT_ID: ${PLAID_CLIENT_ID}
+      PLAID_SECRET: ${PLAID_SECRET}
+      PLAID_ENV: ${PLAID_ENV}
+    volumes:
+      - /mnt/storagepool/apps_config/finboard/db:/data
+      - /mnt/storagepool/apps_config/finboard/backups:/data/backups
+    networks:
+      - internal
+    expose:
+      - "3000"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  frontend:
+    image: finboard-frontend:latest
+    container_name: fin-frontend
+    restart: unless-stopped
+    ports:
+      - "8092:80"
+    networks:
+      - internal
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "--header=X-Forwarded-Proto: https", "http://127.0.0.1:80/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+networks:
+  internal:
+    driver: bridge

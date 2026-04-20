@@ -1,0 +1,70 @@
+version: "3.9"
+
+services:
+
+  trading-agent-ron:
+    image: trading-agent-ron:latest
+    container_name: trading-agent-ron
+    restart: unless-stopped
+    ports:
+      - "8002:8000"
+    volumes:
+      - /mnt/storagepool/apps_config/ron/trading-agent-ron/config/config.yaml:/app/config/config.yaml:ro
+      - /mnt/storagepool/apps_config/ron/trading-agent-ron/config/.env:/app/config/.env:ro
+      - /mnt/storagepool/apps_config/ron/trading-agent-ron/models:/app/models
+      - /mnt/storagepool/apps_config/ron/trading-agent-ron/logs:/app/logs
+      - /mnt/storagepool/apps_config/ron/trading-agent-ron/data:/app/data
+      - /mnt/storagepool/apps_config/ron/trading-agent-ron/src/:/app/src/
+    depends_on:
+      trading-postgres-ron:
+        condition: service_healthy
+      trading-redis-ron:
+        condition: service_healthy
+    networks:
+      - trading-net-ron
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+
+  trading-postgres-ron:
+    image: postgres:15-alpine
+    container_name: trading-postgres-ron
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: trading_agent
+      POSTGRES_USER: agent
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - /mnt/storagepool/apps_config/ron/trading-agent-ron/postgres:/var/lib/postgresql/data
+    networks:
+      - trading-net-ron
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agent -d trading_agent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5434:5432"
+
+  trading-redis-ron:
+    image: redis:7-alpine
+    container_name: trading-redis-ron
+    restart: unless-stopped
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - /mnt/storagepool/apps_config/ron/trading-agent-ron/redis:/data
+    networks:
+      - trading-net-ron
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  trading-net-ron:
+    driver: bridge
+    name: trading-net-ron

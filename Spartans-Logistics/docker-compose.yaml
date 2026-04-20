@@ -2,16 +2,16 @@ version: "3.8"
 
 services:
 
-  # ââ PostgreSQL ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+  # ── PostgreSQL ──────────────────────────────────────────────────────────────
   db:
     image: postgres:16-alpine
     container_name: spartans-db
     environment:
       POSTGRES_DB:       ${POSTGRES_DB:-spartans}
       POSTGRES_USER:     ${POSTGRES_USER:-spartans}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
-      - /path/to/your/data:/var/lib/postgresql/data
+      - /mnt/storagepool/apps_config/Spartans/db:/var/lib/postgresql/data
     restart: unless-stopped
     healthcheck:
       test:     ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-spartans}"]
@@ -19,32 +19,33 @@ services:
       timeout:  5s
       retries:  5
 
-  # ââ FastAPI Backend âââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+  # ── FastAPI Backend ─────────────────────────────────────────────────────────
   backend:
     image: spartans-backend:latest
     container_name: spartans-backend
     environment:
       DATABASE_URL:                postgresql://${POSTGRES_USER:-spartans}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-spartans}
-      SECRET_KEY:                  ${SECRET_KEY}
+      SECRET_KEY=${SECRET_KEY}
       ADMIN_USERNAME:              ${ADMIN_USERNAME:-admin}
-      ADMIN_PASSWORD:              ${ADMIN_PASSWORD}
+      ADMIN_PASSWORD=${ADMIN_PASSWORD}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-480}
+      CORS_ORIGINS: ${CORS_ORIGINS}
     volumes:
-      - /path/to/your/data:/app/assets
+      - /mnt/storagepool/apps_config/Spartans/backend:/app/assets
     depends_on:
       db:
         condition: service_healthy
     restart: unless-stopped
 
-  # ââ nginx + React Frontend ââââââââââââââââââââââââââââââââââââââââââââââââââ
+  # ── nginx + React Frontend ──────────────────────────────────────────────────
   frontend:
     image: spartans-frontend:latest
     container_name: spartans-frontend
     ports:
       - "${PORT:-8093}:80"
     volumes:
-      - /path/to/your/data:/etc/nginx/conf.d/default.conf:ro
-      - /path/to/your/data:/usr/share/nginx/html/logo.png:ro
+      - /mnt/storagepool/apps_config/Spartans/frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - /mnt/storagepool/apps_config/Spartans/frontend/logo.png:/usr/share/nginx/html/logo.png:ro
     depends_on:
       - backend
     restart: unless-stopped

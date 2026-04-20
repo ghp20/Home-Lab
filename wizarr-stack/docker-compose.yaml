@@ -1,112 +1,68 @@
-version: '3.9'
 services:
   wizarr:
     image: ghcr.io/wizarrrr/wizarr:latest
     container_name: wizarr
-    restart: unless-stopped
-    environment:
-      STORAGE_DIR: /data/storage
-      WIZARR_PORT: '5690'
-      WIZARR_ENV: production
-      DB_USERNAME: postgres
-      DB_TYPE: postgres
-      DB_PORT: '5432'
-      DB_HOSTNAME: wizarr_postgres
-      DB_NAME: wizarr
-      DB_DIR: /data/database
-      DB_PASSWORD: ${DB_PASSWORD}
-      WIZARR_LOG_LEVEL: log
-      TZ: America/Los_Angeles
-      PATH: /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      GPG_KEY: ${GPG_KEY}
-      PYTHON_VERSION: 3.13.12
-      PYTHON_SHA256: 2a84cd31dd8d8ea8aaff75de66fc1b4b0127dd5799aa50a64ae9a313885b4593
-      UV_TOOL_BIN_DIR: /usr/local/bin
-      PUID: '1000'
-      PGID: '1000'
-      APP_VERSION: v2026.2.1
-      FLASK_ENV: production
+    depends_on:
+      - wizarr_postgres
+      - wizarr_redis
+      - wizarr_memcached
     ports:
-    - 5690:5690/tcp
-    networks: wizarr-stack_default
+      - "5690:5690"
+    environment:
+      # General
+      TZ=${TZ}
+      WIZARR_ENV: "production"
+      WIZARR_LOG_LEVEL: "log"           # verbose|debug|log|warn|error
+
+      # App port inside container
+      WIZARR_PORT: "5690"
+
+      # Storage paths
+      DB_DIR: "/data/database"
+      STORAGE_DIR: "/data/storage"
+
+      # Postgres DB
+      DB_HOSTNAME: "wizarr_postgres"
+      DB_PORT: "5432"
+      DB_USERNAME: "postgres"
+      DB_PASSWORD=${DB_PASSWORD}             # keep this secure
+      DB_NAME: "wizarr"
+      DB_TYPE: "postgres"
+
     volumes:
-    - ${DATA_PATH}:/data/database:rw
-    - ${DATA_PATH}:/data/storage:rw
-    healthcheck:
-      test:
-      - CMD-SHELL
-      - curl -fs http://localhost:5690/health || exit 1
-      interval: 30000000000
-      timeout: 5000000000
-      retries: 3
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
+      - /mnt/storagepool/apps_config/wizarr/database:/data/database
+      - /mnt/storagepool/apps_config/wizarr/storage:/data/storage
+
+    restart: unless-stopped
+    
+
   wizarr_postgres:
     image: postgres:16-alpine
     container_name: wizarr_postgres
-    restart: unless-stopped
     environment:
-      POSTGRES_DB: wizarr
-      TZ: America/Los_Angeles
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      GOSU_VERSION: '1.19'
-      LANG: en_US.utf8
-      PG_MAJOR: '16'
-      PG_VERSION: '16.12'
-      PG_SHA256: b253ee949303ef5df00e24002600da4fb37e5ccfafa78718c6ea6a936b4d97f1
-      DOCKER_PG_LLVM_DEPS: "llvm19-dev \t\tclang19"
-      PGDATA: /var/lib/postgresql/data
-    networks: wizarr-stack_default
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}   # keep secure
+      POSTGRES_DB: "wizarr"
+      TZ=${TZ}
     volumes:
-    - ${DATA_PATH}:/var/lib/postgresql/data:rw
+      - /mnt/storagepool/apps_config/wizarr/database/pgdata:/var/lib/postgresql/data
     healthcheck:
-      test:
-      - CMD-SHELL
-      - pg_isready -U postgres
-      interval: 20000000000
-      timeout: 5000000000
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 20s
+      timeout: 5s
       retries: 5
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
+    restart: unless-stopped
+    
+
   wizarr_redis:
     image: redis:7-alpine
     container_name: wizarr_redis
+    command: ["redis-server", "--appendonly", "yes"]
     restart: unless-stopped
-    environment:
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      GOSU_VERSION: '1.17'
-      REDIS_VERSION: 7.4.8
-      REDIS_DOWNLOAD_URL: http://download.redis.io/releases/redis-7.4.8.tar.gz
-      REDIS_DOWNLOAD_SHA: f6773cb7d63be236c59c2917a82f1f08e47b77d89b2f0c9f53becb22b8ea4172
-    networks: wizarr-stack_default
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
+    
+
   wizarr_memcached:
     image: memcached:1.6-alpine
     container_name: wizarr_memcached
+    command: ["-m", "64"]
     restart: unless-stopped
-    environment:
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      MEMCACHED_VERSION: 1.6.40
-      MEMCACHED_URL: https://memcached.org/files/memcached-1.6.40.tar.gz
-      MEMCACHED_SHA1: f2513db7079ee4c6558eb11fabb55e1adf1fdf38
-    networks: wizarr-stack_default
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
-networks:
-  wizarr-stack_default:
-    external: true

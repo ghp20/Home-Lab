@@ -9,7 +9,7 @@ services:
     network_mode: host
 
     volumes:
-      - /path/to/your/data:/data
+      - /mnt/storagepool/apps_config/matter-server:/data
 
     environment:
-      - TZ=America/Los_Angeles
+      - TZ=${TZ}
