@@ -1,7 +1,7 @@
 # Ix-Immich — TrueNAS SCALE Managed
 
 > ⚠️ **TrueNAS SCALE managed app.** Do NOT deploy via Portainer.
-**Generated:** 2026-04-19 21:22
+**Generated:** 2026-04-19 21:26
 
 | Service | Image |
 |---------|-------|

@@ -264,7 +264,7 @@ services:
       - -p
       - '6379'
       - -a
-      - whiteknight009
+      - ${DB_PASSWORD}
       - ping
       interval: 30000000000
       timeout: 5000000000
