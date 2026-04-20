@@ -15,7 +15,7 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB}               # default value from docs  [oai_citation:0‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
       POSTGRES_USER: ${POSTGRES_USER}            # default value  [oai_citation:1‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}      # **CHANGE THIS** for production
     volumes:
       #- /mnt/storagepool/apps_config/adventurelog/.env:/app/.env
       - /mnt/storagepool/apps_config/postgres:/var/lib/postgresql/data
@@ -31,10 +31,10 @@ services:
       PGHOST: db                            # default from docs  [oai_citation:2‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
       POSTGRES_DB: ${POSTGRES_DB}                # from docs
       POSTGRES_USER: ${POSTGRES_USER}             # from docs
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      SECRET_KEY=${SECRET_KEY}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}       # must match the DB above
+      SECRET_KEY=${SECRET_KEY}{SECRET_KEY}              # **CHANGE THIS** for production  [oai_citation:3‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
       DJANGO_ADMIN_USERNAME: ${DJANGO_ADMIN_USERNAME}         # default  [oai_citation:4‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
-      DJANGO_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      DJANGO_ADMIN_PASSWORD=${ADMIN_PASSWORD}{DJANGO_ADMIN_PASSWORD}         # default  [oai_citation:5‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
       DJANGO_ADMIN_EMAIL: ${DJANGO_ADMIN_EMAIL} # default  [oai_citation:6‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
       PUBLIC_URL: http://${TRUENAS_HOST}:8016    # adjust to your public backend URL  [oai_citation:7‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
       CSRF_TRUSTED_ORIGINS: http://${TRUENAS_HOST}:8016,http://${TRUENAS_HOST}:8015 # adjust for your env  [oai_citation:8‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)

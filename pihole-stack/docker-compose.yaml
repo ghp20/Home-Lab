@@ -12,7 +12,7 @@ services:
       FTLCONF_dns_listeningMode: "all"
       FTLCONF_NTP_IPV4_ACTIVE: "false"
       FTLCONF_NTP_IPV6_ACTIVE: "false"
-      FTLCONF_admin_password: "${PIHOLE_PASSWORD}"
+      FTLCONF_admin_password: "${PIHOLE_PASSWORD}!"
 
     volumes:
       - /mnt/storagepool/apps_config/pihole/etc-pihole:/etc/pihole

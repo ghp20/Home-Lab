@@ -1,10 +1,8 @@
 # monetr-stack
 
-Money tracking — Monetr
+Docker stack managed by Portainer
 
-## Stack: monetr-stack
-
-### Services
+## Services
 
 ```
   • monetr
@@ -13,7 +11,7 @@ Money tracking — Monetr
   • monetr-net
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `MONETR_ALLOW_SIGN_UP`
 - `MONETR_ENVIRONMENT`
@@ -30,25 +28,25 @@ Money tracking — Monetr
 - `POSTGRES_PASSWORD`
 - `POSTGRES_USER`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/monetr/config`
 - `/mnt/storagepool/apps_config/monetr/postgres`
 - `/mnt/storagepool/apps_config/monetr/valkey`
 
-### Ports Exposed
+## Ports
 
 - `4000`
 
-### Deployment
+## Deployment
 
 ```bash
 cd monetr-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

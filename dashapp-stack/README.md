@@ -1,32 +1,30 @@
 # dashapp-stack
 
-Dashboard app
+Docker stack managed by Portainer
 
-## Stack: dashapp-stack
-
-### Services
+## Services
 
 ```
   • dashapp
 ```
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/dashapp`
 
-### Ports Exposed
+## Ports
 
 - `8050`
 
-### Deployment
+## Deployment
 
 ```bash
 cd dashapp-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

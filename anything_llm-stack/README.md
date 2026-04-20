@@ -1,43 +1,32 @@
 # anything_llm-stack
 
-LLM chat interface — AnythingLLM
+LLM chat — AnythingLLM
 
-## Stack: anything_llm-stack
-
-### Services
+## Services
 
 ```
   • options
   • anything-llm
 ```
 
-### Key Environment Variables
-
-- `DATABASE_URL`
-- `DISABLE_TELEMETRY`
-- `ENCRYPTION_KEY`
-- `JWT_SECRET`
-- `SERVER_PORT`
-- `STORAGE_DIR`
-
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/anything_llm/data`
 - `/mnt/storagepool/apps_config/anything_llm/data`
 
-### Ports Exposed
+## Ports
 
 - `30239`
 
-### Deployment
+## Deployment
 
 ```bash
 cd anything_llm-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

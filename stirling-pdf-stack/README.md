@@ -2,26 +2,13 @@
 
 PDF toolkit — Stirling-PDF
 
-## Stack: stirling-pdf-stack
-
-### Services
+## Services
 
 ```
   • stirling-pdf
 ```
 
-### Key Environment Variables
-
-- `ALLOWED_HOSTS`
-- `DOCKER_ENABLE_SECURITY`
-- `LANGS`
-- `PASSWORD`
-- `PASSWORD_PROTECT`
-- `SECURITY_ENABLELOGIN`
-- `SERVER_PORT`
-- `USERNAME`
-
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/stirlingpdf/tesseract_data`
 - `/mnt/storagepool/apps_config/stirlingpdf/config`
@@ -29,15 +16,15 @@ PDF toolkit — Stirling-PDF
 - `/mnt/storagepool/apps_config/stirlingpdf/logs`
 - `/mnt/storagepool/apps_config/stirlingpdf/pipeline`
 
-### Deployment
+## Deployment
 
 ```bash
 cd stirling-pdf-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

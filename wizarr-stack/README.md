@@ -2,9 +2,7 @@
 
 Invite management — Wizarr
 
-## Stack: wizarr-stack
-
-### Services
+## Services
 
 ```
   • wizarr
@@ -13,7 +11,7 @@ Invite management — Wizarr
   • wizarr_memcached
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `DB_DIR`
 - `DB_HOSTNAME`
@@ -31,25 +29,25 @@ Invite management — Wizarr
 - `WIZARR_LOG_LEVEL`
 - `WIZARR_PORT`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/wizarr/database`
 - `/mnt/storagepool/apps_config/wizarr/storage`
 - `/mnt/storagepool/apps_config/wizarr/database/pgdata`
 
-### Ports Exposed
+## Ports
 
 - `5690`
 
-### Deployment
+## Deployment
 
 ```bash
 cd wizarr-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

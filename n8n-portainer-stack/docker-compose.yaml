@@ -12,7 +12,7 @@ services:
       - TZ=${TZ}
       - N8N_HOST=n3n.${N8N_DOMAIN}
       - N8N_PROTOCOL=https
-      - WEBHOOK_URL=${WEBHOOK_URL}
+      - WEBHOOK_URL=${WEBHOOK_URL}{N8N_DOMAIN}
       - N8N_PORT=5678
       - N8N_TRUST_PROXY=true
       - N8N_SECURE_COOKIE=false

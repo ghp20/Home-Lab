@@ -15,7 +15,7 @@ services:
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{DB_PASSWORD}
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - /mnt/storagepool/apps_config/ron/trailing-stop/postgres/pgdata:/var/lib/postgresql/data
@@ -45,18 +45,18 @@ services:
         condition: service_healthy
     stop_grace_period: 30s
     environment:
-      - ALPACA_API_KEY=${ALPACA_API_KEY}
-      - ALPACA_SECRET_KEY=${ALPACA_SECRET_KEY}
+      - ALPACA_API_KEY=${ALPACA_API_KEY}{API_KEY}{ALPACA_API_KEY}
+      - ALPACA_SECRET_KEY=${ALPACA_SECRET_KEY}{SECRET_KEY}{ALPACA_SECRET_KEY}
       - ALPACA_PAPER=${ALPACA_PAPER}
       - DB_HOST=db
       - DB_PORT=5432
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD}{DB_PASSWORD}
       - DB_POOL_MIN=${DB_POOL_MIN}
       - DB_POOL_MAX=${DB_POOL_MAX}
       - DB_SSLMODE=disable
-      - N8N_WEBHOOK_URL=${WEBHOOK_URL}
+      - N8N_WEBHOOK_URL=${WEBHOOK_URL}{N8N_WEBHOOK_URL}
       - N8N_WEBHOOK_SECRET=${N8N_WEBHOOK_SECRET}
       - N8N_MIN_SEVERITY=${N8N_MIN_SEVERITY}
       - NOTIFY_RATE_LIMIT_SECS=${NOTIFY_RATE_LIMIT_SECS}

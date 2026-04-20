@@ -2,9 +2,7 @@
 
 Log management — Graylog
 
-## Stack: graylog-stack
-
-### Services
+## Services
 
 ```
   • graylog_net
@@ -13,7 +11,7 @@ Log management — Graylog
   • graylog
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `GRAYLOG_DATANODE_HTTP_EXTERNAL_URI`
 - `GRAYLOG_DATANODE_MONGODB_URI`
@@ -24,13 +22,13 @@ Log management — Graylog
 - `GRAYLOG_MONGODB_URI`
 - `GRAYLOG_PASSWORD_SECRET`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/graylog/mongodb-data`
 - `/mnt/storagepool/apps_config/graylog/datanode-data`
 - `/mnt/storagepool/apps_config/graylog/graylog-data`
 
-### Ports Exposed
+## Ports
 
 - `8999`
 - `9000`
@@ -39,15 +37,15 @@ Log management — Graylog
 - `5140`
 - `5140`
 
-### Deployment
+## Deployment
 
 ```bash
 cd graylog-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

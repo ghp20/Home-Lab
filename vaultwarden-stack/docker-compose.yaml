@@ -22,7 +22,7 @@ services:
       - db
     environment:
       DATABASE_URL: postgres://vaultwarden:v3eKoRk_zV_-9FpB@vaultwarden-postgres/vaultwarden
-      ADMIN_TOKEN=${ADMIN_TOKEN}
+      ADMIN_TOKEN=${ADMIN_TOKEN}{HEX_SECRET}
       ROCKET_PORT: 30032
       DOMAIN: http://${TRUENAS_HOST}:30032
       WEBSOCKET_ENABLED: "true"

@@ -1,10 +1,8 @@
 # reactive-resume-stack
 
-Resume builder — Reactive Resume
+Docker stack managed by Portainer
 
-## Stack: reactive-resume-stack
-
-### Services
+## Services
 
 ```
   • postgres
@@ -12,7 +10,7 @@ Resume builder — Reactive Resume
   • app
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `APP_URL`
 - `AUTH_SECRET`
@@ -30,24 +28,24 @@ Resume builder — Reactive Resume
 - `PRINTER_ENDPOINT`
 - `SMTP_FROM`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/reactive-resume/db`
 - `/mnt/storagepool/apps_config/reactive-resume/data`
 
-### Ports Exposed
+## Ports
 
 - `30120`
 
-### Deployment
+## Deployment
 
 ```bash
 cd reactive-resume-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

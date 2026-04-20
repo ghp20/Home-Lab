@@ -1,33 +1,31 @@
 # collabora-stack
 
-Online document editing — Collabora Online
+Online docs — Collabora Online
 
-## Stack: collabora-stack
-
-### Services
+## Services
 
 ```
   • options
   • collabora
 ```
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/collabora/config`
 
-### Ports Exposed
+## Ports
 
 - `9980`
 
-### Deployment
+## Deployment
 
 ```bash
 cd collabora-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

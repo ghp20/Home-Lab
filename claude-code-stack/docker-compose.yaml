@@ -8,7 +8,7 @@ services:
     tty: true
     working_dir: /workspace
     environment:
-      - ANTHROPIC_API_KEY=${API_KEY}
+      - ANTHROPIC_API_KEY=${API_KEY}{ANTHROPIC_API_KEY}  # replace with your key
       - PATH=/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       - CLAUDE_DISABLE_OAUTH=true
     volumes:

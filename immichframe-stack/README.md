@@ -2,36 +2,34 @@
 
 Photo frame — Immich Frame
 
-## Stack: immichframe-stack
-
-### Services
+## Services
 
 ```
   • immichframe
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `PLAYBACK_MODE`
 - `TZ`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/immichframe/cache`
 
-### Ports Exposed
+## Ports
 
 - `30042`
 
-### Deployment
+## Deployment
 
 ```bash
 cd immichframe-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

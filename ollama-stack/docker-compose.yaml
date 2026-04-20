@@ -12,7 +12,7 @@ services:
       - NVIDIA_VISIBLE_DEVICES=0
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics,video
       # Ollama config
-      - OLLAMA_HOST=${OLLAMA_HOST}
+      - OLLAMA_HOST=0.0.0.0:11434
       - UID=3001
       - GID=3000
       - OLLAMA_MODELS=/models

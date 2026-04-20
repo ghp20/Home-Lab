@@ -2,23 +2,14 @@
 
 Media transcoding — Tdarr
 
-## Stack: tdarr-stack
-
-### Services
+## Services
 
 ```
   • tdarr
   • tdarr-node
 ```
 
-### Key Environment Variables
-
-- `PGID`
-- `PUID`
-- `TZ`
-- `UMASK`
-
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/tdarr/server`
 - `/mnt/storagepool/apps_config/tdarr/config`
@@ -27,20 +18,20 @@ Media transcoding — Tdarr
 - `/mnt/storagepool/master/Media/`
 - `/mnt/storagepool/master/Media/Movies`
 
-### Ports Exposed
+## Ports
 
 - `8265`
 - `8266`
 
-### Deployment
+## Deployment
 
 ```bash
 cd tdarr-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

@@ -2,15 +2,13 @@
 
 AI news digest
 
-## Stack: bichon-ai-digest-stack
-
-### Services
+## Services
 
 ```
   • bichon-ai-digest
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `BICHON_ACCOUNT_IDS`
 - `BICHON_TOKEN`
@@ -24,19 +22,19 @@ AI news digest
 - `TELEGRAM_BOT_TOKEN`
 - `TELEGRAM_CHAT_ID`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/bichon/ai-digest`
 
-### Deployment
+## Deployment
 
 ```bash
 cd bichon-ai-digest-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

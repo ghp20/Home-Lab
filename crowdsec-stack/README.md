@@ -2,9 +2,7 @@
 
 Security — CrowdSec
 
-## Stack: crowdsec-stack
-
-### Services
+## Services
 
 ```
   • crowdsec
@@ -12,12 +10,7 @@ Security — CrowdSec
   • crowdsec-net
 ```
 
-### Key Environment Variables
-
-- `COLLECTIONS`
-- `TZ`
-
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/crowdsec/config/acquis.yaml`
 - `/mnt/storagepool/apps_config/crowdsec/data`
@@ -25,20 +18,20 @@ Security — CrowdSec
 - `/mnt/storagepool/apps_config/npm/data/logs`
 - `/mnt/storagepool/apps_config/crowdsec/cloudflare-bouncer/cfg.yaml`
 
-### Ports Exposed
+## Ports
 
 - `6060`
 - `1514`
 
-### Deployment
+## Deployment
 
 ```bash
 cd crowdsec-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

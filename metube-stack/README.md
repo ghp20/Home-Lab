@@ -1,42 +1,32 @@
 # metube-stack
 
-YouTube downloader — MeTube
+Docker stack managed by Portainer
 
-## Stack: metube-stack
-
-### Services
+## Services
 
 ```
   • metube
 ```
 
-### Key Environment Variables
-
-- `DOWNLOAD_DIR`
-- `GID`
-- `STATE_DIR`
-- `UID`
-- `YTDL_OPTIONS`
-
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/master/Media/youtube`
 - `/mnt/storagepool/apps_config/metube/state`
 - `/mnt/storagepool/master/Media/youtube/metube-config/cookies.txt`
 
-### Ports Exposed
+## Ports
 
 - `8086`
 
-### Deployment
+## Deployment
 
 ```bash
 cd metube-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

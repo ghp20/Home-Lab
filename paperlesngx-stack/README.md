@@ -2,9 +2,7 @@
 
 Document management — Paperless-ngx
 
-## Stack: paperlesngx-stack
-
-### Services
+## Services
 
 ```
   • postgres
@@ -14,7 +12,7 @@ Document management — Paperless-ngx
   • paperless
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `PAPERLESS_ALLOWED_HOSTS`
 - `PAPERLESS_CSRF_TRUSTED_ORIGINS`
@@ -32,7 +30,7 @@ Document management — Paperless-ngx
 - `PAPERLESS_URL`
 - `POSTGRES_DB`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/paperless_ngx/postgres/17/docker`
 - `/mnt/storagepool/apps_config/paperless_ngx/data`
@@ -40,19 +38,19 @@ Document management — Paperless-ngx
 - `/mnt/storagepool/apps_config/paperless_ngx/consume`
 - `/mnt/storagepool/apps_config/paperless_ngx/trash`
 
-### Ports Exposed
+## Ports
 
 - `30070`
 
-### Deployment
+## Deployment
 
 ```bash
 cd paperlesngx-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

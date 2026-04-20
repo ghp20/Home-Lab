@@ -1,17 +1,15 @@
 # split-pro-stack
 
-Split expense tracker
+Docker stack managed by Portainer
 
-## Stack: split-pro-stack
-
-### Services
+## Services
 
 ```
   • postgres
   • splitpro
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `AUTH_EMAIL_ENABLED`
 - `DATABASE_URL`
@@ -29,24 +27,24 @@ Split expense tracker
 - `POSTGRES_PASSWORD`
 - `POSTGRES_USER`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/split-pro/postgres17`
 - `/mnt/storagepool/apps_config/split-pro/uploads`
 
-### Ports Exposed
+## Ports
 
 - `3020`
 
-### Deployment
+## Deployment
 
 ```bash
 cd split-pro-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

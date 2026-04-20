@@ -1,10 +1,8 @@
 # sample-plan-stack
 
-Sample planning tool
+Docker stack managed by Portainer
 
-## Stack: sample-plan-stack
-
-### Services
+## Services
 
 ```
   • backend
@@ -12,27 +10,23 @@ Sample planning tool
   • sample-plan-net
 ```
 
-### Key Environment Variables
-
-- `DATABASE_URL`
-
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/sample-plan`
 
-### Ports Exposed
+## Ports
 
 - `8094`
 
-### Deployment
+## Deployment
 
 ```bash
 cd sample-plan-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

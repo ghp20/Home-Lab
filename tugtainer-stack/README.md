@@ -1,29 +1,27 @@
 # tugtainer-stack
 
-Docker management UI
+Docker stack managed by Portainer
 
-## Stack: tugtainer-stack
-
-### Services
+## Services
 
 ```
   • app
 ```
 
-### Volumes
+## Volumes
 
 - `/var/run/docker.sock`
 - `/mnt/storagepool/apps_config/tugtainer/config`
 
-### Deployment
+## Deployment
 
 ```bash
 cd tugtainer-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

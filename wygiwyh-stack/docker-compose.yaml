@@ -42,7 +42,7 @@ services:
       HTTPS_ENABLED: "false"
 
       # Generate your own 64-char random string here
-      SECRET_KEY=${SECRET_KEY}
+      SECRET_KEY=${SECRET_KEY}{HEX_SECRET}"
 
       # Allow all hosts initially; you can tighten this later
       DJANGO_ALLOWED_HOSTS: "*"

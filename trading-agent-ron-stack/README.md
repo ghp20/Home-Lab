@@ -2,9 +2,7 @@
 
 Trading agent (Ron profile)
 
-## Stack: trading-agent-ron-stack
-
-### Services
+## Services
 
 ```
   • trading-agent-ron
@@ -13,13 +11,13 @@ Trading agent (Ron profile)
   • trading-net-ron
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `POSTGRES_DB`
 - `POSTGRES_PASSWORD`
 - `POSTGRES_USER`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/ron/trading-agent-ron/config/config.yaml`
 - `/mnt/storagepool/apps_config/ron/trading-agent-ron/config/.env`
@@ -28,20 +26,20 @@ Trading agent (Ron profile)
 - `/mnt/storagepool/apps_config/ron/trading-agent-ron/data`
 - `/mnt/storagepool/apps_config/ron/trading-agent-ron/src/`
 
-### Ports Exposed
+## Ports
 
 - `8002`
 - `5434`
 
-### Deployment
+## Deployment
 
 ```bash
 cd trading-agent-ron-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

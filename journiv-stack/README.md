@@ -2,9 +2,7 @@
 
 Personal journal/writing platform
 
-## Stack: journiv-stack
-
-### Services
+## Services
 
 ```
   • options
@@ -16,7 +14,7 @@ Personal journal/writing platform
   • frontend
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `CELERY_BROKER_URL`
 - `CELERY_RESULT_BACKEND`
@@ -32,7 +30,7 @@ Personal journal/writing platform
 - `SECRET_KEY`
 - `SERVICE_ROLE`
 
-### Volumes
+## Volumes
 
 - `/var/run/postgresql`
 - `/mnt/storagepool/apps_config/journiv/postgres_data`
@@ -40,19 +38,19 @@ Personal journal/writing platform
 - `/mnt/storagepool/apps_config/journiv/app_data`
 - `/mnt/storagepool/apps_config/journiv/app_data`
 
-### Ports Exposed
+## Ports
 
 - `8000`
 
-### Deployment
+## Deployment
 
 ```bash
 cd journiv-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

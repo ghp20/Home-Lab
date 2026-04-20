@@ -32,10 +32,10 @@ services:
       - "8089:8080"
 
     environment:
-      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}
-      - VPN_TYPE=${VPN_TYPE}
-      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
-      - SERVER_COUNTRIES=${SERVER_COUNTRIES}
+      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}{VPN_SERVICE_PROVIDER}
+      - VPN_TYPE=${VPN_TYPE}{VPN_TYPE}
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}{WIREGUARD_PRIVATE_KEY}
+      - SERVER_COUNTRIES=${SERVER_COUNTRIES}{SERVER_COUNTRIES}
 
       - TZ=${TZ}
       - CONTROL_SERVER_ADDRESS=:8000
@@ -48,14 +48,14 @@ services:
 
       # Firewall
       - FIREWALL=on
-      - FIREWALL_INPUT_PORTS=${FIREWALL_INPUT_PORTS}
-      - FIREWALL_OUTBOUND_SUBNETS=${FIREWALL_OUTBOUND_SUBNETS}
+      - FIREWALL_INPUT_PORTS=${FIREWALL_INPUT_PORTS}{FIREWALL_INPUT_PORTS}
+      - FIREWALL_OUTBOUND_SUBNETS=${FIREWALL_OUTBOUND_SUBNETS}{FIREWALL_OUTBOUND_SUBNETS}
 
       # Security
       - BLOCK_MALICIOUS=on
 
       # Health check
-      - HEALTH_TARGET_ADDRESS=${CF_DOMAIN}:443
+      - HEALTH_TARGET_ADDRESS=cloudflare.com:443
 
     volumes:
       - /mnt/storagepool/apps_config/gluetun:/gluetun
@@ -121,9 +121,9 @@ services:
       - postgres-bitmagnet
     environment:
       - TZ=${TZ}
-      - BITMAGNET__HTTP__ENABLED=true
-      - BITMAGNET__HTTP__ADDR=0.0.0.0:3333
-      - POSTGRES_DSN=postgres://bitmagnet:bitmagnetpassword@127.0.0.1:5432/bitmagnet?sslmode=disable
+      - BITMAGNET__HTTP__ENABLED=${BITMAGNET__HTTP__ENABLED}
+      - BITMAGNET__HTTP__ADDR=${BITMAGNET__HTTP__ADDR}
+      - POSTGRES_DSN=${POSTGRES_DSN}
     volumes:
       - /mnt/storagepool/apps_config/bitmagnet/config:/config
       - /mnt/storagepool/apps_config/bitmagnet/data:/data
@@ -139,7 +139,7 @@ services:
       - postgres-bitmagnet
     environment:
       - TZ=${TZ}
-      - POSTGRES_DSN=postgres://bitmagnet:bitmagnetpassword@127.0.0.1:5432/bitmagnet?sslmode=disable
+      - POSTGRES_DSN=${POSTGRES_DSN}
     volumes:
       - /mnt/storagepool/apps_config/bitmagnet/config:/config
       - /mnt/storagepool/apps_config/bitmagnet/data:/data

@@ -1,10 +1,8 @@
 # searxng-stack
 
-Privacy-respecting meta search — SearXNG
+Privacy-respecting metasearch — SearXNG
 
-## Stack: searxng-stack
-
-### Services
+## Services
 
 ```
   • redis
@@ -12,28 +10,24 @@ Privacy-respecting meta search — SearXNG
   • searxng-network
 ```
 
-### Key Environment Variables
-
-- `TZ`
-
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/searxng/redis`
 - `/mnt/storagepool/apps_config/searxng/config`
 
-### Ports Exposed
+## Ports
 
 - `8091`
 
-### Deployment
+## Deployment
 
 ```bash
 cd searxng-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

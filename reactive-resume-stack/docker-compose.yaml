@@ -54,7 +54,7 @@ services:
       DATABASE_URL: postgresql://postgres:mX6NLWHCsFQaHZdp@postgres:5432/postgres
 
       # --- Auth (64-char secrets REQUIRED) ---
-      AUTH_SECRET=${AUTH_SECRET}
+      AUTH_SECRET=${AUTH_SECRET}{HEX_SECRET}
 
       # --- Printer / PDF ---
       PRINTER_ENDPOINT: ws://printer:3000

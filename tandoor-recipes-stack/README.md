@@ -2,16 +2,14 @@
 
 Recipe manager — Tandoor
 
-## Stack: tandoor-recipes-stack
-
-### Services
+## Services
 
 ```
   • postgres
   • tandoor
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `AI_ENABLE`
 - `AI_PROVIDER`
@@ -29,25 +27,25 @@ Recipe manager — Tandoor
 - `POSTGRES_PASSWORD`
 - `POSTGRES_PORT`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/tandoor-recipes/postgres`
 - `/mnt/storagepool/apps_config/tandoor-recipes/files`
 - `/mnt/storagepool/apps_config/tandoor-recipes/media`
 
-### Ports Exposed
+## Ports
 
 - `9925`
 
-### Deployment
+## Deployment
 
 ```bash
 cd tandoor-recipes-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

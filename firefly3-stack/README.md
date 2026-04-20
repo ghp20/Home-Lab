@@ -2,9 +2,7 @@
 
 Personal finance — Firefly III
 
-## Stack: firefly3-stack
-
-### Services
+## Services
 
 ```
   • firefly-db
@@ -14,7 +12,7 @@ Personal finance — Firefly III
   • firefly_upload
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `APP_KEY`
 - `APP_URL`
@@ -32,25 +30,25 @@ Personal finance — Firefly III
 - `MYSQL_USER`
 - `TRUSTED_PROXIES`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/firefly3/database`
 - `/mnt/storagepool/apps_config/firefly3/uploads`
 
-### Ports Exposed
+## Ports
 
 - `8081`
 - `8083`
 
-### Deployment
+## Deployment
 
 ```bash
 cd firefly3-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

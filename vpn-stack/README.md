@@ -1,10 +1,8 @@
 # vpn-stack
 
-VPN download stack — Gluetun VPN, qBittorrent, SABnzbd, BitMagnet
+VPN download stack — Gluetun, qBittorrent, SABnzbd, BitMagnet
 
-## Stack: vpn-stack
-
-### Services
+## Services
 
 ```
   • arrnet
@@ -17,25 +15,13 @@ VPN download stack — Gluetun VPN, qBittorrent, SABnzbd, BitMagnet
   • bitmagnet-worker
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
-- `BITMAGNET__HTTP__ADDR`
-- `BITMAGNET__HTTP__ENABLED`
-- `BLOCK_MALICIOUS`
-- `CONTROL_SERVER_ADDRESS`
-- `DNS_ADDRESS`
-- `DNS_KEEP_NAMESERVER`
-- `DOT`
-- `FIREWALL`
-- `FIREWALL_INPUT_PORTS`
-- `FIREWALL_OUTBOUND_SUBNETS`
-- `HEALTH_TARGET_ADDRESS`
-- `PGID`
 - `POSTGRES_DB`
-- `POSTGRES_DSN`
 - `POSTGRES_PASSWORD`
+- `POSTGRES_USER`
 
-### Volumes
+## Volumes
 
 - `/dev/net/tun`
 - `/mnt/storagepool/apps_config/gluetun`
@@ -44,7 +30,7 @@ VPN download stack — Gluetun VPN, qBittorrent, SABnzbd, BitMagnet
 - `/mnt/storagepool/apps_config/sabnzbd/config`
 - `/mnt/storagepool/media/usenet_incomplete`
 
-### Ports Exposed
+## Ports
 
 - `8085`
 - `6881`
@@ -52,15 +38,15 @@ VPN download stack — Gluetun VPN, qBittorrent, SABnzbd, BitMagnet
 - `3333`
 - `8089`
 
-### Deployment
+## Deployment
 
 ```bash
 cd vpn-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

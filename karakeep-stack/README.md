@@ -1,10 +1,8 @@
 # karakeep-stack
 
-Bookmark keeper — Karakeep
+Docker stack managed by Portainer
 
-## Stack: karakeep-stack
-
-### Services
+## Services
 
 ```
   • options
@@ -13,7 +11,7 @@ Bookmark keeper — Karakeep
   • meilisearch
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `BROWSER_WEB_URL`
 - `DATA_DIR`
@@ -23,24 +21,24 @@ Bookmark keeper — Karakeep
 - `NEXTAUTH_URL`
 - `OPENAI_API_KEY`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/karakeep/data`
 - `/mnt/storagepool/apps_config/karakeep/meilisearch`
 
-### Ports Exposed
+## Ports
 
 - `30147`
 
-### Deployment
+## Deployment
 
 ```bash
 cd karakeep-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

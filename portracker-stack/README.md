@@ -2,35 +2,26 @@
 
 Port tracking dashboard
 
-## Stack: portracker-stack
-
-### Services
+## Services
 
 ```
   • portracker
 ```
 
-### Key Environment Variables
-
-- `DATABASE_PATH`
-- `PORT`
-- `TRUENAS_API_KEY`
-- `TRUENAS_WS_BASE`
-
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/portracker/data`
 - `/var/run/docker.sock`
 
-### Deployment
+## Deployment
 
 ```bash
 cd portracker-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

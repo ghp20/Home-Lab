@@ -2,9 +2,7 @@
 
 Password manager — VaultWarden
 
-## Stack: vaultwarden-stack
-
-### Services
+## Services
 
 ```
   • db
@@ -12,7 +10,7 @@ Password manager — VaultWarden
   • vaultwarden-net
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `ADMIN_TOKEN`
 - `DATABASE_URL`
@@ -23,24 +21,24 @@ Password manager — VaultWarden
 - `ROCKET_PORT`
 - `WEBSOCKET_ENABLED`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/vaultwarden/postgres`
 - `/mnt/storagepool/apps_config/vaultwarden/data`
 
-### Ports Exposed
+## Ports
 
 - `30032`
 
-### Deployment
+## Deployment
 
 ```bash
 cd vaultwarden-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

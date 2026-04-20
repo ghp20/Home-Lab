@@ -1,10 +1,8 @@
 # cashlytics-stack
 
-Cash flow tracking
+Docker stack managed by Portainer
 
-## Stack: cashlytics-stack
-
-### Services
+## Services
 
 ```
   • postgres
@@ -12,7 +10,7 @@ Cash flow tracking
   • cashlytics-cron
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `AUTH_SECRET`
 - `AUTH_TRUST_HOST`
@@ -28,23 +26,23 @@ Cash flow tracking
 - `SINGLE_USER_EMAIL`
 - `SINGLE_USER_MODE`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/cashlytics/postgres`
 
-### Ports Exposed
+## Ports
 
 - `3050`
 
-### Deployment
+## Deployment
 
 ```bash
 cd cashlytics-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

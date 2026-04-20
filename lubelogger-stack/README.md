@@ -1,16 +1,14 @@
 # lubelogger-stack
 
-Vehicle logbook — Lubelogger
+Docker stack managed by Portainer
 
-## Stack: lubelogger-stack
-
-### Services
+## Services
 
 ```
   • lubelogger
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `ASPNETCORE_DATAPROTECTION__DIRECTORY`
 - `ASPNETCORE_URLS`
@@ -18,24 +16,24 @@ Vehicle logbook — Lubelogger
 - `PUID`
 - `TZ`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/lubelogger/data`
 - `/mnt/storagepool/apps_config/lubelogger/keys`
 
-### Ports Exposed
+## Ports
 
 - `8100`
 
-### Deployment
+## Deployment
 
 ```bash
 cd lubelogger-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

@@ -1,10 +1,8 @@
 # adventurlog-stack
 
-Adventure logging
+Docker stack managed by Portainer
 
-## Stack: adventurlog-stack
-
-### Services
+## Services
 
 ```
   • options
@@ -13,7 +11,7 @@ Adventure logging
   • frontend
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `BODY_SIZE_LIMIT`
 - `CSRF_TRUSTED_ORIGINS`
@@ -31,27 +29,27 @@ Adventure logging
 - `PUBLIC_SERVER_URL`
 - `PUBLIC_URL`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/adventurelog/.env`
 - `/mnt/storagepool/apps_config/postgres`
 - `/mnt/storagepool/apps_config/adventurelog/.env`
 - `/mnt/storagepool/apps_config/media`
 
-### Ports Exposed
+## Ports
 
 - `8016`
 - `8015`
 
-### Deployment
+## Deployment
 
 ```bash
 cd adventurlog-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

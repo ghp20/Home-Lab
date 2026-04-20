@@ -1,32 +1,26 @@
 # matter-server
 
-Matter smart home server
+Docker stack managed by Portainer
 
-## Stack: matter-server
-
-### Services
+## Services
 
 ```
   • matter-server
 ```
 
-### Key Environment Variables
-
-- `TZ`
-
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/matter-server`
 
-### Deployment
+## Deployment
 
 ```bash
 cd matter-server
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

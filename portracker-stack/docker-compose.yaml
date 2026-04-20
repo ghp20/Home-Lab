@@ -18,5 +18,5 @@ services:
       - DATABASE_PATH=/data/portracker.db
       - PORT=4999
       # Optional: For enhanced TrueNAS features
-      - TRUENAS_API_KEY=${API_KEY}
+      - TRUENAS_API_KEY=${API_KEY}{TRUENAS_API_KEY}
       - TRUENAS_WS_BASE=wss://${TRUENAS_HOST}:81

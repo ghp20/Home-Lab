@@ -1,33 +1,26 @@
 # autoheal-stack
 
-Container auto-heal watcher
+Docker stack managed by Portainer
 
-## Stack: autoheal-stack
-
-### Services
+## Services
 
 ```
   • autoheal
 ```
 
-### Key Environment Variables
-
-- `AUTOHEAL_INTERVAL`
-- `AUTOHEAL_START_PERIOD`
-
-### Volumes
+## Volumes
 
 - `/var/run/docker.sock`
 
-### Deployment
+## Deployment
 
 ```bash
 cd autoheal-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

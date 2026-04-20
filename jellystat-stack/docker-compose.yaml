@@ -29,7 +29,7 @@ services:
       - POSTGRES_DB=jellystat
 
       # Change this to a long random string
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET}{HEX_SECRET}
     volumes:
       - /mnt/storagepool/apps_config/jellystat/backup:/app/backend/backup-data
     depends_on:

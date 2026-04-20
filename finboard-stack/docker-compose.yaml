@@ -6,19 +6,19 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
-      JWT_SECRET=${JWT_SECRET}
-      #ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      JWT_SECRET=${JWT_SECRET}{JWT_SECRET}
+      #ENCRYPTION_KEY=${ENCRYPTION_KEY}{ENCRYPTION_KEY}
       DB_PATH: /data/finance.db
       DB_BACKUP_DIR: /data/backups
       SMTP_HOST: ${SMTP_HOST}
       SMTP_PORT: ${SMTP_PORT}
       SMTP_SECURE: ${SMTP_SECURE}
       SMTP_USER: ${SMTP_USER}
-      SMTP_PASS=${SMTP_PASS}
+      SMTP_PASS=${SMTP_PASS}{SMTP_PASS}
       SMTP_FROM: ${SMTP_FROM}
       APP_URL: ${APP_URL}
       PLAID_CLIENT_ID: ${PLAID_CLIENT_ID}
-      PLAID_SECRET: ${PLAID_SECRET}
+      PLAID_SECRET=${PLAID_SECRET}{PLAID_SECRET}
       PLAID_ENV: ${PLAID_ENV}
     volumes:
       - /mnt/storagepool/apps_config/finboard/db:/data

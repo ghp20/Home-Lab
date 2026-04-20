@@ -1,42 +1,33 @@
 # wireguard-us-server-stack
 
-WireGuard VPN server (US)
+Docker stack managed by Portainer
 
-## Stack: wireguard-us-server-stack
-
-### Services
+## Services
 
 ```
   • options
   • wireguard-us-server
 ```
 
-### Key Environment Variables
-
-- `PGID`
-- `PUID`
-- `SERVERMODE`
-- `TZ`
-
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/wireguard/server_config`
 - `/lib/modules`
 
-### Ports Exposed
+## Ports
 
 - `22`
 - `443`
 
-### Deployment
+## Deployment
 
 ```bash
 cd wireguard-us-server-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

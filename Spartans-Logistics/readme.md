@@ -1,10 +1,8 @@
 # spartans-logistics
 
-Spartans logistics platform
+Docker stack managed by Portainer
 
-## Stack: spartans-logistics
-
-### Services
+## Services
 
 ```
   • db
@@ -12,7 +10,7 @@ Spartans logistics platform
   • frontend
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `ACCESS_TOKEN_EXPIRE_MINUTES`
 - `ADMIN_PASSWORD`
@@ -24,22 +22,22 @@ Spartans logistics platform
 - `POSTGRES_USER`
 - `SECRET_KEY`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/Spartans/db`
 - `/mnt/storagepool/apps_config/Spartans/backend`
 - `/mnt/storagepool/apps_config/Spartans/frontend/nginx.conf`
 - `/mnt/storagepool/apps_config/Spartans/frontend/logo.png`
 
-### Deployment
+## Deployment
 
 ```bash
 cd spartans-logistics
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

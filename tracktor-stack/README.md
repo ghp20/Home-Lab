@@ -1,38 +1,30 @@
 # tracktor-stack
 
-Project tracking — Tracktor
+Docker stack managed by Portainer
 
-## Stack: tracktor-stack
-
-### Services
+## Services
 
 ```
   • app
 ```
 
-### Key Environment Variables
-
-- `CORS_ORIGINS`
-- `FORCE_DATA_SEED`
-- `TRACKTOR_DEMO_MODE`
-
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_configs/tracktor/data`
 
-### Ports Exposed
+## Ports
 
 - `3334`
 
-### Deployment
+## Deployment
 
 ```bash
 cd tracktor-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

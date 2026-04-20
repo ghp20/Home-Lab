@@ -2,24 +2,14 @@
 
 Server monitoring — Beszel
 
-## Stack: beszel-stack
-
-### Services
+## Services
 
 ```
   • beszel
   • beszel-agent
 ```
 
-### Key Environment Variables
-
-- `HUB_URL`
-- `KEY`
-- `LISTEN`
-- `TOKEN`
-- `TZ`
-
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/beszel/hub-data`
 - `/mnt/storagepool/apps_config/beszel/socket`
@@ -27,19 +17,19 @@ Server monitoring — Beszel
 - `/mnt/storagepool/apps_config/beszel/socket`
 - `/var/run/docker.sock`
 
-### Ports Exposed
+## Ports
 
 - `8097`
 
-### Deployment
+## Deployment
 
 ```bash
 cd beszel-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

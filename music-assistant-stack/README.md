@@ -1,33 +1,26 @@
 # music-assistant-stack
 
-Music streaming — Music Assistant
+Docker stack managed by Portainer
 
-## Stack: music-assistant-stack
-
-### Services
+## Services
 
 ```
   • music-assistant-server
 ```
 
-### Key Environment Variables
-
-- `LOG_LEVEL`
-- `MASS_DISABLE_ZEROCONF`
-
-### Ports Exposed
+## Ports
 
 - `8095`
 
-### Deployment
+## Deployment
 
 ```bash
 cd music-assistant-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

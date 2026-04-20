@@ -1,17 +1,15 @@
 # seerr-stack
 
-Media request management — Seerr
+Media requests — Seerr
 
-## Stack: seerr-stack
-
-### Services
+## Services
 
 ```
   • seerr-db
   • seerr
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `DB_HOST`
 - `DB_NAME`
@@ -24,24 +22,24 @@ Media request management — Seerr
 - `POSTGRES_USER`
 - `TZ`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/seerr/db`
 - `/mnt/storagepool/apps_config/seerr/config`
 
-### Ports Exposed
+## Ports
 
 - `5055`
 
-### Deployment
+## Deployment
 
 ```bash
 cd seerr-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

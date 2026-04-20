@@ -1,10 +1,8 @@
 # book-stack
 
-Book management
+Docker stack managed by Portainer
 
-## Stack: book-stack
-
-### Services
+## Services
 
 ```
   • books_net
@@ -15,13 +13,7 @@ Book management
   • calibre-importer
 ```
 
-### Key Environment Variables
-
-- `PGID`
-- `PUID`
-- `TZ`
-
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/bookshelf/config`
 - `/mnt/storagepool/master/Media/downloads`
@@ -30,19 +22,19 @@ Book management
 - `/mnt/storagepool/master/Media/Books/audiobooks`
 - `/mnt/storagepool/apps_config/calibre/config`
 
-### Ports Exposed
+## Ports
 
 - `8787`
 
-### Deployment
+## Deployment
 
 ```bash
 cd book-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

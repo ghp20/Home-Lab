@@ -6,7 +6,7 @@ services:
     volumes:
       - /mnt/storagepool/apps_config/dispatcharr/data:/data
     environment:
-      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}{SECRET_KEY}
       - DISPATCHARR_ENV=aio
       - REDIS_HOST=localhost
       - CELERY_BROKER_URL=redis://localhost:6379/0

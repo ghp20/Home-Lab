@@ -15,8 +15,8 @@ services:
       - STORAGE_DIR=/app/server/storage
       - DATABASE_URL=file:/app/server/storage/anythingllm.db
       # Optional:
-      - JWT_SECRET=${JWT_SECRET}
-      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - JWT_SECRET=${JWT_SECRET}{JWT_SECRET}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}{ENCRYPTION_KEY}
       - DISABLE_TELEMETRY=1
     volumes:
       # Primary, expected path

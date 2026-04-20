@@ -1,10 +1,8 @@
 # finboard-stack
 
-Financial dashboard
+Docker stack managed by Portainer
 
-## Stack: finboard-stack
-
-### Services
+## Services
 
 ```
   • backend
@@ -12,7 +10,7 @@ Financial dashboard
   • internal
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `APP_URL`
 - `DB_BACKUP_DIR`
@@ -30,24 +28,24 @@ Financial dashboard
 - `SMTP_SECURE`
 - `SMTP_USER`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/finboard/db`
 - `/mnt/storagepool/apps_config/finboard/backups`
 
-### Ports Exposed
+## Ports
 
 - `8092`
 
-### Deployment
+## Deployment
 
 ```bash
 cd finboard-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

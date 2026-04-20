@@ -2,42 +2,32 @@
 
 Media server — Plex
 
-## Stack: plex-stack
-
-### Services
+## Services
 
 ```
   • plex
 ```
 
-### Key Environment Variables
-
-- `PGID`
-- `PLEX_CLAIM`
-- `PUID`
-- `TZ`
-- `VERSION`
-
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/plex/config`
 - `/mnt/storagepool/apps_config/plex/transcode`
 - `/mnt/storagepool/master/Media`
 - `/dev/dri`
 
-### Ports Exposed
+## Ports
 
 - `32400`
 
-### Deployment
+## Deployment
 
 ```bash
 cd plex-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

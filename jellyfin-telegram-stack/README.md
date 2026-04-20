@@ -1,35 +1,33 @@
 # jellyfin-telegram-stack
 
-Jellyfin Telegram bot
+Docker stack managed by Portainer
 
-## Stack: jellyfin-telegram-stack
-
-### Services
+## Services
 
 ```
   • jellyfin-telegram
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `JELLYFIN_API_KEY`
 - `JELLYFIN_URL`
 - `TELEGRAM_CHAT_ID`
 - `TELEGRAM_TOKEN`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/scripts/jellyfin-telegram`
 
-### Deployment
+## Deployment
 
 ```bash
 cd jellyfin-telegram-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

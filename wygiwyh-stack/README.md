@@ -2,16 +2,14 @@
 
 AI image generation UI
 
-## Stack: wygiwyh-stack
-
-### Services
+## Services
 
 ```
   • db
   • wygiwyh
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `ADMIN_EMAIL`
 - `ADMIN_PASSWORD`
@@ -29,25 +27,25 @@ AI image generation UI
 - `SQL_HOST`
 - `SQL_PASSWORD`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/wygiwyh/db`
 - `/mnt/storagepool/apps_config/wygiwyh/media`
 - `/mnt/storagepool/apps_config/wygiwyh/static`
 
-### Ports Exposed
+## Ports
 
 - `9711`
 
-### Deployment
+## Deployment
 
 ```bash
 cd wygiwyh-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

@@ -1,42 +1,33 @@
 # qdrant-stack
 
-Vector database — Qdrant
+Docker stack managed by Portainer
 
-## Stack: qdrant-stack
-
-### Services
+## Services
 
 ```
   • qdrant
 ```
 
-### Key Environment Variables
-
-- `QDRANT__SERVICE__GRPC_PORT`
-- `QDRANT__SERVICE__HTTP_PORT`
-- `QDRANT__STORAGE__WAL_CAPACITY_MB`
-- `QDRANT__STORAGE__WAL_SEGMENTS_AHEAD`
-
-### Volumes
+## Volumes
 
 - `/mnt/nvmepool/appsconfig/qdrant/storage`
 - `/mnt/storagepool/apps_config/qdrant/snapshots`
 - `/mnt/storagepool/apps_config/qdrant/config`
 
-### Ports Exposed
+## Ports
 
 - `6333`
 - `6334`
 
-### Deployment
+## Deployment
 
 ```bash
 cd qdrant-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

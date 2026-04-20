@@ -2,9 +2,7 @@
 
 Recipe manager — Mealie
 
-## Stack: mealie-stack
-
-### Services
+## Services
 
 ```
   • postgres
@@ -12,7 +10,7 @@ Recipe manager — Mealie
   • default
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `ALLOW_SIGNUP`
 - `BASE_URL`
@@ -30,24 +28,24 @@ Recipe manager — Mealie
 - `PUID`
 - `SMTP_FROM_EMAIL`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/mealie/postgres`
 - `/mnt/storagepool/apps_config/mealie/mealie/data`
 
-### Ports Exposed
+## Ports
 
 - `9926`
 
-### Deployment
+## Deployment
 
 ```bash
 cd mealie-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

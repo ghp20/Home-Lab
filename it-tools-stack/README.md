@@ -1,32 +1,30 @@
 # it-tools-stack
 
-IT administration tools
+Docker stack managed by Portainer
 
-## Stack: it-tools-stack
-
-### Services
+## Services
 
 ```
   • it-tools
 ```
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/it-tools`
 
-### Ports Exposed
+## Ports
 
 - `8088`
 
-### Deployment
+## Deployment
 
 ```bash
 cd it-tools-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration

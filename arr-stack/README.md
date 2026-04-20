@@ -1,10 +1,8 @@
 # arr-stack
 
-Media management stack — Prowlarr, Radarr, Sonarr, Bazarr, Lazylibrarian, CleanupArr
+Media management — Prowlarr, Radarr, Sonarr, Bazarr, Lazylibrarian, CleanupArr
 
-## Stack: arr-stack
-
-### Services
+## Services
 
 ```
   • options
@@ -17,13 +15,13 @@ Media management stack — Prowlarr, Radarr, Sonarr, Bazarr, Lazylibrarian, Clea
   • cleanuparr
 ```
 
-### Key Environment Variables
+## Key Env Vars
 
 - `PGID`
 - `PUID`
 - `TZ`
 
-### Volumes
+## Volumes
 
 - `/mnt/storagepool/apps_config/prowlarr/config`
 - `/mnt/storagepool/apps_config/radarr/config`
@@ -32,7 +30,7 @@ Media management stack — Prowlarr, Radarr, Sonarr, Bazarr, Lazylibrarian, Clea
 - `/mnt/storagepool/master/Media/usenet/downloads`
 - `/mnt/storagepool/apps_config/sonarr/config`
 
-### Ports Exposed
+## Ports
 
 - `9696`
 - `7878`
@@ -41,15 +39,15 @@ Media management stack — Prowlarr, Radarr, Sonarr, Bazarr, Lazylibrarian, Clea
 - `5299`
 - `11011`
 
-### Deployment
+## Deployment
 
 ```bash
 cd arr-stack
 docker compose up -d
 ```
 
-### Notes
+## Notes
 
 - Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as environment variables via Portainer stack
+- All secrets injected as env vars via Portainer stack
 - See `docker-compose.yaml` for full configuration
