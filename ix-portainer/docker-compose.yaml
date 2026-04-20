@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  portainer_portainer_1:
+  ix-portainer-portainer-1:
     image: portainer/portainer-ce:2.40.0
     container_name: ix-portainer-portainer-1
     restart: unless-stopped
@@ -19,8 +19,7 @@ services:
     ports:
     - 31015:31015/tcp
     - 31016:31016/tcp
-    networks:
-    - ix-portainer_default
+    networks: ix-portainer_default
     healthcheck:
       test:
       - NONE

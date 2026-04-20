@@ -8,7 +8,7 @@ services:
       BICHON_LOG_LEVEL: info
       BICHON_ROOT_DIR: /data
       BICHON_ENABLE_ACCESS_TOKEN: 'true'
-      BICHON_CORS_ORIGINS: http://localhost:15630,http://${HOST_IP}:15630,${MAIL_DOMAIN}
+      BICHON_CORS_ORIGINS: http://localhost:15630,http://${HOST_IP}:15630,https://${MAIL_DOMAIN}
       PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     ports:
     - 15630:15630/tcp

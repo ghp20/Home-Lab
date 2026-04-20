@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  flaresolverr_flaresolverr_1:
+  ix-flaresolverr-flaresolverr-1:
     image: flaresolverr/flaresolverr:v3.4.6
     container_name: ix-flaresolverr-flaresolverr-1
     restart: unless-stopped
@@ -20,8 +20,7 @@ services:
       PYTHON_SHA256: ed5ef34cda36cfa2f3a340f07cac7e7814f91c7f3c411f6d3562323a866c5c66
     ports:
     - 30098:30098/tcp
-    networks:
-    - ix-flaresolverr_default
+    networks: ix-flaresolverr_default
     healthcheck:
       test:
       - CMD

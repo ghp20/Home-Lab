@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  clamav_clamav_1:
+  ix-clamav-clamav-1:
     image: clamav/clamav:1.5.2
     container_name: ix-clamav-clamav-1
     restart: unless-stopped
@@ -17,8 +17,7 @@ services:
       PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     ports:
     - 30005:3310/tcp
-    networks:
-    - ix-clamav_default
+    networks: ix-clamav_default
     healthcheck:
       test:
       - CMD

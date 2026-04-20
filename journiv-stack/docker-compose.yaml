@@ -143,9 +143,9 @@ services:
         max-size: 10m
         max-file: '3'
 networks:
-  journiv-stack_frontend:
-    external: true
   150_backend:
+    external: true
+  journiv-stack_frontend:
     external: true
   journiv-stack_backend:
     external: true

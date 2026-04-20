@@ -1,0 +1,36 @@
+version: '3.9'
+services:
+  trailing_stop_db:
+    image: postgres:16
+    container_name: trailing_stop_db
+    restart: unless-stopped
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: trailing_stop
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/16/bin
+      GOSU_VERSION: '1.19'
+      LANG: en_US.utf8
+      PG_MAJOR: '16'
+      PG_VERSION: 16.13-1.pgdg13+1
+    ports:
+    - 5433:5432/tcp
+    networks: trading_net
+    volumes:
+    - ${DATA_PATH}:/var/lib/postgresql/data:rw
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - pg_isready -U $POSTGRES_USER -d $POSTGRES_DB
+      interval: 10000000000
+      timeout: 5000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  trading_net:
+    external: true

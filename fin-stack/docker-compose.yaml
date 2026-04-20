@@ -43,7 +43,7 @@ services:
       PLAID_ENV: sandbox
       DB_PATH: /data/finance.db
       DB_BACKUP_DIR: /data/backups
-      APP_URL: ${FIN_DOMAIN}
+      APP_URL: https://${FIN_DOMAIN}
       SMTP_HOST: smtp.gmail.com
       JWT_SECRET: ${JWT_SECRET}
       SMTP_PORT: '587'

@@ -1,6 +1,116 @@
 version: '3.9'
 services:
-  learning_1:
+  ix-immich-server-1:
+    image: ghcr.io/immich-app/immich-server:v2.7.3
+    container_name: ix-immich-server-1
+    restart: unless-stopped
+    environment:
+      REDIS_PORT: '6379'
+      TZ: America/Los_Angeles
+      DB_HOSTNAME: pgvecto
+      GID: '568'
+      IMMICH_MACHINE_LEARNING_ENABLED: 'true'
+      DB_DATABASE_NAME: immich
+      NVIDIA_VISIBLE_DEVICES: GPU-9ed0a08d-a22d-60e2-d4eb-ad4a6b8d5fa2
+      NVIDIA_DRIVER_CAPABILITIES: all
+      PUID: '568'
+      IMMICH_MICROSERVICES_METRICS_PORT: '30364'
+      DB_USERNAME: immich
+      GROUP_ID: '568'
+      UID: '568'
+      UMASK_SET: '002'
+      NODE_ENV: production
+      USER_ID: '568'
+      IMMICH_MACHINE_LEARNING_URL: http://machine-learning:32002
+      DB_PORT: '5432'
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      IMMICH_PORT: '30041'
+      MACHINE_LEARNING_DEVICE: cuda
+      REDIS_HOSTNAME: redis
+      UMASK: '002'
+      IMMICH_API_METRICS_PORT: '30363'
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_DBINDEX: '0'
+      PGID: '568'
+      IMMICH_LOG_LEVEL: log
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/src/app/server/bin
+      NODE_VERSION: 24.14.1
+      YARN_VERSION: 1.22.22
+      DEBIAN_RELEASE: trixie
+      LD_LIBRARY_PATH: /usr/lib/jellyfin-ffmpeg/lib:/usr/lib/wsl/lib
+      IMMICH_BUILD: '24205962760'
+      IMMICH_BUILD_URL: https://github.com/immich-app/immich/actions/runs/24205962760
+      IMMICH_BUILD_IMAGE: v2.7.3
+      IMMICH_BUILD_IMAGE_URL: https://github.com/immich-app/immich/pkgs/container/immich-server
+      IMMICH_REPOSITORY: immich-app/immich
+      IMMICH_REPOSITORY_URL: https://github.com/immich-app/immich
+      IMMICH_SOURCE_REF: v2.7.3
+      IMMICH_SOURCE_COMMIT: 3254d31cd2967ad878f9bc5fb8b25738c8fd883a
+      IMMICH_SOURCE_URL: https://github.com/immich-app/immich/commit/3254d31cd2967ad878f9bc5fb8b25738c8fd883a
+    ports:
+    - 30041:30041/tcp
+    networks: ix-immich_ix-internal-immich-net
+    healthcheck:
+      test:
+      - CMD
+      - immich-healthcheck
+      interval: 30000000000
+      timeout: 5000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  ix-immich-pgvecto-1:
+    image: ghcr.io/immich-app/postgres:18-vectorchord0.5.3
+    container_name: ix-immich-pgvecto-1
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: immich
+      UMASK: '002'
+      UMASK_SET: '002'
+      POSTGRES_DB: immich
+      PGPORT: '5432'
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      TZ: America/Los_Angeles
+      GID: '568'
+      PUID: '568'
+      PGDATA: /var/lib/postgresql/18/docker
+      NVIDIA_VISIBLE_DEVICES: GPU-9ed0a08d-a22d-60e2-d4eb-ad4a6b8d5fa2
+      NVIDIA_DRIVER_CAPABILITIES: all
+      UID: '568'
+      GROUP_ID: '568'
+      USER_ID: '568'
+      DB_STORAGE_TYPE: HDD
+      PGID: '568'
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/18/bin
+      GOSU_VERSION: '1.19'
+      LANG: en_US.utf8
+      PG_MAJOR: '18'
+      PG_VERSION: 18.2-1.pgdg12+1
+    networks: ix-immich_ix-internal-immich-net
+    healthcheck:
+      test:
+      - CMD
+      - pg_isready
+      - -h
+      - 127.0.0.1
+      - -p
+      - '5432'
+      - -U
+      - immich
+      - -d
+      - immich
+      interval: 30000000000
+      timeout: 5000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  ix-immich-machine-learning-1:
     image: ghcr.io/immich-app/immich-machine-learning:v2.7.3-cuda
     container_name: ix-immich-machine-learning-1
     restart: unless-stopped
@@ -68,8 +178,7 @@ services:
       IMMICH_SOURCE_REF: v2.7.3
       IMMICH_SOURCE_COMMIT: 3254d31cd2967ad878f9bc5fb8b25738c8fd883a
       IMMICH_SOURCE_URL: https://github.com/immich-app/immich/commit/3254d31cd2967ad878f9bc5fb8b25738c8fd883a
-    networks:
-    - ix-immich_ix-internal-immich-net
+    networks: ix-immich_ix-internal-immich-net
     healthcheck:
       test:
       - CMD
@@ -83,56 +192,7 @@ services:
       options:
         max-size: 10m
         max-file: '3'
-  immich_pgvecto_1:
-    image: ghcr.io/immich-app/postgres:18-vectorchord0.5.3
-    container_name: ix-immich-pgvecto-1
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: immich
-      UMASK: '002'
-      UMASK_SET: '002'
-      POSTGRES_DB: immich
-      PGPORT: '5432'
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      TZ: America/Los_Angeles
-      GID: '568'
-      PUID: '568'
-      PGDATA: /var/lib/postgresql/18/docker
-      NVIDIA_VISIBLE_DEVICES: GPU-9ed0a08d-a22d-60e2-d4eb-ad4a6b8d5fa2
-      NVIDIA_DRIVER_CAPABILITIES: all
-      UID: '568'
-      GROUP_ID: '568'
-      USER_ID: '568'
-      DB_STORAGE_TYPE: HDD
-      PGID: '568'
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/18/bin
-      GOSU_VERSION: '1.19'
-      LANG: en_US.utf8
-      PG_MAJOR: '18'
-      PG_VERSION: 18.2-1.pgdg12+1
-    networks:
-    - ix-immich_ix-internal-immich-net
-    healthcheck:
-      test:
-      - CMD
-      - pg_isready
-      - -h
-      - 127.0.0.1
-      - -p
-      - '5432'
-      - -U
-      - immich
-      - -d
-      - immich
-      interval: 30000000000
-      timeout: 5000000000
-      retries: 5
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
-  immich_redis_1:
+  ix-immich-redis-1:
     image: valkey/valkey:9.0.3
     container_name: ix-immich-redis-1
     restart: unless-stopped
@@ -151,8 +211,7 @@ services:
       GROUP_ID: '568'
       PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       VALKEY_VERSION: ${VALKEY_VERSION}
-    networks:
-    - ix-immich_ix-internal-immich-net
+    networks: ix-immich_ix-internal-immich-net
     healthcheck:
       test:
       - CMD
@@ -164,69 +223,6 @@ services:
       - -a
       - Whiteknight007!
       - ping
-      interval: 30000000000
-      timeout: 5000000000
-      retries: 5
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
-  immich_server_1:
-    image: ghcr.io/immich-app/immich-server:v2.7.3
-    container_name: ix-immich-server-1
-    restart: unless-stopped
-    environment:
-      REDIS_PORT: '6379'
-      TZ: America/Los_Angeles
-      DB_HOSTNAME: pgvecto
-      GID: '568'
-      IMMICH_MACHINE_LEARNING_ENABLED: 'true'
-      DB_DATABASE_NAME: immich
-      NVIDIA_VISIBLE_DEVICES: GPU-9ed0a08d-a22d-60e2-d4eb-ad4a6b8d5fa2
-      NVIDIA_DRIVER_CAPABILITIES: all
-      PUID: '568'
-      IMMICH_MICROSERVICES_METRICS_PORT: '30364'
-      DB_USERNAME: immich
-      GROUP_ID: '568'
-      UID: '568'
-      UMASK_SET: '002'
-      NODE_ENV: production
-      USER_ID: '568'
-      IMMICH_MACHINE_LEARNING_URL: http://machine-learning:32002
-      DB_PORT: '5432'
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      IMMICH_PORT: '30041'
-      MACHINE_LEARNING_DEVICE: cuda
-      REDIS_HOSTNAME: redis
-      UMASK: '002'
-      IMMICH_API_METRICS_PORT: '30363'
-      DB_PASSWORD: ${DB_PASSWORD}
-      REDIS_DBINDEX: '0'
-      PGID: '568'
-      IMMICH_LOG_LEVEL: log
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/src/app/server/bin
-      NODE_VERSION: 24.14.1
-      YARN_VERSION: 1.22.22
-      DEBIAN_RELEASE: trixie
-      LD_LIBRARY_PATH: /usr/lib/jellyfin-ffmpeg/lib:/usr/lib/wsl/lib
-      IMMICH_BUILD: '24205962760'
-      IMMICH_BUILD_URL: https://github.com/immich-app/immich/actions/runs/24205962760
-      IMMICH_BUILD_IMAGE: v2.7.3
-      IMMICH_BUILD_IMAGE_URL: https://github.com/immich-app/immich/pkgs/container/immich-server
-      IMMICH_REPOSITORY: immich-app/immich
-      IMMICH_REPOSITORY_URL: https://github.com/immich-app/immich
-      IMMICH_SOURCE_REF: v2.7.3
-      IMMICH_SOURCE_COMMIT: 3254d31cd2967ad878f9bc5fb8b25738c8fd883a
-      IMMICH_SOURCE_URL: https://github.com/immich-app/immich/commit/3254d31cd2967ad878f9bc5fb8b25738c8fd883a
-    ports:
-    - 30041:30041/tcp
-    networks:
-    - ix-immich_ix-internal-immich-net
-    healthcheck:
-      test:
-      - CMD
-      - immich-healthcheck
       interval: 30000000000
       timeout: 5000000000
       retries: 5

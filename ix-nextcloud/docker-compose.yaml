@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  nextcloud_cron_1:
+  ix-nextcloud-cron-1:
     image: ix-nextcloud:33.0.2_2d91b2869075cb02556af5819ab2fc278f4bcf751f535ea675c8104091781dba
     container_name: ix-nextcloud-cron-1
     restart: unless-stopped
@@ -44,8 +44,7 @@ services:
       PHP_OPCACHE_MEMORY_CONSUMPTION: '128'
       APACHE_BODY_LIMIT: '1073741824'
       NEXTCLOUD_VERSION: 33.0.2
-    networks:
-    - ix-nextcloud_ix-internal-nextcloud-net
+    networks: ix-nextcloud_ix-internal-nextcloud-net
     healthcheck:
       test:
       - CMD
@@ -60,9 +59,9 @@ services:
       options:
         max-size: 10m
         max-file: '3'
-  nextcloud_imaginary_1:
-    image: ghcr.io/nextcloud-releases/aio-imaginary:20260409_094910
-    container_name: ix-nextcloud-imaginary-1
+  ix-nextcloud-nginx-1:
+    image: nginx:1.29.8
+    container_name: ix-nextcloud-nginx-1
     restart: unless-stopped
     environment:
       TZ: America/Los_Angeles
@@ -70,17 +69,30 @@ services:
       UMASK_SET: '002'
       NVIDIA_VISIBLE_DEVICES: void
       PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      PORT: '9000'
-      MALLOC_ARENA_MAX: '2'
-    networks:
-    - ix-nextcloud_ix-internal-nextcloud-net
+      NGINX_VERSION: 1.29.8
+      NJS_VERSION: 0.9.6
+      NJS_RELEASE: 1~trixie
+      ACME_VERSION: 0.3.1
+      PKG_RELEASE: 1~trixie
+      DYNPKG_RELEASE: 1~trixie
+    ports:
+    - 30027:30027/tcp
+    networks: ix-nextcloud_ix-internal-nextcloud-net
     healthcheck:
       test:
       - CMD
-      - wget
-      - --quiet
-      - --spider
-      - http://127.0.0.1:9000/health
+      - curl
+      - --request
+      - GET
+      - --silent
+      - --output
+      - /dev/null
+      - --show-error
+      - --fail
+      - --insecure
+      - --header
+      - 'Host: localhost'
+      - https://127.0.0.1:30027/status.php
       interval: 30000000000
       timeout: 5000000000
       retries: 5
@@ -89,7 +101,7 @@ services:
       options:
         max-size: 10m
         max-file: '3'
-  nextcloud_nextcloud_1:
+  ix-nextcloud-nextcloud-1:
     image: ix-nextcloud:33.0.2_2d91b2869075cb02556af5819ab2fc278f4bcf751f535ea675c8104091781dba
     container_name: ix-nextcloud-nextcloud-1
     restart: unless-stopped
@@ -133,8 +145,7 @@ services:
       PHP_OPCACHE_MEMORY_CONSUMPTION: '128'
       APACHE_BODY_LIMIT: '1073741824'
       NEXTCLOUD_VERSION: 33.0.2
-    networks:
-    - ix-nextcloud_ix-internal-nextcloud-net
+    networks: ix-nextcloud_ix-internal-nextcloud-net
     healthcheck:
       test:
       - CMD
@@ -157,50 +168,7 @@ services:
       options:
         max-size: 10m
         max-file: '3'
-  nextcloud_nginx_1:
-    image: nginx:1.29.8
-    container_name: ix-nextcloud-nginx-1
-    restart: unless-stopped
-    environment:
-      TZ: America/Los_Angeles
-      UMASK: '002'
-      UMASK_SET: '002'
-      NVIDIA_VISIBLE_DEVICES: void
-      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      NGINX_VERSION: 1.29.8
-      NJS_VERSION: 0.9.6
-      NJS_RELEASE: 1~trixie
-      ACME_VERSION: 0.3.1
-      PKG_RELEASE: 1~trixie
-      DYNPKG_RELEASE: 1~trixie
-    ports:
-    - 30027:30027/tcp
-    networks:
-    - ix-nextcloud_ix-internal-nextcloud-net
-    healthcheck:
-      test:
-      - CMD
-      - curl
-      - --request
-      - GET
-      - --silent
-      - --output
-      - /dev/null
-      - --show-error
-      - --fail
-      - --insecure
-      - --header
-      - 'Host: localhost'
-      - https://127.0.0.1:30027/status.php
-      interval: 30000000000
-      timeout: 5000000000
-      retries: 5
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: '3'
-  nextcloud_postgres_1:
+  ix-nextcloud-postgres-1:
     image: postgres:17.9-bookworm
     container_name: ix-nextcloud-postgres-1
     restart: unless-stopped
@@ -219,8 +187,7 @@ services:
       LANG: en_US.utf8
       PG_MAJOR: '17'
       PG_VERSION: 17.9-1.pgdg12+1
-    networks:
-    - ix-nextcloud_ix-internal-nextcloud-net
+    networks: ix-nextcloud_ix-internal-nextcloud-net
     healthcheck:
       test:
       - CMD
@@ -241,7 +208,7 @@ services:
       options:
         max-size: 10m
         max-file: '3'
-  nextcloud_redis_1:
+  ix-nextcloud-redis-1:
     image: valkey/valkey:9.0.3
     container_name: ix-nextcloud-redis-1
     restart: unless-stopped
@@ -253,8 +220,7 @@ services:
       UMASK_SET: '002'
       PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       VALKEY_VERSION: ${VALKEY_VERSION}
-    networks:
-    - ix-nextcloud_ix-internal-nextcloud-net
+    networks: ix-nextcloud_ix-internal-nextcloud-net
     healthcheck:
       test:
       - CMD
@@ -266,6 +232,34 @@ services:
       - -a
       - Whiteknight007!
       - ping
+      interval: 30000000000
+      timeout: 5000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  ix-nextcloud-imaginary-1:
+    image: ghcr.io/nextcloud-releases/aio-imaginary:20260409_094910
+    container_name: ix-nextcloud-imaginary-1
+    restart: unless-stopped
+    environment:
+      TZ: America/Los_Angeles
+      UMASK: '002'
+      UMASK_SET: '002'
+      NVIDIA_VISIBLE_DEVICES: void
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PORT: '9000'
+      MALLOC_ARENA_MAX: '2'
+    networks: ix-nextcloud_ix-internal-nextcloud-net
+    healthcheck:
+      test:
+      - CMD
+      - wget
+      - --quiet
+      - --spider
+      - http://127.0.0.1:9000/health
       interval: 30000000000
       timeout: 5000000000
       retries: 5

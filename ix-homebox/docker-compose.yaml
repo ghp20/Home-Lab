@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  homebox_homebox_1:
+  ix-homebox-homebox-1:
     image: ghcr.io/sysadminsmedia/homebox:0.24.2-rootless
     container_name: ix-homebox-homebox-1
     restart: unless-stopped
@@ -24,8 +24,7 @@ services:
       HBOX_DATABASE_SQLITE_PATH: /data/homebox.db?_pragma=busy_timeout=2000&_pragma=journal_mode=WAL&_fk=1&_time_format=sqlite
     ports:
     - 30149:30149/tcp
-    networks:
-    - ix-homebox_default
+    networks: ix-homebox_default
     healthcheck:
       test:
       - CMD

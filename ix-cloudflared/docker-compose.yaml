@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  cloudflared_cloudflared_1:
+  ix-cloudflared-cloudflared-1:
     image: cloudflare/cloudflared:2026.3.0
     container_name: ix-cloudflared-cloudflared-1
     restart: unless-stopped
@@ -19,8 +19,7 @@ services:
       TZ: Etc/UTC
       PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
-    networks:
-    - ix-cloudflared_default
+    networks: ix-cloudflared_default
     healthcheck:
       test:
       - NONE

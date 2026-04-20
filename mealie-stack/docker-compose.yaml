@@ -20,7 +20,7 @@ services:
       SMTP_PORT: '587'
       ALLOW_SIGNUP: 'true'
       POSTGRES_SERVER: postgres
-      BASE_URL: ${MEALIE_DOMAIN}
+      BASE_URL: https://${MEALIE_DOMAIN}
       SMTP_HOST: smtp.gmail.com
       SMTP_PASSWORD: ${SMTP_PASSWORD}
       POSTGRES_USER: mealie

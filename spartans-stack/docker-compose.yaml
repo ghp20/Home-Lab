@@ -33,7 +33,7 @@ services:
       ADMIN_USERNAME: admin
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES}
-      CORS_ORIGINS: http//${HOST_IP}:8093,http://localhost:8093,http://${PUBLIC_IP}:8093,${LOGISTICS_DOMAIN}
+      CORS_ORIGINS: http//${HOST_IP}:8093,http://localhost:8093,http://${PUBLIC_IP}:8093,https://${LOGISTICS_DOMAIN}
       PATH: /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       LANG: C.UTF-8
       GPG_KEY: ${GPG_KEY}

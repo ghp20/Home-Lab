@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  arcane_arcane_1:
+  ix-arcane-arcane-1:
     image: ghcr.io/getarcaneapp/arcane:v1.17.3
     container_name: ix-arcane-arcane-1
     restart: unless-stopped
@@ -28,8 +28,7 @@ services:
       LD_LIBRARY_PATH: /usr/local/nvidia/lib:/usr/local/nvidia/lib64:/opt/rocm/lib:/opt/intel/oneapi/lib:/opt/intel/oneapi/lib/intel64:/usr/lib/x86_64-linux-gnu:/usr/lib/aarch64-linux-gnu:/usr/lib64:/usr/lib:/lib64:/lib
     ports:
     - 30258:30258/tcp
-    networks:
-    - ix-arcane_default
+    networks: ix-arcane_default
     healthcheck:
       test:
       - CMD

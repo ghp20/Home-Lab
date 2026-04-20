@@ -1,0 +1,68 @@
+version: '3.9'
+services:
+  trailing_stop_agent:
+    image: trailing_stop_agent:latest
+    container_name: trailing_stop_agent
+    restart: unless-stopped
+    environment:
+      N8N_WEBHOOK_URL: https://${N8N_DOMAIN}/webhook/trading-agent
+      VOLUME_MA_PERIOD: '20'
+      N8N_WEBHOOK_SECRET: ${N8N_WEBHOOK_SECRET}
+      MAX_POSITIONS: '5'
+      MIN_STOCK_PRICE: '10.0'
+      PRINCIPAL: '10000.00'
+      LOG_DIR: ''
+      EQUITY_CAP: '10000.00'
+      DB_POOL_MIN: '2'
+      HOST_IP: ${HOST_IP}
+      INTRADAY_SCAN_COUNT: '6'
+      DB_POOL_MAX: '10'
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      SPY_REGIME_FILTER: 'false'
+      EMA_SLOW: '21'
+      EMA_FAST: '9'
+      ALPACA_PAPER: 'true'
+      DB_USER: postgres
+      DB_NAME: trailing_stop
+      TRAIL_PERCENT: '0.03'
+      DB_HOST: db
+      ALPACA_SECRET_KEY: ${ALPACA_SECRET_KEY}
+      MAX_DRAWDOWN: '2500.00'
+      STOP_UPDATE_INTERVAL_SECS: '300'
+      DB_PORT: '5432'
+      MARKET_TIMEZONE: America/New_York
+      RSI_LOW: '45.0'
+      N8N_MIN_SEVERITY: INFO
+      MAX_DAILY_LOSS: '500.00'
+      SPY_MA_PERIOD: '20'
+      MIN_AVG_VOLUME: '20000'
+      TELEGRAM_CHAT_ID: '5742623272'
+      DB_SSLMODE: disable
+      RSI_HIGH: '55.0'
+      NOTIFY_RATE_LIMIT_SECS: '300'
+      DB_PASSWORD: ${DB_PASSWORD}
+      RSI_PERIOD: '14'
+      ALPACA_API_KEY: ${ALPACA_API_KEY}
+      LOG_LEVEL: INFO
+      EOD_EXIT: 'false'
+      N8N_WEBHOOK_TOKEN: ${N8N_WEBHOOK_TOKEN}
+      PATH: /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      LANG: C.UTF-8
+      GPG_KEY: ${GPG_KEY}
+      PYTHON_VERSION: 3.12.13
+      PYTHON_SHA256: c08bc65a81971c1dd5783182826503369466c7e67374d1646519adf05207b684
+      PYTHONUNBUFFERED: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: /app
+    networks: trading_net
+    volumes:
+    - ${DATA_PATH}:/app/logs:rw
+    - ${DATA_PATH}:/app/backtest_results:rw
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  trading_net:
+    external: true

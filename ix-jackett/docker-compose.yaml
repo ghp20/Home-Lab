@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  jackett_jackett_1:
+  ix-jackett-jackett-1:
     image: ghcr.io/home-operations/jackett:0.24.1562
     container_name: ix-jackett-jackett-1
     restart: unless-stopped
@@ -19,8 +19,7 @@ services:
       XDG_CONFIG_HOME: /config
     ports:
     - 30118:30118/tcp
-    networks:
-    - ix-jackett_default
+    networks: ix-jackett_default
     healthcheck:
       test:
       - CMD
