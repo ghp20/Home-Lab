@@ -1,53 +1,75 @@
-version: "3.8"
-
-x-logging: &gelf_logging
-  driver: gelf
-  options:
-    gelf-address: "udp://your-server-ip:12201"
-    tag: "{{.Name}}"
-    
+version: '3.9'
 services:
-  web:
+  karakeep-stack-web-1:
     image: ghcr.io/karakeep-app/karakeep:release
+    container_name: karakeep-stack-web-1
     restart: unless-stopped
-    logging: *gelf_logging
-    ports:
-      - "30147:3000"
-    volumes:
-      - /path/to/your/data:/data   # adjust path if needed
     environment:
-      MEILI_ADDR: http://meilisearch:7700
       BROWSER_WEB_URL: http://chrome:9222
       DATA_DIR: /data
-      # Required for NextAuth to work:
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
-      # Optional: add this if you want external access via domain
-      NEXTAUTH_URL: "http://your-server-ip:3000"
-      # Optional:
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
-    depends_on:
-      - meilisearch
-      - chrome
-
-  chrome:
-    image: gcr.io/zenika-hub/alpine-chrome:124
-    restart: unless-stopped
-    logging: *gelf_logging
-    command:
-      - --no-sandbox
-      - --disable-gpu
-      - --disable-dev-shm-usage
-      - --remote-debugging-address=0.0.0.0
-      - --remote-debugging-port=9222
-      - --hide-scrollbars
-
-  meilisearch:
-    image: getmeili/meilisearch:v1.13.3
-    restart: unless-stopped
-    logging: *gelf_logging
-    environment:
-      MEILI_NO_ANALYTICS: "true"
+      MEILI_ADDR: http://meilisearch:7700
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      NODE_VERSION: 22.21.1
+      YARN_VERSION: 1.22.22
+      SERVER_VERSION: 0.29.3
+      PORT: '3000'
+      HOSTNAME: 0.0.0.0
+      NODE_ENV: production
+      NEXT_TELEMETRY_DISABLED: '1'
+      NEXTAUTH_URL_INTERNAL: ${NEXTAUTH_URL_INTERNAL}
+    ports:
+    - 30147:3000/tcp
+    networks: karakeep-stack_default
     volumes:
-      - /path/to/your/data:/meili_data
-
-volumes: {}
+    - ${DATA_PATH}:/data:rw
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - wget --no-verbose --tries=1 --spider http://127.0.0.1:3000/api/health || exit
+        1
+      interval: 30000000000
+      timeout: 10000000000
+      retries: 3
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://${HOST_IP}:12201
+        tag: '{{.Name}}'
+  karakeep-stack-chrome-1:
+    image: gcr.io/zenika-hub/alpine-chrome:124
+    container_name: karakeep-stack-chrome-1
+    restart: unless-stopped
+    environment:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      CHROME_BIN: /usr/bin/chromium-browser
+      CHROME_PATH: /usr/lib/chromium/
+      CHROMIUM_FLAGS: --disable-software-rasterizer --disable-dev-shm-usage
+    networks: karakeep-stack_default
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://${HOST_IP}:12201
+        tag: '{{.Name}}'
+  karakeep-stack-meilisearch-1:
+    image: getmeili/meilisearch:v1.13.3
+    container_name: karakeep-stack-meilisearch-1
+    restart: unless-stopped
+    environment:
+      MEILI_NO_ANALYTICS: 'true'
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      MEILI_HTTP_ADDR: 0.0.0.0:7700
+      MEILI_SERVER_PROVIDER: docker
+    networks: karakeep-stack_default
+    volumes:
+    - ${DATA_PATH}:/meili_data:rw
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://${HOST_IP}:12201
+        tag: '{{.Name}}'
+networks:
+  karakeep-stack_default:
+    external: true

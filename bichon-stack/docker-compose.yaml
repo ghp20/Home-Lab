@@ -1,31 +1,32 @@
-version: "3.8"
-
+version: '3.9'
 services:
   bichon:
     image: rustmailer/bichon:latest
     container_name: bichon
     restart: unless-stopped
     environment:
-      # Logging level (debug|info|warn|error)
-      - BICHON_LOG_LEVEL=info
-
-      # Root data directory *inside* container
-      - BICHON_ROOT_DIR=/data
-
-      # Enable token-based access (recommended)
-      - BICHON_ENABLE_ACCESS_TOKEN=true
-
-      # CORS origins (adjust if you access via domain/VPN)
-      - BICHON_CORS_ORIGINS=${BICHON_CORS_ORIGINS}
-
+      BICHON_LOG_LEVEL: info
+      BICHON_ROOT_DIR: /data
+      BICHON_ENABLE_ACCESS_TOKEN: 'true'
+      BICHON_CORS_ORIGINS: http://localhost:15630,http://${HOST_IP}:15630,${MAIL_DOMAIN}
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     ports:
-      # Expose UI/API
-      - "15630:15630"
-
+    - 15630:15630/tcp
+    networks: bichon-stack_default
     volumes:
-      # Persist all email archive + index + metadata here
-      - /path/to/your/data:/data:rw
-
-    # Security options (optional but good practice)
-    security_opt:
-      - no-new-privileges:true
+    - ${DATA_PATH}:/data:rw
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - curl -fs http://localhost:15630/api/status || exit 1
+      interval: 30000000000
+      timeout: 5000000000
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  bichon-stack_default:
+    external: true

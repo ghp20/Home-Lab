@@ -1,16 +1,14 @@
-# ix-cloudflared
+# Ix-Cloudflared — TrueNAS SCALE Managed
 
-TrueNAS SCALE app deployment for **cloudflared**.
+> ⚠️ **TrueNAS SCALE managed app.** Do NOT deploy via Portainer.
+> Auto-generated from `docker inspect` on the homelab.
 
-> ⚠️ This is a TrueNAS SCALE managed app (ix- prefix). It is NOT deployed via Portainer or docker-compose. The compose file here is auto-generated from `docker inspect` for documentation purposes only.
+**Generated:** 2026-04-19 21:11
 
-## Services
-
-See `docker-compose.yaml` for service details.
+| Service | Image |
+|---------|-------|
+| `cloudflared_cloudflared_1` | `cloudflare/cloudflared:2026.3.0` |
 
 ## Notes
-
+- All secrets sanitized to `${{VAR}}` placeholders
 - Managed by TrueNAS SCALE App Catalog
-- Do NOT modify compose file directly — changes will not persist
-- All secrets are sanitized with `${VAR}` placeholders
-- Redeploy via TrueNAS web UI, not Portainer

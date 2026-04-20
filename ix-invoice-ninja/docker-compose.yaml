@@ -1,193 +1,279 @@
+version: '3.9'
 services:
-  scheduler:
-    image: "invoiceninja/invoiceninja-octane:5.12.28-o"
-    container_name: "ix-invoice-ninja-scheduler-1"
+  ix-invoice-ninja-scheduler-1:
+    image: invoiceninja/invoiceninja-octane:5.12.28-o
+    container_name: ix-invoice-ninja-scheduler-1
+    restart: unless-stopped
     environment:
-      DB_PORT: 3306
-      CACHE_DRIVER: redis
-      REDIS_CACHE_DB: 1
-      APP_KEY: "${APP_KEY}"
-      UMASK_SET: 002
-      REDIS_DB: 0
-      TZ: Etc/UTC
       DB_HOST: mariadb
-      SESSION_DRIVER: redis
-      DB_USERNAME: ninja
-      REDIS_HOST: redis
-      IN_USER_EMAIL: "${EMAIL}"
-      DB_CONNECTION: mysql
-      REDIS_PASSWORD: "${REDIS_PASSWORD}"
-      REQUIRE_HTTPS: false
-      REDIS_USERNAME: default
-      IN_PASSWORD: "${IN_PASSWORD}"
+      PDF_GENERATOR: snappdf
+      IN_USER_EMAIL: ${USER_EMAIL}
+      IS_DOCKER: 'true'
+      UMASK_SET: '002'
+      NVIDIA_VISIBLE_DEVICES: void
       LARAVEL_ROLE: scheduler
-      APP_URL: "https://invoice.gsynch.com"
-      UMASK: 002
-      DB_PASSWORD: "${DB_PASSWORD}"
-      PDF_GENERATOR: snappdf
-      DB_DATABASE: ninja
-      SCOUT_DRIVER: None
-      QUEUE_CONNECTION: redis
-      REDIS_PORT: 6379
+      SESSION_DRIVER: redis
+      TZ: Etc/UTC
+      APP_URL: https://${INVOICE_DOMAIN}
+      REDIS_USERNAME: default
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REQUIRE_HTTPS: 'false'
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_CACHE_DB: '1'
       FILESYSTEM_DISK: debian_docker
+      APP_KEY: ${APP_KEY}
+      IN_PASSWORD: ${IN_PASSWORD}
+      UMASK: '002'
+      REDIS_HOST: redis
+      QUEUE_CONNECTION: redis
+      PHANTOMJS_PDF_GENERATION: 'false'
       APP_ENV: production
-      IS_DOCKER: true
-      PHANTOMJS_PDF_GENERATION: false
-      PHPIZE_DEPS: "autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-dev 		make 		pkg-config 		re2c"
+      REDIS_PORT: '6379'
+      DB_CONNECTION: mysql
+      DB_DATABASE: ninja
+      DB_PORT: '3306'
+      DB_USERNAME: ninja
+      REDIS_DB: '0'
+      CACHE_DRIVER: redis
+      SCOUT_DRIVER: None
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PHPIZE_DEPS: "autoconf \t\tdpkg-dev \t\tfile \t\tg++ \t\tgcc \t\tlibc-dev \t\
+        \tmake \t\tpkg-config \t\tre2c"
       PHP_INI_DIR: /usr/local/etc/php
-      PHP_CFLAGS: "-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
-      PHP_CPPFLAGS: "-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
-      PHP_LDFLAGS: "-Wl,-O1 -pie"
-      GPG_KEYS: "AFD8691FDAEDF03BDF6E460563F15A9B715376CA 9D7F99A0CB8F05C8A6958D6256A97AF7600A39A6 0616E93D95AF471243E26761770426E17EBBB3DD"
+      PHP_CFLAGS: -fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+      PHP_CPPFLAGS: -fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+      PHP_LDFLAGS: -Wl,-O1 -pie
+      GPG_KEYS: ${GPG_KEYS}
       PHP_VERSION: 8.4.13
-      PHP_URL: "https://www.php.net/distributions/php-8.4.13.tar.xz"
-      PHP_ASC_URL: "https://www.php.net/distributions/php-8.4.13.tar.xz.asc"
-      PHP_SHA256: "${PHP_SHA256}"
+      PHP_URL: https://www.php.net/distributions/php-8.4.13.tar.xz
+      PHP_ASC_URL: https://www.php.net/distributions/php-8.4.13.tar.xz.asc
+      PHP_SHA256: b4f27adf30bcf262eacf93c78250dd811980f20f3b90d79a3dc11248681842df
       XDG_CONFIG_HOME: /config
       XDG_DATA_HOME: /data
       GODEBUG: cgocheck=0
-    volumes:
-      - ${DATA_PATH}:/app/storage
-    restart: "unless-stopped"
-    networks:
-      - invoice-ninja_internal-invoice-ninja-net
-  worker:
-    image: "invoiceninja/invoiceninja-octane:5.12.28-o"
-    container_name: "ix-invoice-ninja-worker-1"
+    networks: ix-invoice-ninja_ix-internal-invoice-ninja-net
+    healthcheck:
+      test:
+      - CMD
+      - pgrep
+      - -f
+      - schedule:work
+      interval: 30000000000
+      timeout: 5000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  ix-invoice-ninja-worker-1:
+    image: invoiceninja/invoiceninja-octane:5.12.28-o
+    container_name: ix-invoice-ninja-worker-1
+    restart: unless-stopped
     environment:
-      SESSION_DRIVER: redis
-      DB_HOST: mariadb
+      UMASK_SET: '002'
       LARAVEL_ROLE: worker
-      PHANTOMJS_PDF_GENERATION: false
-      REDIS_USERNAME: default
-      PDF_GENERATOR: snappdf
-      DB_CONNECTION: mysql
-      QUEUE_CONNECTION: redis
-      REDIS_DB: 0
-      DB_PASSWORD: "${DB_PASSWORD}"
-      UMASK_SET: 002
-      APP_KEY: "${APP_KEY}"
-      DB_DATABASE: ninja
-      REDIS_PASSWORD: "${REDIS_PASSWORD}"
-      IS_DOCKER: true
-      APP_URL: "https://invoice.gsynch.com"
-      REDIS_PORT: 6379
-      CACHE_DRIVER: redis
-      IN_PASSWORD: "${IN_PASSWORD}"
-      FILESYSTEM_DISK: debian_docker
-      DB_PORT: 3306
-      APP_ENV: production
-      IN_USER_EMAIL: "${EMAIL}"
-      SCOUT_DRIVER: None
-      UMASK: 002
       TZ: Etc/UTC
-      DB_USERNAME: ninja
-      REQUIRE_HTTPS: false
+      APP_ENV: production
+      NVIDIA_VISIBLE_DEVICES: void
+      PDF_GENERATOR: snappdf
+      APP_URL: https://${INVOICE_DOMAIN}
+      REDIS_USERNAME: default
+      REQUIRE_HTTPS: 'false'
+      PHANTOMJS_PDF_GENERATION: 'false'
+      REDIS_DB: '0'
+      DB_DATABASE: ninja
+      SESSION_DRIVER: redis
+      REDIS_CACHE_DB: '1'
+      FILESYSTEM_DISK: debian_docker
+      SCOUT_DRIVER: None
+      DB_CONNECTION: mysql
+      DB_PORT: '3306'
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_PORT: '6379'
       REDIS_HOST: redis
-      REDIS_CACHE_DB: 1
-      PHPIZE_DEPS: "autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-dev 		make 		pkg-config 		re2c"
+      IN_USER_EMAIL: ${USER_EMAIL}
+      CACHE_DRIVER: redis
+      APP_KEY: ${APP_KEY}
+      DB_USERNAME: ninja
+      IN_PASSWORD: ${IN_PASSWORD}
+      IS_DOCKER: 'true'
+      QUEUE_CONNECTION: redis
+      UMASK: '002'
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      DB_HOST: mariadb
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PHPIZE_DEPS: "autoconf \t\tdpkg-dev \t\tfile \t\tg++ \t\tgcc \t\tlibc-dev \t\
+        \tmake \t\tpkg-config \t\tre2c"
       PHP_INI_DIR: /usr/local/etc/php
-      PHP_CFLAGS: "-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
-      PHP_CPPFLAGS: "-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
-      PHP_LDFLAGS: "-Wl,-O1 -pie"
-      GPG_KEYS: "AFD8691FDAEDF03BDF6E460563F15A9B715376CA 9D7F99A0CB8F05C8A6958D6256A97AF7600A39A6 0616E93D95AF471243E26761770426E17EBBB3DD"
+      PHP_CFLAGS: -fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+      PHP_CPPFLAGS: -fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+      PHP_LDFLAGS: -Wl,-O1 -pie
+      GPG_KEYS: ${GPG_KEYS}
       PHP_VERSION: 8.4.13
-      PHP_URL: "https://www.php.net/distributions/php-8.4.13.tar.xz"
-      PHP_ASC_URL: "https://www.php.net/distributions/php-8.4.13.tar.xz.asc"
-      PHP_SHA256: "${PHP_SHA256}"
+      PHP_URL: https://www.php.net/distributions/php-8.4.13.tar.xz
+      PHP_ASC_URL: https://www.php.net/distributions/php-8.4.13.tar.xz.asc
+      PHP_SHA256: b4f27adf30bcf262eacf93c78250dd811980f20f3b90d79a3dc11248681842df
       XDG_CONFIG_HOME: /config
       XDG_DATA_HOME: /data
       GODEBUG: cgocheck=0
-    volumes:
-      - ${DATA_PATH}:/app/storage
-    restart: "unless-stopped"
-    networks:
-      - invoice-ninja_internal-invoice-ninja-net
-  invoice-ninja:
-    image: "invoiceninja/invoiceninja-octane:5.12.28-o"
-    container_name: "ix-invoice-ninja-invoice-ninja-1"
+    networks: ix-invoice-ninja_ix-internal-invoice-ninja-net
+    healthcheck:
+      test:
+      - CMD
+      - pgrep
+      - -f
+      - queue:work
+      interval: 30000000000
+      timeout: 5000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  ix-invoice-ninja-invoice-ninja-1:
+    image: invoiceninja/invoiceninja-octane:5.12.28-o
+    container_name: ix-invoice-ninja-invoice-ninja-1
+    restart: unless-stopped
     environment:
-      APP_KEY: "${APP_KEY}"
-      DB_CONNECTION: mysql
-      REDIS_PASSWORD: "${REDIS_PASSWORD}"
-      REDIS_PORT: 6379
       REDIS_USERNAME: default
-      SESSION_DRIVER: redis
-      REDIS_CACHE_DB: 1
-      REDIS_DB: 0
-      FILESYSTEM_DISK: debian_docker
-      APP_ENV: production
       TZ: Etc/UTC
-      REQUIRE_HTTPS: false
+      FILESYSTEM_DISK: debian_docker
+      IN_USER_EMAIL: ${USER_EMAIL}
+      SESSION_DRIVER: redis
+      UMASK: '002'
+      DB_PASSWORD: ${DB_PASSWORD}
+      UMASK_SET: '002'
       DB_DATABASE: ninja
-      IS_DOCKER: true
       DB_HOST: mariadb
-      DB_PORT: 3306
-      PHANTOMJS_PDF_GENERATION: false
-      QUEUE_CONNECTION: redis
-      APP_URL: "https://invoice.gsynch.com"
-      DB_USERNAME: ninja
-      DB_PASSWORD: "${DB_PASSWORD}"
-      UMASK: 002
-      PDF_GENERATOR: snappdf
-      LARAVEL_ROLE: app
+      IN_PASSWORD: ${IN_PASSWORD}
+      APP_ENV: production
       REDIS_HOST: redis
-      UMASK_SET: 002
-      CACHE_DRIVER: redis
+      DB_USERNAME: ninja
       SCOUT_DRIVER: None
-      IN_PASSWORD: "${IN_PASSWORD}"
-      IN_USER_EMAIL: "${EMAIL}"
-      PHPIZE_DEPS: "autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-dev 		make 		pkg-config 		re2c"
+      PDF_GENERATOR: snappdf
+      IS_DOCKER: 'true'
+      APP_KEY: ${APP_KEY}
+      CACHE_DRIVER: redis
+      QUEUE_CONNECTION: redis
+      REDIS_CACHE_DB: '1'
+      REQUIRE_HTTPS: 'false'
+      PHANTOMJS_PDF_GENERATION: 'false'
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      LARAVEL_ROLE: app
+      REDIS_DB: '0'
+      DB_PORT: '3306'
+      DB_CONNECTION: mysql
+      REDIS_PORT: '6379'
+      APP_URL: https://${INVOICE_DOMAIN}
+      NVIDIA_VISIBLE_DEVICES: void
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PHPIZE_DEPS: "autoconf \t\tdpkg-dev \t\tfile \t\tg++ \t\tgcc \t\tlibc-dev \t\
+        \tmake \t\tpkg-config \t\tre2c"
       PHP_INI_DIR: /usr/local/etc/php
-      PHP_CFLAGS: "-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
-      PHP_CPPFLAGS: "-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
-      PHP_LDFLAGS: "-Wl,-O1 -pie"
-      GPG_KEYS: "AFD8691FDAEDF03BDF6E460563F15A9B715376CA 9D7F99A0CB8F05C8A6958D6256A97AF7600A39A6 0616E93D95AF471243E26761770426E17EBBB3DD"
+      PHP_CFLAGS: -fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+      PHP_CPPFLAGS: -fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+      PHP_LDFLAGS: -Wl,-O1 -pie
+      GPG_KEYS: ${GPG_KEYS}
       PHP_VERSION: 8.4.13
-      PHP_URL: "https://www.php.net/distributions/php-8.4.13.tar.xz"
-      PHP_ASC_URL: "https://www.php.net/distributions/php-8.4.13.tar.xz.asc"
-      PHP_SHA256: "${PHP_SHA256}"
+      PHP_URL: https://www.php.net/distributions/php-8.4.13.tar.xz
+      PHP_ASC_URL: https://www.php.net/distributions/php-8.4.13.tar.xz.asc
+      PHP_SHA256: b4f27adf30bcf262eacf93c78250dd811980f20f3b90d79a3dc11248681842df
       XDG_CONFIG_HOME: /config
       XDG_DATA_HOME: /data
       GODEBUG: cgocheck=0
     ports:
-      - "31105:31105"
-    volumes:
-      - ${DATA_PATH}:/app/storage
-    restart: "unless-stopped"
-    networks:
-      - invoice-ninja_internal-invoice-ninja-net
-  mariadb:
-    image: "mariadb:12.2.2"
-    container_name: "ix-invoice-ninja-mariadb-1"
+    - 31105:31105/tcp
+    networks: ix-invoice-ninja_ix-internal-invoice-ninja-net
+    healthcheck:
+      test:
+      - CMD
+      - curl
+      - --request
+      - GET
+      - --silent
+      - --output
+      - /dev/null
+      - --show-error
+      - --fail
+      - http://127.0.0.1:31105/health
+      interval: 30000000000
+      timeout: 5000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  ix-invoice-ninja-mariadb-1:
+    image: mariadb:12.2.2
+    container_name: ix-invoice-ninja-mariadb-1
+    restart: unless-stopped
     environment:
-      MARIADB_ROOT_PASSWORD: "${MARIADB_ROOT_PASSWORD}"
-      MARIADB_PASSWORD: "${MARIADB_PASSWORD}"
-      TZ: Etc/UTC
       MARIADB_DATABASE: ninja
-      UMASK_SET: 002
-      UMASK: 002
-      MARIADB_AUTO_UPGRADE: true
       MARIADB_USER: ninja
-      GOSU_VERSION: 1.19
-      LANG: C.UTF-8
-      MARIADB_VERSION: "1:12.2.2+maria~ubu2404"
-    volumes:
-      - ${DATA_PATH}:/var/lib/mysql
-    restart: "unless-stopped"
-    networks:
-      - invoice-ninja_internal-invoice-ninja-net
-  redis:
-    image: "valkey/valkey:9.0.3"
-    container_name: "ix-invoice-ninja-redis-1"
-    environment:
-      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      NVIDIA_VISIBLE_DEVICES: void
+      UMASK_SET: '002'
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_AUTO_UPGRADE: 'true'
+      UMASK: '002'
       TZ: Etc/UTC
-      UMASK: 002
-      UMASK_SET: 002
-      VALKEY_VERSION: 9.0.3
-    volumes:
-      - /mnt/.ix-apps/docker/volumes/ix-invoice-ninja_redis-data/_data:/data
-    restart: "unless-stopped"
-    networks:
-      - invoice-ninja_internal-invoice-ninja-net
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      GOSU_VERSION: '1.19'
+      LANG: C.UTF-8
+      MARIADB_VERSION: 1:12.2.2+maria~ubu2404
+    networks: ix-invoice-ninja_ix-internal-invoice-ninja-net
+    healthcheck:
+      test:
+      - CMD
+      - mariadb-admin
+      - --user=root
+      - --host=127.0.0.1
+      - --port=3306
+      - --password=${DB_PASSWORD}
+      - ping
+      interval: 30000000000
+      timeout: 5000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  ix-invoice-ninja-redis-1:
+    image: valkey/valkey:9.0.3
+    container_name: ix-invoice-ninja-redis-1
+    restart: unless-stopped
+    environment:
+      UMASK_SET: '002'
+      NVIDIA_VISIBLE_DEVICES: void
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      TZ: Etc/UTC
+      UMASK: '002'
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      VALKEY_VERSION: ${VALKEY_VERSION}
+    networks: ix-invoice-ninja_ix-internal-invoice-ninja-net
+    healthcheck:
+      test:
+      - CMD
+      - redis-cli
+      - -h
+      - 127.0.0.1
+      - -p
+      - '6379'
+      - -a
+      - ${DB_PASSWORD}
+      - ping
+      interval: 30000000000
+      timeout: 5000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  ix-invoice-ninja_ix-internal-invoice-ninja-net:
+    external: true

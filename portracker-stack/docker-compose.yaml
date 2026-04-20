@@ -1,22 +1,37 @@
+version: '3.9'
 services:
   portracker:
     image: mostafawahied/portracker:latest
     container_name: portracker
     restart: unless-stopped
-    pid: "host"
-    ports:
-      - 4999:4999
-    cap_add:
-      - SYS_PTRACE
-      - SYS_ADMIN
-    security_opt:
-      - apparmor:unconfined
-    volumes:
-      - /path/to/your/data:/data
-      - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
-      - DATABASE_PATH=/data/portracker.db
-      - PORT=4999
-      # Optional: For enhanced TrueNAS features
-      - TRUENAS_API_KEY=${TRUENAS_API_KEY}
-      - TRUENAS_WS_BASE=wss://your-server-ip:81
+      PORT: '4999'
+      TRUENAS_API_KEY: ${TRUENAS_API_KEY}
+      TRUENAS_WS_BASE: wss://${HOST_IP}:81
+      DATABASE_PATH: /data/portracker.db
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      NODE_VERSION: 20.20.0
+      YARN_VERSION: 1.22.22
+      NODE_ENV: production
+    ports:
+    - 4999:4999/tcp
+    networks: portracker-stack_default
+    volumes:
+    - ${DATA_PATH}:/data:rw
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - wget --no-verbose --tries=1 --spider http://localhost:4999/api/health || exit
+        1
+      interval: 30000000000
+      timeout: 3000000000
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  portracker-stack_default:
+    external: true

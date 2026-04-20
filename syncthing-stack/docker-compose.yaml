@@ -1,17 +1,39 @@
-version: '3'
+version: '3.9'
 services:
   syncthing:
     image: syncthing/syncthing:latest
     container_name: syncthing
-    user: "3001:3000"
     restart: unless-stopped
-    hostname: truenas-us  # or truenas-us
-    volumes:
-      - /path/to/your/data:/data/movies
-      - /path/to/your/data:/data/tv
-      - /path/to/your/data:/var/syncthing
+    environment:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PUID: '1000'
+      PGID: '1000'
+      HOME: /var/syncthing
+      STGUIADDRESS: 0.0.0.0:8384
+      STHOMEDIR: /var/syncthing/config
     ports:
-      - 8384:8384    # Web UI
-      - 22000:22000/tcp
-      - 22000:22000/udp
-      - 21027:21027/udp  # local discovery
+    - 21027:21027/udp
+    - 22000:22000/tcp
+    - 22000:22000/udp
+    - 8384:8384/tcp
+    networks: syncthing-stack_default
+    volumes:
+    - ${DATA_PATH}:/data/movies:rw
+    - ${DATA_PATH}:/data/tv:rw
+    - ${DATA_PATH}:/var/syncthing:rw
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - curl -fkLsS -m 2 127.0.0.1:8384/rest/noauth/health | grep -o --color=never
+        OK || exit 1
+      interval: 60000000000
+      timeout: 10000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  syncthing-stack_default:
+    external: true

@@ -9,7 +9,7 @@ services:
     environment:
       POSTGRES_DB:       ${POSTGRES_DB:-spartans}
       POSTGRES_USER:     ${POSTGRES_USER:-spartans}
-      POSTGRES_PASSWORD: changeme
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - /path/to/your/data:/var/lib/postgresql/data
     restart: unless-stopped

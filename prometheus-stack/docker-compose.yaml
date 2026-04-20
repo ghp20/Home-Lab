@@ -1,0 +1,22 @@
+version: '3.9'
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    environment:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    ports:
+    - 9090:9090/tcp
+    networks: monitoring-stack_monitoring-net
+    volumes:
+    - ${DATA_PATH}.yml:/etc/prometheus/prometheus.yml:ro
+    - ${DATA_PATH}:/prometheus:rw
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  monitoring-stack_monitoring-net:
+    external: true

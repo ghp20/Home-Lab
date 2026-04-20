@@ -11,7 +11,7 @@ services:
       - PGID=3000
       - TZ=America/Los_Angeles
       - VERSION=docker
-      - PLEX_CLAIM=claim-9ZdKBMn64pr44GK7EdaM
+      - PLEX_CLAIM=${PLEX_CLAIM}
 
     volumes:
       - /path/to/your/data:/config

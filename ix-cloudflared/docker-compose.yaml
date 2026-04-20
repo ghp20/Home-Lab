@@ -1,22 +1,37 @@
+version: '3.9'
 services:
-  cloudflared:
-    image: "cloudflare/cloudflared:2026.3.0"
-    container_name: "ix-cloudflared-cloudflared-1"
+  cloudflared_cloudflared_1:
+    image: cloudflare/cloudflared:2026.3.0
+    container_name: ix-cloudflared-cloudflared-1
+    restart: unless-stopped
     environment:
-      NO_AUTOUPDATE: true
+      UMASK_SET: '002'
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN}
+      USER_ID: '568'
+      NVIDIA_VISIBLE_DEVICES: void
+      UMASK: '002'
+      GROUP_ID: '568'
+      PGID: '568'
+      GID: '568'
+      UID: '568'
+      PUID: '568'
+      NO_AUTOUPDATE: 'true'
       TZ: Etc/UTC
-      TUNNEL_TOKEN: "${TUNNEL_TOKEN}"
-      UID: 568
-      UMASK: 002
-      GID: 568
-      PGID: 568
-      UMASK_SET: 002
-      PUID: 568
-      USER_ID: 568
-      GROUP_ID: 568
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
-    volumes:
-      - ${DATA_PATH}:/cloudflared
-    restart: "unless-stopped"
     networks:
-      - cloudflared
+    - ix-cloudflared_default
+    healthcheck:
+      test:
+      - NONE
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  ix-cloudflared_default:
+    external: true

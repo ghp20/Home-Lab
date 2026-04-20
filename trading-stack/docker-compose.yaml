@@ -1,0 +1,98 @@
+version: '3.9'
+services:
+  trading-agent-ron:
+    image: trading-agent-ron:latest
+    container_name: trading-agent-ron
+    restart: unless-stopped
+    environment:
+      PATH: /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      LANG: C.UTF-8
+      GPG_KEY: ${GPG_KEY}
+      PYTHON_VERSION: 3.12.13
+      PYTHON_SHA256: c08bc65a81971c1dd5783182826503369466c7e67374d1646519adf05207b684
+    ports:
+    - 8002:8000/tcp
+    networks: trading-net-ron
+    volumes:
+    - ${DATA_PATH}:/app/data:rw
+    - ${DATA_PATH}:/app/src:rw
+    - ${DATA_PATH}.yaml:/app/config/config.yaml:ro
+    - ${DATA_PATH}.env:/app/config/.env:ro
+    - ${DATA_PATH}:/app/models:rw
+    - ${DATA_PATH}:/app/logs:rw
+    healthcheck:
+      test:
+      - CMD
+      - curl
+      - -f
+      - http://localhost:8000/health
+      interval: 30000000000
+      timeout: 10000000000
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  trading-postgres-ron:
+    image: postgres:15-alpine
+    container_name: trading-postgres-ron
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: agent
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: trading_agent
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      GOSU_VERSION: '1.19'
+      LANG: en_US.utf8
+      PG_MAJOR: '15'
+      PG_VERSION: '15.17'
+      PG_SHA256: ae14f24c14727e0b2ded1c5553031666099bd1054db3ef44bfa6e2bd6d554a56
+      DOCKER_PG_LLVM_DEPS: "llvm19-dev \t\tclang19"
+      PGDATA: /var/lib/postgresql/data
+    ports:
+    - 5434:5432/tcp
+    networks: trading-net-ron
+    volumes:
+    - ${DATA_PATH}:/var/lib/postgresql/data:rw
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - pg_isready -U agent -d trading_agent
+      interval: 10000000000
+      timeout: 5000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  trading-redis-ron:
+    image: redis:7-alpine
+    container_name: trading-redis-ron
+    restart: unless-stopped
+    environment:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      GOSU_VERSION: '1.17'
+      REDIS_VERSION: 7.4.8
+      REDIS_DOWNLOAD_URL: http://download.redis.io/releases/redis-7.4.8.tar.gz
+      REDIS_DOWNLOAD_SHA: f6773cb7d63be236c59c2917a82f1f08e47b77d89b2f0c9f53becb22b8ea4172
+    networks: trading-net-ron
+    volumes:
+    - ${DATA_PATH}:/data:rw
+    healthcheck:
+      test:
+      - CMD
+      - redis-cli
+      - ping
+      interval: 10000000000
+      timeout: 5000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  trading-net-ron:
+    external: true

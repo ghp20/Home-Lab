@@ -1,38 +1,58 @@
-version: "3.8"
-
+version: '3.9'
 services:
-  db:
-    image: postgres:15
-    container_name: vaultwarden-postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: vaultwarden
-      POSTGRES_USER: vaultwarden
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    volumes:
-      - /path/to/your/data:/var/lib/postgresql/data
-    networks:
-      - vaultwarden-net
-
   vaultwarden:
     image: vaultwarden/server:latest
     container_name: vaultwarden
     restart: unless-stopped
-    depends_on:
-      - db
     environment:
-      DATABASE_URL: postgres://vaultwarden:${DB_PASSWORD}@vaultwarden-postgres/vaultwarden
+      WEBSOCKET_ENABLED: 'true'
+      DATABASE_URL: postgres://vaultwarden:v3eKoRk_zV_-9FpB@vaultwarden-postgres/vaultwarden
       ADMIN_TOKEN: ${ADMIN_TOKEN}
-      ROCKET_PORT: 30032
-      DOMAIN: http://your-server-ip:30032
-      WEBSOCKET_ENABLED: "true"
+      ROCKET_PORT: '30032'
+      DOMAIN: http://${HOST_IP}:30032
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      ROCKET_PROFILE: release
+      ROCKET_ADDRESS: 0.0.0.0
+      DEBIAN_FRONTEND: noninteractive
     ports:
-      - "30032:30032"
+    - 30032:30032/tcp
+    networks: vaultwarden-stack_vaultwarden-net
     volumes:
-      - /path/to/your/data:/data
-    networks:
-      - vaultwarden-net
-
+    - ${DATA_PATH}:/data:rw
+    healthcheck:
+      test:
+      - CMD
+      - /healthcheck.sh
+      interval: 60000000000
+      timeout: 10000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  vaultwarden-postgres:
+    image: postgres:15
+    container_name: vaultwarden-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: vaultwarden
+      POSTGRES_USER: vaultwarden
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/15/bin
+      GOSU_VERSION: '1.19'
+      LANG: en_US.utf8
+      PG_MAJOR: '15'
+      PG_VERSION: 15.17-1.pgdg13+1
+      PGDATA: /var/lib/postgresql/data
+    networks: vaultwarden-stack_vaultwarden-net
+    volumes:
+    - ${DATA_PATH}:/var/lib/postgresql/data:rw
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
 networks:
-  vaultwarden-net:
-    driver: bridge
+  vaultwarden-stack_vaultwarden-net:
+    external: true

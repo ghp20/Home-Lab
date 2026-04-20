@@ -1,0 +1,140 @@
+version: '3.9'
+services:
+  paperless-gotenberg:
+    image: gotenberg/gotenberg:8.10
+    container_name: paperless-gotenberg
+    restart: unless-stopped
+    environment:
+      CHROMIUM_ALLOW_LIST_REGEX: ^file:///tmp/.*
+      CHROMIUM_DISABLE_JAVASCRIPT: 'true'
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      CHROMIUM_BIN_PATH: /usr/bin/chromium
+      LIBREOFFICE_BIN_PATH: /usr/lib/libreoffice/program/soffice.bin
+      UNOCONVERTER_BIN_PATH: /usr/bin/unoconverter
+      PDFTK_BIN_PATH: /usr/bin/pdftk
+      QPDF_BIN_PATH: /usr/bin/qpdf
+      EXIFTOOL_BIN_PATH: /usr/bin/exiftool
+    networks: paperlesngx-stack_default
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  paperless-ngx:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    container_name: paperless-ngx
+    restart: unless-stopped
+    environment:
+      PAPERLESS_GOTENBERG_ENDPOINT: http://gotenberg:3000
+      PAPERLESS_REDIS: redis://redis:6379
+      PAPERLESS_SECRET_KEY: ${PAPERLESS_SECRET_KEY}
+      PAPERLESS_TIKA_ENDPOINT: http://tika:9998
+      USERMAP_UID: '3001'
+      PAPERLESS_CSRF_TRUSTED_ORIGINS: https://${PAPERLESS_DOMAIN}
+      PAPERLESS_DBUSER: paperless
+      TZ: America/Los_Angeles
+      PAPERLESS_TOTP_ENABLED: '1'
+      PAPERLESS_DBPASS: Whiteknight007!
+      PAPERLESS_DBHOST: postgres
+      PAPERLESS_URL: https://${PAPERLESS_DOMAIN}
+      PAPERLESS_ALLOWED_HOSTS: ${PAPERLESS_DOMAIN},${HOST_IP},localhost,127.0.0.1,${PUBLIC_IP}
+      PAPERLESS_DBNAME: paperless
+      PAPERLESS_ENABLE_TRASH: '1'
+      USERMAP_GID: '3000'
+      PAPERLESS_TIKA_ENABLED: '1'
+      PATH: /command:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      LANG: C.UTF-8
+      GPG_KEY: ${GPG_KEY}
+      PYTHON_VERSION: 3.12.12
+      PYTHON_SHA256: fb85a13414b028c49ba18bbd523c2d055a30b56b18b92ce454ea2c51edc656c4
+      UV_TOOL_BIN_DIR: /usr/local/bin
+      S6_BEHAVIOUR_IF_STAGE2_FAILS: '2'
+      S6_CMD_WAIT_FOR_SERVICES_MAXTIME: '0'
+      S6_VERBOSITY: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+      PYTHONWARNINGS: ignore:::django.http.response:517
+      PNGX_CONTAINERIZED: '1'
+      UV_LINK_MODE: copy
+      UV_CACHE_DIR: /cache/uv/
+    ports:
+    - 30070:8000/tcp
+    networks: paperlesngx-stack_default
+    volumes:
+    - ${DATA_PATH}:/usr/src/paperless/data:rw
+    - ${DATA_PATH}:/usr/src/paperless/media:rw
+    - ${DATA_PATH}:/usr/src/paperless/consume:rw
+    - ${DATA_PATH}:/usr/src/paperless/trash:rw
+    healthcheck:
+      test:
+      - CMD
+      - curl
+      - -fs
+      - -S
+      - -L
+      - --max-time
+      - '2'
+      - http://localhost:8000
+      interval: 30000000000
+      timeout: 10000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  paperless-tika:
+    image: apache/tika:latest
+    container_name: paperless-tika
+    restart: unless-stopped
+    environment:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      TIKA_VERSION: 3.2.3
+    networks: paperlesngx-stack_default
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  paperless-redis:
+    image: redis:7
+    container_name: paperless-redis
+    restart: unless-stopped
+    environment:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      GOSU_VERSION: '1.17'
+      REDIS_VERSION: 7.4.8
+      REDIS_DOWNLOAD_URL: http://download.redis.io/releases/redis-7.4.8.tar.gz
+      REDIS_DOWNLOAD_SHA: f6773cb7d63be236c59c2917a82f1f08e47b77d89b2f0c9f53becb22b8ea4172
+    networks: paperlesngx-stack_default
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  paperless-postgres:
+    image: postgres:17
+    container_name: paperless-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: paperless
+      POSTGRES_USER: paperless
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      TZ: America/Los_Angeles
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/17/bin
+      GOSU_VERSION: '1.19'
+      LANG: en_US.utf8
+      PG_MAJOR: '17'
+      PG_VERSION: 17.9-1.pgdg13+1
+      PGDATA: /var/lib/postgresql/data
+    networks: paperlesngx-stack_default
+    volumes:
+    - ${DATA_PATH}:/var/lib/postgresql/data:rw
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  paperlesngx-stack_default:
+    external: true

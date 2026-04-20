@@ -1,37 +1,36 @@
-version: "3.8"
-
+version: '3.9'
 services:
   lubelogger:
     image: ghcr.io/hargata/lubelogger:latest
     container_name: lubelogger
     restart: unless-stopped
-
     environment:
-      PUID: 3001
-      PGID: 3000
-      TZ: America/Los_Angeles
-
-      # === LubeLogger App Settings ===
-      # SQLite is default (no DB needed)
+      LL__MOTD__Enabled: 'false'
       ASPNETCORE_URLS: http://0.0.0.0:8080
-
-      # Recommended: fix locale/culture warning
+      TZ: America/Los_Angeles
+      LL__Smtp__Enabled: 'false'
       LL__Locale: en-US
-      LL__Culture: en-US
-
-      # Optional SMTP (leave blank for now)
-      LL__Smtp__Enabled: "false"
-
-      # Optional Message of the Day
-      LL__MOTD__Enabled: "false"
-
-      # Fix DataProtection warning
-      # (Store keys outside container)
       ASPNETCORE_DATAPROTECTION__DIRECTORY: /App/keys
-
-    volumes:
-      - /path/to/your/data:/App/data
-      - /path/to/your/data:/App/keys
-
+      PUID: '3001'
+      PGID: '3000'
+      LL__Culture: en-US
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      APP_UID: '1654'
+      ASPNETCORE_HTTP_PORTS: '8080'
+      DOTNET_RUNNING_IN_CONTAINER: 'true'
+      DOTNET_VERSION: 10.0.3
+      ASPNET_VERSION: 10.0.3
     ports:
-      - "8100:8080"
+    - 8100:8080/tcp
+    networks: lubelogger-stack_default
+    volumes:
+    - ${DATA_PATH}:/App/data:rw
+    - ${DATA_PATH}:/App/keys:rw
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  lubelogger-stack_default:
+    external: true

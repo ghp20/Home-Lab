@@ -1,16 +1,17 @@
-# ix-immich
+# Ix-Immich — TrueNAS SCALE Managed
 
-TrueNAS SCALE app deployment for **immich**.
+> ⚠️ **TrueNAS SCALE managed app.** Do NOT deploy via Portainer.
+> Auto-generated from `docker inspect` on the homelab.
 
-> ⚠️ This is a TrueNAS SCALE managed app (ix- prefix). It is NOT deployed via Portainer or docker-compose. The compose file here is auto-generated from `docker inspect` for documentation purposes only.
+**Generated:** 2026-04-19 21:11
 
-## Services
-
-See `docker-compose.yaml` for service details.
+| Service | Image |
+|---------|-------|
+| `learning_1` | `ghcr.io/immich-app/immich-machine-learning:v2.7.3-cuda` |
+| `immich_pgvecto_1` | `ghcr.io/immich-app/postgres:18-vectorchord0.5.3` |
+| `immich_redis_1` | `valkey/valkey:9.0.3` |
+| `immich_server_1` | `ghcr.io/immich-app/immich-server:v2.7.3` |
 
 ## Notes
-
+- All secrets sanitized to `${{VAR}}` placeholders
 - Managed by TrueNAS SCALE App Catalog
-- Do NOT modify compose file directly — changes will not persist
-- All secrets are sanitized with `${VAR}` placeholders
-- Redeploy via TrueNAS web UI, not Portainer

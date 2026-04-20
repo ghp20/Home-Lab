@@ -1,15 +1,36 @@
-version: "3.9"
-
+version: '3.9'
 services:
   autoheal:
     image: willfarrell/autoheal
     container_name: autoheal
-
     restart: unless-stopped
-
     environment:
-      - AUTOHEAL_INTERVAL=30
-      - AUTOHEAL_START_PERIOD=60
-
+      AUTOHEAL_START_PERIOD: '60'
+      AUTOHEAL_INTERVAL: '30'
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      AUTOHEAL_CONTAINER_LABEL: autoheal
+      AUTOHEAL_DEFAULT_STOP_TIMEOUT: '10'
+      DOCKER_SOCK: /var/run/docker.sock
+      CURL_TIMEOUT: '30'
+      WEBHOOK_URL: ''
+      WEBHOOK_JSON_KEY: ${WEBHOOK_JSON_KEY}
+      APPRISE_URL: ''
+      POST_RESTART_SCRIPT: ''
+    networks: autoheal-stack_default
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    - /var/run/docker.sock:/var/run/docker.sock:rw
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - pgrep -f autoheal || exit 1
+      interval: 5000000000
+      timeout: 10s
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  autoheal-stack_default:
+    external: true

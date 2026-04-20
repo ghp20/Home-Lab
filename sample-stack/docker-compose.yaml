@@ -1,0 +1,53 @@
+version: '3.9'
+services:
+  sample-plan-frontend:
+    image: sample-plan-frontend:latest
+    container_name: sample-plan-frontend
+    restart: unless-stopped
+    environment:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      NGINX_VERSION: 1.29.6
+      PKG_RELEASE: '1'
+      DYNPKG_RELEASE: '1'
+      NJS_VERSION: 0.9.6
+      NJS_RELEASE: '1'
+      ACME_VERSION: 0.3.1
+    ports:
+    - 8094:80/tcp
+    networks: sample-plan-stack_sample-plan-net
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  sample-plan-backend:
+    image: sample-plan-backend:latest
+    container_name: sample-plan-backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: sqlite:////data/sample_plan.db
+      PATH: /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      LANG: C.UTF-8
+      GPG_KEY: ${GPG_KEY}
+      PYTHON_VERSION: 3.11.14
+      PYTHON_SHA256: 8d3ed8ec5c88c1c95f5e558612a725450d2452813ddad5e58fdb1a53b1209b78
+    networks: sample-plan-stack_sample-plan-net
+    volumes:
+    - ${DATA_PATH}:/data:rw
+    healthcheck:
+      test:
+      - CMD
+      - curl
+      - -f
+      - http://localhost:8000/api/plans
+      interval: 30000000000
+      timeout: 10000000000
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  sample-plan-stack_sample-plan-net:
+    external: true

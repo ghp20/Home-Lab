@@ -1,22 +1,36 @@
+version: '3.9'
 services:
-  clamav:
-    image: "clamav/clamav:1.5.2"
-    container_name: "ix-clamav-clamav-1"
+  clamav_clamav_1:
+    image: clamav/clamav:1.5.2
+    container_name: ix-clamav-clamav-1
+    restart: unless-stopped
     environment:
-      UMASK: 002
-      CLAMAV_NO_MILTERD: true
-      CLAMAV_NO_CLAMD: false
+      CLAMD_STARTUP_TIMEOUT: '1800'
+      CLAMAV_NO_FRESHCLAMD: 'false'
+      FRESHCLAMD_CHECKS: '1'
+      NVIDIA_VISIBLE_DEVICES: void
+      CLAMAV_NO_CLAMD: 'false'
+      CLAMAV_NO_MILTERD: 'true'
       TZ: Etc/UTC
-      CLAMAV_NO_FRESHCLAMD: false
-      UMASK_SET: 002
-      CLAMD_STARTUP_TIMEOUT: 1800
-      FRESHCLAMD_CHECKS: 1
+      UMASK_SET: '002'
+      UMASK: '002'
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     ports:
-      - "30005:3310"
-    volumes:
-      - ${DATA_PATH}:/tmp
-      - ${DATA_PATH}:/var/lib/clamav
-      - ${DATA_PATH}:/scandir
-    restart: "unless-stopped"
+    - 30005:3310/tcp
     networks:
-      - clamav
+    - ix-clamav_default
+    healthcheck:
+      test:
+      - CMD
+      - clamdcheck.sh
+      interval: 30000000000
+      timeout: 5000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  ix-clamav_default:
+    external: true

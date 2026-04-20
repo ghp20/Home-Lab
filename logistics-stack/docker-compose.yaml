@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  logistics-react:
+    image: node:16-alpine
+    container_name: logistics-react
+    restart: always
+    environment:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      NODE_VERSION: 16.20.2
+      YARN_VERSION: 1.22.19
+    ports:
+    - 3001:3001/tcp
+    networks: spartans-stack_default
+    volumes:
+    - ${DATA_PATH}:/app/build:rw
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  spartans-stack_default:
+    external: true

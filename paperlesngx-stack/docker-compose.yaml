@@ -50,9 +50,9 @@ services:
       USERMAP_GID: 3000
       TZ: America/Los_Angeles
 
-      PAPERLESS_URL: https://docs.gsynch.com
-      PAPERLESS_ALLOWED_HOSTS: docs.gsynch.com,your-server-ip,localhost,127.0.0.1,100.119.204.23
-      PAPERLESS_CSRF_TRUSTED_ORIGINS: https://docs.gsynch.com
+      PAPERLESS_URL: ${PAPERLESS_DOMAIN}
+      PAPERLESS_ALLOWED_HOSTS: ${PAPERLESS_DOMAIN},your-server-ip,localhost,127.0.0.1,${PUBLIC_IP}
+      PAPERLESS_CSRF_TRUSTED_ORIGINS: ${PAPERLESS_DOMAIN}
       
       PAPERLESS_REDIS: redis://redis:6379
       PAPERLESS_DBHOST: postgres

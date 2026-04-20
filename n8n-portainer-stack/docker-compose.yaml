@@ -10,9 +10,9 @@ services:
       - 5678:5678
     environment:
       - TZ=America/Los_Angeles
-      - N8N_HOST=n3n.gsynch.com
+      - N8N_HOST=${N8N_DOMAIN}
       - N8N_PROTOCOL=https
-      - WEBHOOK_URL=https://n3n.gsynch.com
+      - WEBHOOK_URL=${N8N_DOMAIN}
       - N8N_PORT=5678
       - N8N_TRUST_PROXY=true
       - N8N_SECURE_COOKIE=false

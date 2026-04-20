@@ -1,0 +1,38 @@
+version: '3.9'
+services:
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    restart: unless-stopped
+    environment:
+      PUID: '3001'
+      PGID: '3000'
+      TZ: America/Los_Angeles
+      PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PS1: '$(whoami)@$(hostname):$(pwd)\$ '
+      HOME: /root
+      TERM: xterm
+      S6_CMD_WAIT_FOR_SERVICES_MAXTIME: '0'
+      S6_VERBOSITY: '1'
+      S6_STAGE2_HOOK: /docker-mods
+      VIRTUAL_ENV: /lsiopy
+      LSIO_FIRST_PARTY: 'true'
+      XDG_CONFIG_HOME: /config/xdg
+      COMPlus_EnableDiagnostics: '0'
+      TMPDIR: /run/radarr-temp
+    ports:
+    - 7878:7878/tcp
+    networks: arrnet
+    volumes:
+    - ${DATA_PATH}:/config:rw
+    - ${DATA_PATH}:/movies:rw
+    - ${DATA_PATH}:/downloadsq:rw
+    - ${DATA_PATH}:/downloads:rw
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://${HOST_IP}:12201
+        tag: '{{.Name}}'
+networks:
+  arrnet:
+    external: true

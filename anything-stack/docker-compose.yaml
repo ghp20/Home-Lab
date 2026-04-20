@@ -1,0 +1,39 @@
+version: '3.9'
+services:
+  anything-llm:
+    image: mintplexlabs/anythingllm:latest
+    container_name: anything-llm
+    restart: unless-stopped
+    environment:
+      STORAGE_DIR: /app/server/storage
+      DATABASE_URL: file:/app/server/storage/anythingllm.db
+      JWT_SECRET: ${JWT_SECRET}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+      DISABLE_TELEMETRY: '1'
+      SERVER_PORT: '3001'
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PUPPETEER_DOWNLOAD_BASE_URL: https://storage.googleapis.com/chrome-for-testing-public
+      NODE_ENV: production
+      ANYTHING_LLM_RUNTIME: docker
+      DEPLOYMENT_VERSION: 1.11.1
+    ports:
+    - 30239:3001/tcp
+    networks: anything_llm-stack_default
+    volumes:
+    - ${DATA_PATH}:/app/server/storage:rw
+    - ${DATA_PATH}:/app/storage:rw
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - curl --silent --fail http://localhost:3001/api/ping >/dev/null || exit 1
+      interval: 30000000000
+      timeout: 5000000000
+      retries: 10
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://${HOST_IP}:12201
+        tag: '{{.Name}}'
+networks:
+  anything_llm-stack_default:
+    external: true

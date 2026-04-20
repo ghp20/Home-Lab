@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+  it-tools:
+    image: ghcr.io/corentinth/it-tools:latest
+    container_name: it-tools
+    restart: unless-stopped
+    environment:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      NGINX_VERSION: 1.26.2
+      PKG_RELEASE: '1'
+      DYNPKG_RELEASE: '2'
+      NJS_VERSION: 0.8.5
+      NJS_RELEASE: '1'
+    ports:
+    - 8088:80/tcp
+    networks: it-tools-stack_default
+    volumes:
+    - ${DATA_PATH}:/data:rw
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  it-tools-stack_default:
+    external: true

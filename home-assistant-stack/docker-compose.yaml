@@ -1,32 +1,54 @@
-version: "3.9"
-
+version: '3.9'
 services:
-  postgres:
-    image: postgres:17
-    container_name: homeassistant-postgres
-    network_mode: host
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: homeassistant
-      POSTGRES_USER: homeassistant
-      POSTGRES_PASSWORD: ${ADMIN_PASSWORD}
-      TZ: America/Los_Angeles
-      PGDATA: /var/lib/postgresql/data/pgdata
-    volumes:
-      - /path/to/your/data:/var/lib/postgresql/data
-
   homeassistant:
     image: ghcr.io/home-assistant/home-assistant:stable
     container_name: homeassistant
-    network_mode: host
-    privileged: false
     restart: unless-stopped
-    depends_on:
-      - postgres
     environment:
       TZ: America/Los_Angeles
+      PATH: /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      LANG: C.UTF-8
+      S6_BEHAVIOUR_IF_STAGE2_FAILS: '2'
+      S6_CMD_WAIT_FOR_SERVICES_MAXTIME: '0'
+      S6_CMD_WAIT_FOR_SERVICES: '1'
+      S6_SERVICES_READYTIME: '50'
+      UV_EXTRA_INDEX_URL: https://wheels.home-assistant.io/musllinux-index/
+      S6_SERVICES_GRACETIME: '240000'
+      UV_SYSTEM_PYTHON: 'true'
+      UV_NO_CACHE: 'true'
+    network_mode: host
     volumes:
-      - /path/to/your/data:/config
-      - /path/to/your/data:/media
-      - /etc/localtime:/etc/localtime:ro
-      - /run/dbus:/run/dbus:ro
+    - ${DATA_PATH}:/config:rw
+    - ${DATA_PATH}:/media:rw
+    - /etc/localtime:/etc/localtime:ro
+    - /run/dbus:/run/dbus:ro
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  homeassistant-postgres:
+    image: postgres:17
+    container_name: homeassistant-postgres
+    restart: unless-stopped
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: homeassistant
+      POSTGRES_USER: homeassistant
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      TZ: America/Los_Angeles
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/17/bin
+      GOSU_VERSION: '1.19'
+      LANG: en_US.utf8
+      PG_MAJOR: '17'
+      PG_VERSION: 17.9-1.pgdg13+1
+    network_mode: host
+    volumes:
+    - ${DATA_PATH}:/var/lib/postgresql/data:rw
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  host: {}

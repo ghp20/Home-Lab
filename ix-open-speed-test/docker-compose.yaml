@@ -1,30 +1,48 @@
+version: '3.9'
 services:
-  open_speed_test:
-    image: "openspeedtest/latest:v2.0.6"
-    container_name: "ix-open-speed-test-open-speed-test-1"
+  ix-open-speed-test-open-speed-test-1:
+    image: openspeedtest/latest:v2.0.6
+    container_name: ix-open-speed-test-open-speed-test-1
+    restart: unless-stopped
     environment:
       TZ: America/Los_Angeles
-      UMASK: 002
-      UMASK_SET: 002
-      CHANGE_CONTAINER_PORTS: True
-      HTTPS_PORT: 30117
-      HTTP_PORT: 30116
+      UMASK: '002'
+      UMASK_SET: '002'
+      CHANGE_CONTAINER_PORTS: 'True'
+      HTTPS_PORT: '30117'
+      HTTP_PORT: '30116'
+      NVIDIA_VISIBLE_DEVICES: void
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       NGINX_VERSION: 1.26.2
-      PKG_RELEASE: 1
-      DYNPKG_RELEASE: 2
+      PKG_RELEASE: '1'
+      DYNPKG_RELEASE: '2'
       NJS_VERSION: 0.8.5
-      NJS_RELEASE: 1
-      ENABLE_LETSENCRYPT: false
-      DOMAIN_NAME: false
-      USER_EMAIL: false
+      NJS_RELEASE: '1'
+      ENABLE_LETSENCRYPT: 'false'
+      DOMAIN_NAME: 'false'
+      USER_EMAIL: 'false'
       CONFIG: /etc/nginx/conf.d/OpenSpeedTest-Server.conf
       INDEX_HTML: /usr/share/nginx/html/index.html
-      SET_USER: 101
+      SET_USER: '101'
     ports:
-      - "30116:30116"
-      - "30117:30117"
-    volumes:
-      - ${DATA_PATH}:/var/log/letsencrypt
-    restart: "unless-stopped"
-    networks:
-      - open-speed-test
+    - 30116:30116/tcp
+    - 30117:30117/tcp
+    networks: ix-open-speed-test_default
+    healthcheck:
+      test:
+      - CMD
+      - wget
+      - --quiet
+      - --spider
+      - http://127.0.0.1:30116/
+      interval: 30000000000
+      timeout: 5000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  ix-open-speed-test_default:
+    external: true

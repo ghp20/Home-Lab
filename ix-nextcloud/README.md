@@ -1,16 +1,19 @@
-# ix-nextcloud
+# Ix-Nextcloud — TrueNAS SCALE Managed
 
-TrueNAS SCALE app deployment for **nextcloud**.
+> ⚠️ **TrueNAS SCALE managed app.** Do NOT deploy via Portainer.
+> Auto-generated from `docker inspect` on the homelab.
 
-> ⚠️ This is a TrueNAS SCALE managed app (ix- prefix). It is NOT deployed via Portainer or docker-compose. The compose file here is auto-generated from `docker inspect` for documentation purposes only.
+**Generated:** 2026-04-19 21:11
 
-## Services
-
-See `docker-compose.yaml` for service details.
+| Service | Image |
+|---------|-------|
+| `nextcloud_cron_1` | `ix-nextcloud:33.0.2_2d91b2869075cb02556af5819ab2fc278f4bcf751f535ea675c8104091781dba` |
+| `nextcloud_imaginary_1` | `ghcr.io/nextcloud-releases/aio-imaginary:20260409_094910` |
+| `nextcloud_nextcloud_1` | `ix-nextcloud:33.0.2_2d91b2869075cb02556af5819ab2fc278f4bcf751f535ea675c8104091781dba` |
+| `nextcloud_nginx_1` | `nginx:1.29.8` |
+| `nextcloud_postgres_1` | `postgres:17.9-bookworm` |
+| `nextcloud_redis_1` | `valkey/valkey:9.0.3` |
 
 ## Notes
-
+- All secrets sanitized to `${{VAR}}` placeholders
 - Managed by TrueNAS SCALE App Catalog
-- Do NOT modify compose file directly — changes will not persist
-- All secrets are sanitized with `${VAR}` placeholders
-- Redeploy via TrueNAS web UI, not Portainer

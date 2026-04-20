@@ -1,23 +1,41 @@
+version: '3.9'
 services:
-  jackett:
-    image: "ghcr.io/home-operations/jackett:0.24.1450"
-    container_name: "ix-jackett-jackett-1"
+  jackett_jackett_1:
+    image: ghcr.io/home-operations/jackett:0.24.1562
+    container_name: ix-jackett-jackett-1
+    restart: unless-stopped
     environment:
-      PGID: 950
-      GID: 950
-      UMASK: 002
-      USER_ID: 950
-      GROUP_ID: 950
-      PUID: 950
-      UID: 950
       TZ: America/Los_Angeles
-      UMASK_SET: 002
+      USER_ID: '950'
+      GROUP_ID: '950'
+      UID: '950'
+      PGID: '950'
+      NVIDIA_VISIBLE_DEVICES: void
+      UMASK_SET: '002'
+      UMASK: '002'
+      PUID: '950'
+      GID: '950'
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       XDG_CONFIG_HOME: /config
     ports:
-      - "30118:30118"
-    volumes:
-      - ${DATA_PATH}:/downloads
-      - ${DATA_PATH}:/config
-    restart: "unless-stopped"
+    - 30118:30118/tcp
     networks:
-      - jackett
+    - ix-jackett_default
+    healthcheck:
+      test:
+      - CMD
+      - wget
+      - --quiet
+      - --spider
+      - http://127.0.0.1:30118/health
+      interval: 30000000000
+      timeout: 5000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  ix-jackett_default:
+    external: true

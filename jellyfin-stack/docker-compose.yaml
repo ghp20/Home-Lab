@@ -1,36 +1,66 @@
-version: "3.9"
-
+version: '3.9'
 services:
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
     restart: unless-stopped
-
-    runtime: nvidia
-
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
-
     environment:
-      - TZ=America/Los_Angeles
-      - PUID=3001
-      - PGID=3000
-
-      # NVIDIA GPU access
-      - NVIDIA_VISIBLE_DEVICES=all
-      - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
-
-    volumes:
-      - /path/to/your/data:/config
-      - /path/to/your/data:/cache
-      - /path/to/your/data:/transcode
-      - /path/to/your/data:/media:ro
-
+      PUID: '3001'
+      PGID: '3000'
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,video,utility
+      TZ: America/Los_Angeles
+      PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      HOME: /root
+      LANGUAGE: en_US.UTF-8
+      LANG: en_US.UTF-8
+      TERM: xterm
+      S6_CMD_WAIT_FOR_SERVICES_MAXTIME: '0'
+      S6_VERBOSITY: '1'
+      S6_STAGE2_HOOK: /docker-mods
+      VIRTUAL_ENV: /lsiopy
+      LSIO_FIRST_PARTY: 'true'
+      MALLOC_TRIM_THRESHOLD_: '131072'
+      ATTACHED_DEVICES_PERMS: /dev/dri /dev/dvb /dev/vchiq /dev/vc-mem /dev/video1?
+        -type c
     ports:
-      - "8096:8096"
-      - "8920:8920"
+    - 8096:8096/tcp
+    - 8920:8920/tcp
+    networks: jellyfin-stack_default
+    volumes:
+    - ${DATA_PATH}:/config:rw
+    - ${DATA_PATH}:/cache:rw
+    - ${DATA_PATH}:/transcode:rw
+    - ${DATA_PATH}:/media:ro
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  jellyfin-telegram:
+    image: python:3.11-slim
+    container_name: jellyfin-telegram
+    restart: unless-stopped
+    environment:
+      JELLYFIN_API_KEY: ${JELLYFIN_API_KEY}
+      TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
+      TELEGRAM_CHAT_ID: '5742623272'
+      JELLYFIN_URL: http://${HOST_IP}:8096
+      PATH: /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      LANG: C.UTF-8
+      GPG_KEY: ${GPG_KEY}
+      PYTHON_VERSION: 3.11.14
+      PYTHON_SHA256: 8d3ed8ec5c88c1c95f5e558612a725450d2452813ddad5e58fdb1a53b1209b78
+    networks: jellyfin-telegram-stack_default
+    volumes:
+    - ${DATA_PATH}:/app:rw
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  jellyfin-stack_default:
+    external: true
+  jellyfin-telegram-stack_default:
+    external: true

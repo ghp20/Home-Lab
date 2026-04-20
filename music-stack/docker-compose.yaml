@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  music-assistant-server:
+    image: ghcr.io/music-assistant/server:latest
+    container_name: music-assistant-server
+    restart: unless-stopped
+    environment:
+      LOG_LEVEL: info
+      MASS_DISABLE_ZEROCONF: 'true'
+      PATH: /app/venv/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      GPG_KEY: ${GPG_KEY}
+      PYTHON_VERSION: 3.13.11
+      PYTHON_SHA256: 16ede7bb7cdbfa895d11b0642fa0e523f291e6487194d53cf6d3b338c3a17ea2
+      VIRTUAL_ENV: /app/venv
+    ports:
+    - 8095:8095/tcp
+    networks: music-assistant-stack_default
+    volumes:
+    - ${DATA_PATH}:/data:rw
+    - ${DATA_PATH}:/media:ro
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  music-assistant-stack_default:
+    external: true

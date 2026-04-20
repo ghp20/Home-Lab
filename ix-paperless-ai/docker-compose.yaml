@@ -1,19 +1,42 @@
+version: '3.9'
 services:
-  paperless_ai:
-    image: "clusterzx/paperless-ai:3.0.9"
-    container_name: "ix-paperless-ai-paperless-1"
+  ix-paperless-ai-paperless-1:
+    image: clusterzx/paperless-ai:3.0.9
+    container_name: ix-paperless-ai-paperless-1
+    restart: unless-stopped
     environment:
-      TZ: America/Los_Angeles
-      UMASK: 002
-      UMASK_SET: 002
+      UMASK: '002'
+      UMASK_SET: '002'
       NODE_ENV: production
-      PAPERLESS_AI_PORT: 30226
+      NVIDIA_VISIBLE_DEVICES: void
+      PAPERLESS_AI_PORT: '30226'
+      TZ: America/Los_Angeles
+      PATH: /app/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       NODE_VERSION: 22.21.1
       YARN_VERSION: 1.22.22
     ports:
-      - "30226:30226"
-    volumes:
-      - ${DATA_PATH}:/app/data
-    restart: "unless-stopped"
-    networks:
-      - paperless-ai
+    - 30226:30226/tcp
+    networks: ix-paperless-ai_default
+    healthcheck:
+      test:
+      - CMD
+      - curl
+      - --request
+      - GET
+      - --silent
+      - --output
+      - /dev/null
+      - --show-error
+      - --fail
+      - http://127.0.0.1:30226/health
+      interval: 30000000000
+      timeout: 5000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  ix-paperless-ai_default:
+    external: true

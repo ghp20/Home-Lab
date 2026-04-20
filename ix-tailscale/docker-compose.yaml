@@ -1,21 +1,36 @@
+version: '3.9'
 services:
-  tailscale:
-    image: "ghcr.io/tailscale/tailscale:v1.96.5"
-    container_name: "ix-tailscale-tailscale-1"
+  tailscale_tailscale_1:
+    image: ghcr.io/tailscale/tailscale:v1.96.5
+    container_name: ix-tailscale-tailscale-1
+    restart: unless-stopped
     environment:
       TS_STATE_DIR: /var/lib/tailscale
       TS_SOCKET: /var/run/tailscale/tailscaled.sock
-      UMASK_SET: 002
-      TS_AUTH_ONCE: true
-      TS_EXTRA_ARGS: "--advertise-exit-node=true --reset=false --accept-routes=false"
-      TS_AUTHKEY: tskey-auth-katZuAL3j621CNTRL-pgB58fWKWHdo9dMSfEUAJdKuXcndprK39
+      UMASK_SET: '002'
+      TS_AUTH_ONCE: 'true'
+      TS_EXTRA_ARGS: --advertise-exit-node=true --reset=false --accept-routes=false
+      TS_AUTHKEY: ${TS_AUTHKEY}
+      NVIDIA_VISIBLE_DEVICES: void
       TS_HOSTNAME: truenas-scale
-      UMASK: 002
-      TS_USERSPACE: false
-      TS_ACCEPT_DNS: true
+      UMASK: '002'
+      TS_USERSPACE: 'false'
+      TS_ACCEPT_DNS: 'true'
       TZ: America/Los_Angeles
-    volumes:
-      - ${DATA_PATH}:/var/lib/tailscale
-    restart: "unless-stopped"
-    networks:
-      - host
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    network_mode: host
+    healthcheck:
+      test:
+      - CMD
+      - tailscale
+      - status
+      interval: 30000000000
+      timeout: 5000000000
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  host: {}

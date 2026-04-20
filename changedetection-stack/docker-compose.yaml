@@ -1,63 +1,58 @@
+version: '3.9'
 services:
   changedetection:
     image: ghcr.io/dgtlmoon/changedetection.io:latest
     container_name: changedetection
-    hostname: changedetection
-    user: "3001:3000"
     restart: unless-stopped
-
-    depends_on:
-      browser-sockpuppet-chrome:
-        condition: service_started
-
-    ports:
-      - "30159:5000"
-
     environment:
-      - TZ=America/Los_Angeles
-      - BASE_URL=http://your-server-ip:30159
-      - PLAYWRIGHT_DRIVER_URL=ws://browser-sockpuppet-chrome:3000
-      - FETCH_WORKERS=5
-      - MINIMUM_SECONDS_RECHECK_TIME=60
-      - HIDE_REFERER=true
-
+      TZ: America/Los_Angeles
+      BASE_URL: http://${HOST_IP}:30159
+      PLAYWRIGHT_DRIVER_URL: ws://browser-sockpuppet-chrome:3000
+      FETCH_WORKERS: '5'
+      MINIMUM_SECONDS_RECHECK_TIME: '60'
+      HIDE_REFERER: 'true'
+      PATH: /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      LANG: C.UTF-8
+      GPG_KEY: ${GPG_KEY}
+      PYTHON_VERSION: 3.11.15
+      PYTHON_SHA256: 272179ddd9a2e41a0fc8e42e33dfbdca0b3711aa5abf372d3f2d51543d09b625
+      PYTHONUNBUFFERED: '1'
+      PYTHONPATH: /usr/local
+      LOGGER_LEVEL: ''
+      LC_ALL: en_US.UTF-8
+    ports:
+    - 30159:5000/tcp
+    networks: changedetection-stack_changedetection_net
     volumes:
-      - /path/to/your/data:/datastore
-
-    networks:
-      - changedetection_net
-
-    security_opt:
-      - no-new-privileges:true
-
-    tmpfs:
-      - /tmp:size=256m,mode=1777
-
-
-  browser-sockpuppet-chrome:
+    - ${DATA_PATH}:/datastore:rw
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  changedetection-browser:
     image: dgtlmoon/sockpuppetbrowser:latest
     container_name: changedetection-browser
-    hostname: browser-sockpuppet-chrome
     restart: unless-stopped
-
-    shm_size: "2gb"
-
     environment:
-      - SCREEN_WIDTH=1920
-      - SCREEN_HEIGHT=1080
-      - SCREEN_DEPTH=16
-      - MAX_CONCURRENT_CHROME_PROCESSES=10
-
-    networks:
-      - changedetection_net
-
-    security_opt:
-      - no-new-privileges:true
-
-    cap_add:
-      - SYS_ADMIN
-
-
+      SCREEN_WIDTH: '1920'
+      SCREEN_HEIGHT: '1080'
+      SCREEN_DEPTH: '16'
+      MAX_CONCURRENT_CHROME_PROCESSES: '10'
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      CHROME_BIN: /usr/bin/chromium-browser
+      CHROME_PATH: /usr/lib/chromium/
+      CHROMIUM_FLAGS: --disable-software-rasterizer --disable-dev-shm-usage
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH: /usr/bin/chromium-browser
+      PYTHONUNBUFFERED: '1'
+      LOG_LEVEL: DEBUG
+    networks: changedetection-stack_changedetection_net
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
 networks:
-  changedetection_net:
-    driver: bridge
+  changedetection-stack_changedetection_net:
+    external: true

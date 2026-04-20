@@ -1,16 +1,15 @@
-# ix-invoice-ninja
+# Ix-Invoice-Ninja — TrueNAS SCALE Managed
 
-TrueNAS SCALE app deployment for **invoice-ninja**.
+> ⚠️ **TrueNAS SCALE managed app.** Do NOT deploy via Portainer.
+**Generated:** 2026-04-19 21:12
 
-> ⚠️ This is a TrueNAS SCALE managed app (ix- prefix). It is NOT deployed via Portainer or docker-compose. The compose file here is auto-generated from `docker inspect` for documentation purposes only.
-
-## Services
-
-See `docker-compose.yaml` for service details.
+| Service | Image |
+|---------|-------|
+| `ix-invoice-ninja-scheduler-1` | `invoiceninja/invoiceninja-octane:5.12.28-o` |
+| `ix-invoice-ninja-worker-1` | `invoiceninja/invoiceninja-octane:5.12.28-o` |
+| `ix-invoice-ninja-invoice-ninja-1` | `invoiceninja/invoiceninja-octane:5.12.28-o` |
+| `ix-invoice-ninja-mariadb-1` | `mariadb:12.2.2` |
+| `ix-invoice-ninja-redis-1` | `valkey/valkey:9.0.3` |
 
 ## Notes
-
-- Managed by TrueNAS SCALE App Catalog
-- Do NOT modify compose file directly — changes will not persist
-- All secrets are sanitized with `${VAR}` placeholders
-- Redeploy via TrueNAS web UI, not Portainer
+- All secrets sanitized to `${{VAR}}` placeholders

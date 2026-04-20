@@ -1,0 +1,37 @@
+version: '3.9'
+services:
+  lazylibrarian:
+    image: lscr.io/linuxserver/lazylibrarian:latest
+    container_name: lazylibrarian
+    restart: unless-stopped
+    environment:
+      TZ: America/Los_Angeles
+      PUID: '3001'
+      PGID: '3000'
+      PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      HOME: /root
+      LANGUAGE: en_US.UTF-8
+      LANG: en_US.UTF-8
+      TERM: xterm
+      S6_CMD_WAIT_FOR_SERVICES_MAXTIME: '0'
+      S6_VERBOSITY: '1'
+      S6_STAGE2_HOOK: /docker-mods
+      VIRTUAL_ENV: /lsiopy
+      LSIO_FIRST_PARTY: 'true'
+    ports:
+    - 5299:5299/tcp
+    networks: arrnet
+    volumes:
+    - ${DATA_PATH}:/config:rw
+    - ${DATA_PATH}:/downloadsq:rw
+    - ${DATA_PATH}:/complete:rw
+    - ${DATA_PATH}:/books/ebooks:rw
+    - ${DATA_PATH}:/books/audiobooks:rw
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://${HOST_IP}:12201
+        tag: '{{.Name}}'
+networks:
+  arrnet:
+    external: true

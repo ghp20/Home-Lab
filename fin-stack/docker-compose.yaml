@@ -1,0 +1,74 @@
+version: '3.9'
+services:
+  fin-frontend:
+    image: finboard-frontend:latest
+    container_name: fin-frontend
+    restart: unless-stopped
+    environment:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      NGINX_VERSION: 1.25.5
+      PKG_RELEASE: '1'
+      NJS_VERSION: 0.8.4
+      NJS_RELEASE: '3'
+    ports:
+    - 8092:80/tcp
+    networks: finboard-stack_internal
+    healthcheck:
+      test:
+      - CMD
+      - wget
+      - -qO-
+      - '--header=X-Forwarded-Proto: https'
+      - http://127.0.0.1:80/api/health
+      interval: 30000000000
+      timeout: 5000000000
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  fin-backend:
+    image: finboard-backend:latest
+    container_name: fin-backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      SMTP_SECURE: 'false'
+      PORT: '3000'
+      SMTP_USER: ${USER_EMAIL}
+      PLAID_CLIENT_ID: 69bcf2d8ef43fb000ed641a0
+      SMTP_PASS: fntu bqhh iiyw tjgo
+      PLAID_SECRET: ${PLAID_SECRET}
+      PLAID_ENV: sandbox
+      DB_PATH: /data/finance.db
+      DB_BACKUP_DIR: /data/backups
+      APP_URL: ${FIN_DOMAIN}
+      SMTP_HOST: smtp.gmail.com
+      JWT_SECRET: ${JWT_SECRET}
+      SMTP_PORT: '587'
+      SMTP_FROM: Finance Tracker <${USER_EMAIL}>
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      NODE_VERSION: 18.20.8
+      YARN_VERSION: 1.22.22
+    networks: finboard-stack_internal
+    volumes:
+    - ${DATA_PATH}:/data:rw
+    - ${DATA_PATH}:/data/backups:rw
+    healthcheck:
+      test:
+      - CMD
+      - wget
+      - -qO-
+      - http://127.0.0.1:3000/api/health
+      interval: 30000000000
+      timeout: 5000000000
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+networks:
+  finboard-stack_internal:
+    external: true
