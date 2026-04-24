@@ -14,9 +14,9 @@ services:
       - "30159:5000"
 
     environment:
-      - TZ=${TZ}
-      - BASE_URL=http://${TRUENAS_HOST}:30159
-      - PLAYWRIGHT_DRIVER_URL=ws://browser-sockpuppet-chrome:3000
+      - TZ=${TZ}{TZ}
+      - BASE_URL=${BASE_URL}
+      - PLAYWRIGHT_DRIVER_URL=${PLAYWRIGHT_DRIVER_URL}
       - FETCH_WORKERS=5
       - MINIMUM_SECONDS_RECHECK_TIME=60
       - HIDE_REFERER=true

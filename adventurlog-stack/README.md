@@ -29,18 +29,6 @@ Docker stack managed by Portainer
 - `PUBLIC_SERVER_URL`
 - `PUBLIC_URL`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/adventurelog/.env`
-- `/mnt/storagepool/apps_config/postgres`
-- `/mnt/storagepool/apps_config/adventurelog/.env`
-- `/mnt/storagepool/apps_config/media`
-
-## Ports
-
-- `8016`
-- `8015`
-
 ## Deployment
 
 ```bash

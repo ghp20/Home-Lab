@@ -22,10 +22,6 @@ AI news digest
 - `TELEGRAM_BOT_TOKEN`
 - `TELEGRAM_CHAT_ID`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/bichon/ai-digest`
-
 ## Deployment
 
 ```bash

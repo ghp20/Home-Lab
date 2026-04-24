@@ -8,10 +8,6 @@ Docker stack managed by Portainer
   • autoheal
 ```
 
-## Volumes
-
-- `/var/run/docker.sock`
-
 ## Deployment
 
 ```bash

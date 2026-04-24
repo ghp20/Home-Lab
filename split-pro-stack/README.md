@@ -27,15 +27,6 @@ Docker stack managed by Portainer
 - `POSTGRES_PASSWORD`
 - `POSTGRES_USER`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/split-pro/postgres17`
-- `/mnt/storagepool/apps_config/split-pro/uploads`
-
-## Ports
-
-- `3020`
-
 ## Deployment
 
 ```bash

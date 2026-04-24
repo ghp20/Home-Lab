@@ -10,16 +10,6 @@ Trading bot — Alpaca API, PostgreSQL
   • agent
 ```
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/ron/trailing-stop/postgres/pgdata`
-- `/mnt/storagepool/apps_config/ron/trailing-stop/logs`
-- `/mnt/storagepool/apps_config/ron/trailing-stop/backtest`
-
-## Ports
-
-- `5433`
-
 ## Deployment
 
 ```bash

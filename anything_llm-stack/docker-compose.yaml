@@ -3,32 +3,29 @@ version: "3.8"
 x-logging: &gelf_logging
   driver: gelf
   options:
-    gelf-address: "udp://${TRUENAS_HOST}:12201"
+    gelf-address: "udp://${GELF_HOST}:${GELF_PORT}"
     tag: "{{.Name}}"
     
 services:
   anything-llm:
-    image: mintplexlabs/anythingllm:latest
+    image: mintplexlabs/anythingllm:${ALLM_TAG:-latest}
     container_name: anything-llm
     environment:
-      - SERVER_PORT=3001
-      - STORAGE_DIR=/app/server/storage
-      - DATABASE_URL=file:/app/server/storage/anythingllm.db
-      # Optional:
+      - SERVER_PORT=${CONTAINER_PORT}
+      - STORAGE_DIR=${STORAGE_DIR}
+      - DATABASE_URL=${DATABASE_URL}
       - JWT_SECRET=${JWT_SECRET}{JWT_SECRET}
       - ENCRYPTION_KEY=${ENCRYPTION_KEY}{ENCRYPTION_KEY}
-      - DISABLE_TELEMETRY=1
+      - DISABLE_TELEMETRY=${DISABLE_TELEMETRY:-1}
     volumes:
-      # Primary, expected path
-      - /mnt/storagepool/apps_config/anything_llm/data:/app/server/storage
-      # Safety net for Prisma's "../storage" resolution
-      - /mnt/storagepool/apps_config/anything_llm/data:/app/storage
+      - ${STORAGE_ROOT}:/app/server/storage
+      - ${STORAGE_ROOT}:/app/storage
     ports:
-      - "30239:3001"
+      - "${HOST_PORT}:${CONTAINER_PORT}"
     restart: unless-stopped
     logging: *gelf_logging
     healthcheck:
-      test: ["CMD-SHELL", "curl --silent --fail http://localhost:3001/api/ping >/dev/null || exit 1"]
+      test: ["CMD-SHELL", "curl --silent --fail http://localhost:${CONTAINER_PORT}/api/ping >/dev/null || exit 1"]
       interval: 30s
       timeout: 5s
       retries: 10

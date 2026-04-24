@@ -16,15 +16,6 @@ Docker stack managed by Portainer
 - `PUID`
 - `TZ`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/lubelogger/data`
-- `/mnt/storagepool/apps_config/lubelogger/keys`
-
-## Ports
-
-- `8100`
-
 ## Deployment
 
 ```bash

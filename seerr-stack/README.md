@@ -22,15 +22,6 @@ Media requests — Seerr
 - `POSTGRES_USER`
 - `TZ`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/seerr/db`
-- `/mnt/storagepool/apps_config/seerr/config`
-
-## Ports
-
-- `5055`
-
 ## Deployment
 
 ```bash

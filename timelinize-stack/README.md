@@ -14,17 +14,6 @@ Docker stack managed by Portainer
 - `TZ`
 - `XDG_CONFIG_HOME`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/timelinize/repo`
-- `/mnt/storagepool/apps_config/timelinize/config`
-- `/mnt/storagepool/master/timelinize`
-- `/mnt/storagepool/apps_config/Immich/data`
-
-## Ports
-
-- `12002`
-
 ## Deployment
 
 ```bash

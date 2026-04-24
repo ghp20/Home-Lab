@@ -9,14 +9,6 @@ Online docs — Collabora Online
   • collabora
 ```
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/collabora/config`
-
-## Ports
-
-- `9980`
-
 ## Deployment
 
 ```bash

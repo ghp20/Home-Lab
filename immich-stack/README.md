@@ -14,10 +14,7 @@ Docker stack managed by Portainer
 
 ## Volumes
 
-- `/mnt/storagepool/apps_config/Immich/data`
-- `/mnt/storagepool/master/immich_external`
 - `/etc/localtime`
-- `/mnt/storagepool/apps_config/Immich/postgres`
 
 ## Deployment
 

@@ -1,41 +1,41 @@
 services:
   dispatcharr:
-    image: ghcr.io/dispatcharr/dispatcharr:latest
+    image: ghcr.io/dispatcharr/dispatcharr:${DISPATCHARR_TAG:-latest}
     container_name: dispatcharr
     restart: unless-stopped
     volumes:
-      - /mnt/storagepool/apps_config/dispatcharr/data:/data
+      - ${STORAGE_ROOT_DISPATCHARR}:/data
     environment:
-      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}{SECRET_KEY}
-      - DISPATCHARR_ENV=aio
-      - REDIS_HOST=localhost
-      - CELERY_BROKER_URL=redis://localhost:6379/0
-      - DISPATCHARR_LOG_LEVEL=info
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}{SECRET_KEY}{DJANGO_SECRET_KEY}
+      - DISPATCHARR_ENV=${DISPATCHARR_ENV}
+      - REDIS_HOST=${REDIS_HOST}
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
+      - DISPATCHARR_LOG_LEVEL=${DISPATCHARR_LOG_LEVEL}
     network_mode: "service:gluetun-iptv"
     devices:
       - /dev/dri/renderD128:/dev/dri/renderD128
       - /dev/dri/card0:/dev/dri/card0
       
   gluetun-iptv:
-    image: qmcgaw/gluetun
+    image: qmcgaw/gluetun:${GLUETUN_TAG:-latest}
     container_name: gluetun-iptv
     cap_add:
       - NET_ADMIN
     devices:
       - /dev/net/tun:/dev/net/tun
     environment:
-      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}
-      - VPN_TYPE=${VPN_TYPE}
-      - OPENVPN_USER=ZQc8ybf6n4hEEpmH97DvBDeQ
-      - OPENVPN_PASSWORD=${OPENVPN_PASSWORD}
-      - SERVER_COUNTRIES=${SERVER_COUNTRIES}
-      - SERVER_CITIES=San Francisco
-      - SERVER_SELECTION=fastest
-      - TZ=${TZ}
-      - DNS_ADDRESS=1.1.1.1
-      - DOT=off
+      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}{VPN_SERVICE_PROVIDER}
+      - VPN_TYPE=${VPN_TYPE}{VPN_TYPE}
+      - OPENVPN_USER=${OPENVPN_USER}
+      - OPENVPN_PASSWORD=${OPENVPN_PASSWORD}{OPENVPN_PASSWORD}
+      - SERVER_COUNTRIES=${SERVER_COUNTRIES}{SERVER_COUNTRIES}
+      - SERVER_CITIES=${SERVER_CITIES}
+      - SERVER_SELECTION=${SERVER_SELECTION}
+      - TZ=${TZ}{TZ}
+      - DNS_ADDRESS=${DNS_ADDRESS}
+      - DOT=${DOT}
     ports:
-      - 9191:9191
+      - "${HOST_PORT}:9191"
     volumes:
-      - /mnt/storagepool/apps_config/gluetun-iptv:/gluetun-iptv
+      - ${STORAGE_ROOT_GLUETUN}:/gluetun-iptv
     restart: unless-stopped

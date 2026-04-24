@@ -1,10 +1,10 @@
 services:
   app:
     container_name: tugtainer
-    image: quenary/tugtainer:latest
+    image: quenary/tugtainer:${TUG_TAG:-latest}
     restart: unless-stopped
     ports:
-      - '9412:80'
+      - '${HOST_PORT}:${CONTAINER_PORT}'
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/storagepool/apps_config/tugtainer/config:/config
+      - ${DOCKER_SOCK}:/var/run/docker.sock
+      - ${STORAGE_ROOT}:/config

@@ -1,27 +1,22 @@
 version: "3.9"
 
 services:
-
   trading-agent-ron:
-    image: trading-agent-ron:latest
+    image: trading-agent-ron:${RON_TAG:-latest}
     container_name: trading-agent-ron
     restart: unless-stopped
-    ports:
-      - "8002:8000"
+    ports: ["${AGENT_PORT}:8000"]
     volumes:
-      - /mnt/storagepool/apps_config/ron/trading-agent-ron/config/config.yaml:/app/config/config.yaml:ro
-      - /mnt/storagepool/apps_config/ron/trading-agent-ron/config/.env:/app/config/.env:ro
-      - /mnt/storagepool/apps_config/ron/trading-agent-ron/models:/app/models
-      - /mnt/storagepool/apps_config/ron/trading-agent-ron/logs:/app/logs
-      - /mnt/storagepool/apps_config/ron/trading-agent-ron/data:/app/data
-      - /mnt/storagepool/apps_config/ron/trading-agent-ron/src/:/app/src/
+      - ${STORAGE_ROOT}/config/config.yaml:/app/config/config.yaml:ro
+      - ${STORAGE_ROOT}/config/.env:/app/config/.env:ro
+      - ${STORAGE_ROOT}/models:/app/models
+      - ${STORAGE_ROOT}/logs:/app/logs
+      - ${STORAGE_ROOT}/data:/app/data
+      - ${STORAGE_ROOT}/src/:/app/src/
     depends_on:
-      trading-postgres-ron:
-        condition: service_healthy
-      trading-redis-ron:
-        condition: service_healthy
-    networks:
-      - trading-net-ron
+      trading-postgres-ron: {condition: service_healthy}
+      trading-redis-ron: {condition: service_healthy}
+    networks: [trading-net-ron]
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
@@ -30,34 +25,31 @@ services:
       start_period: 90s
 
   trading-postgres-ron:
-    image: postgres:15-alpine
+    image: postgres:${PG_TAG:-15-alpine}
     container_name: trading-postgres-ron
     restart: unless-stopped
     environment:
-      POSTGRES_DB: trading_agent
-      POSTGRES_USER: agent
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}
     volumes:
-      - /mnt/storagepool/apps_config/ron/trading-agent-ron/postgres:/var/lib/postgresql/data
-    networks:
-      - trading-net-ron
+      - ${STORAGE_ROOT}/postgres:/var/lib/postgresql/data
+    networks: [trading-net-ron]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U agent -d trading_agent"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
-    ports:
-      - "5434:5432"
+    ports: ["${DB_PORT}:5432"]
 
   trading-redis-ron:
-    image: redis:7-alpine
+    image: redis:${REDIS_TAG:-7-alpine}
     container_name: trading-redis-ron
     restart: unless-stopped
     command: redis-server --save 60 1 --loglevel warning
     volumes:
-      - /mnt/storagepool/apps_config/ron/trading-agent-ron/redis:/data
-    networks:
-      - trading-net-ron
+      - ${STORAGE_ROOT}/redis:/data
+    networks: [trading-net-ron]
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -65,6 +57,4 @@ services:
       retries: 5
 
 networks:
-  trading-net-ron:
-    driver: bridge
-    name: trading-net-ron
+  trading-net-ron: {driver: bridge, name: trading-net-ron}

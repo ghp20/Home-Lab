@@ -8,7 +8,6 @@ Docker stack managed by Portainer
   • monetr
   • monetr-postgres
   • monetr-valkey
-  • monetr-net
 ```
 
 ## Key Env Vars
@@ -27,16 +26,6 @@ Docker stack managed by Portainer
 - `POSTGRES_DB`
 - `POSTGRES_PASSWORD`
 - `POSTGRES_USER`
-
-## Volumes
-
-- `/mnt/storagepool/apps_config/monetr/config`
-- `/mnt/storagepool/apps_config/monetr/postgres`
-- `/mnt/storagepool/apps_config/monetr/valkey`
-
-## Ports
-
-- `4000`
 
 ## Deployment
 

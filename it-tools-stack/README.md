@@ -8,14 +8,6 @@ Docker stack managed by Portainer
   • it-tools
 ```
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/it-tools`
-
-## Ports
-
-- `8088`
-
 ## Deployment
 
 ```bash

@@ -8,18 +8,6 @@ Media server — Jellyfin
   • jellyfin
 ```
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/jellyfin/config`
-- `/mnt/storagepool/apps_config/jellyfin/cache`
-- `/mnt/storagepool/apps_config/jellyfin/transcode`
-- `/mnt/storagepool/master/Media`
-
-## Ports
-
-- `8096`
-- `8920`
-
 ## Deployment
 
 ```bash

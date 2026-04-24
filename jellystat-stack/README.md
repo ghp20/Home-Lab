@@ -16,15 +16,6 @@ Docker stack managed by Portainer
 - `POSTGRES_USER`
 - `TZ`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/jellystat/postgres`
-- `/mnt/storagepool/apps_config/jellystat/backup`
-
-## Ports
-
-- `8090`
-
 ## Deployment
 
 ```bash

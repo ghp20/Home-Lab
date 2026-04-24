@@ -2,36 +2,32 @@ version: "3.8"
 
 services:
   jellystat-db:
-    image: postgres:17
+    image: postgres:${PG_TAG:-17}
     container_name: jellystat-db
     environment:
-      POSTGRES_DB: jellystat
-      POSTGRES_USER: jellystat
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      TZ=${TZ}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}
+      TZ=${TZ}{TZ}
     volumes:
-      - /mnt/storagepool/apps_config/jellystat/postgres:/var/lib/postgresql/data
+      - ${STORAGE_ROOT}/postgres:/var/lib/postgresql/data
     restart: unless-stopped
 
   jellystat:
-    image: cyfershepard/jellystat:latest
+    image: cyfershepard/jellystat:${JELLYSTAT_TAG:-latest}
     container_name: jellystat
     ports:
-      - "8090:3000"   # WebUI -> http://truenas-ip:8090
+      - "${HOST_PORT}:${CONTAINER_PORT}"
     environment:
-      - TZ=${TZ}
-
-      # Jellystat DB configuration
-      - POSTGRES_USER=jellystat
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - TZ=${TZ}{TZ}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}
       - POSTGRES_IP=jellystat-db
       - POSTGRES_PORT=5432
-      - POSTGRES_DB=jellystat
-
-      # Change this to a long random string
-      - JWT_SECRET=${JWT_SECRET}{HEX_SECRET}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - JWT_SECRET=${JWT_SECRET}{JWT_SECRET}
     volumes:
-      - /mnt/storagepool/apps_config/jellystat/backup:/app/backend/backup-data
+      - ${STORAGE_ROOT}/backup:/app/backend/backup-data
     depends_on:
       - jellystat-db
     restart: unless-stopped

@@ -1,22 +1,22 @@
 version: "3.8"
 services:
   npmplus:
-    image: zoeyvid/npmplus:2026-04-12-r1
+    image: zoeyvid/npmplus:${NPMPLUS_TAG:-2026-04-12-r1}
     container_name: npmplus
     restart: always
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      - PUID=${PUID}{PUID}
+      - PGID=${PGID}{PGID}
+      - TZ=${TZ}{TZ}
       - DISABLE_HTTP=true
-      - CROWDSEC_LAPI_URL=http://crowdsec:8080
-      - CROWDSEC_LAPI_KEY=${API_KEY}
+      - CROWDSEC_LAPI_URL=${CROWDSEC_LAPI_URL}
+      - CROWDSEC_LAPI_KEY=${API_KEY}{CROWDSEC_LAPI_KEY}
     ports:
-      - "443:443/tcp"
-      - "443:443/udp" 
-      - "8181:81/tcp" 
+      - "${HTTPS_PORT}:443/tcp"
+      - "${HTTPS_PORT}:443/udp"
+      - "${ADMIN_PORT}:81/tcp"
     volumes:
-      - /mnt/storagepool/apps_config/npmplus/data:/data
+      - ${STORAGE_ROOT}:/data
     networks:
       - default
       - crowdsec_net

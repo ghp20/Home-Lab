@@ -21,15 +21,6 @@ Docker stack managed by Portainer
 - `NEXTAUTH_URL`
 - `OPENAI_API_KEY`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/karakeep/data`
-- `/mnt/storagepool/apps_config/karakeep/meilisearch`
-
-## Ports
-
-- `30147`
-
 ## Deployment
 
 ```bash

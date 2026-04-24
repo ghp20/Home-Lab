@@ -1,16 +1,14 @@
-services:
+version: "3.9"
 
+services:
   monetr:
-    image: ghcr.io/monetr/monetr:latest
+    image: ghcr.io/monetr/monetr:${MONETR_TAG:-latest}
     container_name: monetr
     restart: unless-stopped
-    command:
-      - serve
-      - --migrate
-      - --generate-certificates
+    command: [serve, --migrate, --generate-certificates]
     ports:
-      - "4000:4000"
-    user: "1000:1000"
+      - "${HOST_PORT}:4000"
+    user: "${PUID}:${PGID}"
     environment:
       MONETR_ENVIRONMENT: ${MONETR_ENVIRONMENT}
       MONETR_ALLOW_SIGN_UP: ${MONETR_ALLOW_SIGN_UP}
@@ -24,17 +22,14 @@ services:
       MONETR_REDIS_PORT: ${MONETR_REDIS_PORT}
       MONETR_SERVER_EXTERNAL_URL: ${MONETR_SERVER_EXTERNAL_URL}
     volumes:
-      - /mnt/storagepool/apps_config/monetr/config:/etc/monetr
+      - ${STORAGE_ROOT}/config:/etc/monetr
     depends_on:
-      monetr-postgres:
-        condition: service_healthy
-      monetr-valkey:
-        condition: service_healthy
-    networks:
-      - monetr-net
+      monetr-postgres: {condition: service_healthy}
+      monetr-valkey: {condition: service_healthy}
+    networks: [monetr-net]
 
   monetr-postgres:
-    image: postgres:16-alpine
+    image: postgres:${PG_TAG:-16-alpine}
     container_name: monetr-postgres
     restart: unless-stopped
     environment:
@@ -42,31 +37,28 @@ services:
       POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{MONETR_PG_PASSWORD}
       POSTGRES_DB: ${MONETR_PG_DATABASE}
     volumes:
-      - /mnt/storagepool/apps_config/monetr/postgres:/var/lib/postgresql/data
+      - ${STORAGE_ROOT}/postgres:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${MONETR_PG_USERNAME} -d ${MONETR_PG_DATABASE}"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 15s
-    networks:
-      - monetr-net
+    networks: [monetr-net]
 
   monetr-valkey:
-    image: valkey/valkey:8-alpine
+    image: valkey/valkey:${VALKEY_TAG:-8-alpine}
     container_name: monetr-valkey
     restart: unless-stopped
     volumes:
-      - /mnt/storagepool/apps_config/monetr/valkey:/data
+      - ${STORAGE_ROOT}/valkey:/data
     healthcheck:
       test: ["CMD", "valkey-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
-    networks:
-      - monetr-net
+    networks: [monetr-net]
 
 networks:
-  monetr-net:
-    driver: bridge
+  monetr-net: {driver: bridge}

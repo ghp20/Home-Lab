@@ -1,22 +1,21 @@
 services:
   portracker:
-    image: mostafawahied/portracker:latest
+    image: mostafawahied/portracker:${PT_TAG:-latest}
     container_name: portracker
     restart: unless-stopped
     pid: "host"
     ports:
-      - 4999:4999
+      - "${HOST_PORT}:${CONTAINER_PORT}"
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN
     security_opt:
       - apparmor:unconfined
     volumes:
-      - /mnt/storagepool/apps_config/portracker/data:/data
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${STORAGE_ROOT}:/data
+      - ${DOCKER_SOCK}:/var/run/docker.sock:ro
     environment:
-      - DATABASE_PATH=/data/portracker.db
-      - PORT=4999
-      # Optional: For enhanced TrueNAS features
+      - DATABASE_PATH=${DATABASE_PATH}
+      - PORT=${CONTAINER_PORT}
       - TRUENAS_API_KEY=${API_KEY}{TRUENAS_API_KEY}
-      - TRUENAS_WS_BASE=wss://${TRUENAS_HOST}:81
+      - TRUENAS_WS_BASE=${TRUENAS_WS_BASE}

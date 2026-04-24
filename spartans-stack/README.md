@@ -8,15 +8,6 @@ Docker stack managed by Portainer
   • react-app
 ```
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/Spartans/build`
-- `/mnt/storagepool/master/build`
-
-## Ports
-
-- `3001`
-
 ## Deployment
 
 ```bash

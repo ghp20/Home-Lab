@@ -2,37 +2,37 @@ name: immichframe
 services:
   immichframe:
     container_name: immichframe
-    image: ghcr.io/immichframe/immichframe:latest
+    image: ghcr.io/immichframe/immichframe:${IMF_TAG:-latest}
     restart: unless-stopped
     ports:
-      - "30042:8080"
+      - "${HOST_PORT}:${CONTAINER_PORT}"
     environment:
-      TZ=${TZ}
-      ImmichServerUrl: http://${TRUENAS_HOST}:30041
-      ApiKey: ${IMMICHFRAME_API_KEY}
-      AuthenticationSecret: "445035"
-      Interval: 10
-      TransitionDuration: 2
-      ImageZoom: true
-      ImageFill: false
-      Layout: single
-      DownloadImages: "true"
-      RenewImagesDuration: "30"
-      Albums: "36f94242-561a-4188-b383-89e4f788c5fc"
-      PLAYBACK_MODE: random
-      ShowClock: true
-      ClockFormat: hh:mm
-      ShowPhotoDate: true
-      PhotoDateFormat: dd-MMM-yyyy
-      ShowPeopleDesc: true
-      ShowImageLocation: true
-      ImageLocationFormat: City, Country
-      ImagePan: true
-      ShowVideos: true
+      TZ=${TZ}{TZ}
+      ImmichServerUrl: ${IMMICH_URL}
+      ApiKey: ${IMMICH_API_KEY}
+      AuthenticationSecret: ${AUTH_SECRET}
+      Interval: ${INTERVAL}
+      TransitionDuration: ${TRANSITION_DURATION}
+      ImageZoom: ${IMAGE_ZOOM}
+      ImageFill: ${IMAGE_FILL}
+      Layout: ${LAYOUT}
+      DownloadImages: ${DOWNLOAD_IMAGES}
+      RenewImagesDuration: ${RENEW_IMAGES_DURATION}
+      Albums: ${ALBUMS}
+      PLAYBACK_MODE: ${PLAYBACK_MODE}
+      ShowClock: ${SHOW_CLOCK}
+      ClockFormat: ${CLOCK_FORMAT}
+      ShowPhotoDate: ${SHOW_PHOTO_DATE}
+      PhotoDateFormat: ${PHOTO_DATE_FORMAT}
+      ShowPeopleDesc: ${SHOW_PEOPLE_DESC}
+      ShowImageLocation: ${SHOW_IMAGE_LOCATION}
+      ImageLocationFormat: ${IMAGE_LOCATION_FORMAT}
+      ImagePan: ${IMAGE_PAN}
+      ShowVideos: ${SHOW_VIDEOS}
       WeatherApiKey: ${WEATHER_API_KEY}
-      ShowWeatherDescription: true
-      UnitSystem: imperial
-      WeatherLatLong: 37.40868, -121.93778
-      Language: en
+      ShowWeatherDescription: ${SHOW_WEATHER_DESCRIPTION}
+      UnitSystem: ${UNIT_SYSTEM}
+      WeatherLatLong: ${WEATHER_LAT_LONG}
+      Language: ${LANGUAGE}
     volumes:
-      - /mnt/storagepool/apps_config/immichframe/cache:/app/ImageCache
+      - ${CACHE_ROOT}:/app/ImageCache

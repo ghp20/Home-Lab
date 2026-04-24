@@ -2,36 +2,21 @@ version: "3.8"
 
 services:
   lubelogger:
-    image: ghcr.io/hargata/lubelogger:latest
+    image: ghcr.io/hargata/lubelogger:${LL_TAG:-latest}
     container_name: lubelogger
     restart: unless-stopped
-
     environment:
-      PUID=${PUID}
-      PGID=${PGID}
-      TZ=${TZ}
-
-      # === LubeLogger App Settings ===
-      # SQLite is default (no DB needed)
-      ASPNETCORE_URLS: http://0.0.0.0:8080
-
-      # Recommended: fix locale/culture warning
-      LL__Locale: en-US
-      LL__Culture: en-US
-
-      # Optional SMTP (leave blank for now)
-      LL__Smtp__Enabled: "false"
-
-      # Optional Message of the Day
-      LL__MOTD__Enabled: "false"
-
-      # Fix DataProtection warning
-      # (Store keys outside container)
+      PUID=${PUID}{PUID}
+      PGID=${PGID}{PGID}
+      TZ=${TZ}{TZ}
+      ASPNETCORE_URLS: http://0.0.0.0:${CONTAINER_PORT}
+      LL__Locale: ${LL_LOCALE}
+      LL__Culture: ${LL_CULTURE}
+      LL__Smtp__Enabled: "${SMTP_ENABLED}"
+      LL__MOTD__Enabled: "${MOTD_ENABLED}"
       ASPNETCORE_DATAPROTECTION__DIRECTORY: /App/keys
-
     volumes:
-      - /mnt/storagepool/apps_config/lubelogger/data:/App/data
-      - /mnt/storagepool/apps_config/lubelogger/keys:/App/keys
-
+      - ${STORAGE_ROOT}/data:/App/data
+      - ${STORAGE_ROOT}/keys:/App/keys
     ports:
-      - "8100:8080"
+      - "${HOST_PORT}:${CONTAINER_PORT}" 

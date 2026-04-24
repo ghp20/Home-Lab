@@ -8,8 +8,6 @@ Personal finance — Firefly III
   • firefly-db
   • firefly-iii
   • firefly-importer
-  • firefly_db
-  • firefly_upload
 ```
 
 ## Key Env Vars
@@ -29,16 +27,6 @@ Personal finance — Firefly III
 - `MYSQL_ROOT_PASSWORD`
 - `MYSQL_USER`
 - `TRUSTED_PROXIES`
-
-## Volumes
-
-- `/mnt/storagepool/apps_config/firefly3/database`
-- `/mnt/storagepool/apps_config/firefly3/uploads`
-
-## Ports
-
-- `8081`
-- `8083`
 
 ## Deployment
 

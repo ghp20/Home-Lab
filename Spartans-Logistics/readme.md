@@ -22,13 +22,6 @@ Docker stack managed by Portainer
 - `POSTGRES_USER`
 - `SECRET_KEY`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/Spartans/db`
-- `/mnt/storagepool/apps_config/Spartans/backend`
-- `/mnt/storagepool/apps_config/Spartans/frontend/nginx.conf`
-- `/mnt/storagepool/apps_config/Spartans/frontend/logo.png`
-
 ## Deployment
 
 ```bash

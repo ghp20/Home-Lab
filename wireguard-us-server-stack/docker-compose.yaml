@@ -3,33 +3,27 @@ version: "3.8"
 x-logging: &gelf_logging
   driver: gelf
   options:
-    gelf-address: "udp://${TRUENAS_HOST}:12201"
+    gelf-address: "udp://${GELF_HOST}:${GELF_PORT}"
     tag: "{{.Name}}"
     
 services:
   wireguard-us-server:
-    image: lscr.io/linuxserver/wireguard:latest
+    image: lscr.io/linuxserver/wireguard:${WG_TAG:-latest}
     container_name: wireguard-us-server
     cap_add:
       - NET_ADMIN
-      - SYS_MODULE         # Allows loading kernel module if needed (optional, but recommended)
+      - SYS_MODULE
     network_mode: host
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-
-      - SERVERMODE=off       # VERY IMPORTANT — disable auto-generator
+      - PUID=${PUID}{PUID}
+      - PGID=${PGID}{PGID}
+      - TZ=${TZ}{TZ}
+      - SERVERMODE=${SERVER_MODE}
     volumes:
-      - /mnt/storagepool/apps_config/wireguard/server_config:/config   # Persistent config storage
-      - /lib/modules:/lib/modules:ro    # (Optional) access to host kernel modules
+      - ${STORAGE_ROOT}:/config
+      - ${MODULES_PATH}:/lib/modules:ro
     ports:
-      #- "51820:51820/udp"
-      - "22:22/tcp"
-      - "443:443/tcp"  
-    #ports:
-      #- 51820:51820/udp    # Expose UDP port 51820 to host (and it’s forwarded from router)
-    #sysctls:
-      #- net.ipv4.conf.all.src_valid_mark=1  # Required for some routing scenarios (policy routing)
+      - "${SSH_PORT}:${SSH_PORT}/tcp"
+      - "${HTTPS_PORT}:${HTTPS_PORT}/tcp"
     restart: unless-stopped
     logging: *gelf_logging

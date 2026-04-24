@@ -8,15 +8,6 @@ Online office — OnlyOffice
   • onlyoffice-document-server
 ```
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/onlyoffice/data`
-- `/mnt/storagepool/apps_config/onlyoffice/logs`
-
-## Ports
-
-- `8082`
-
 ## Deployment
 
 ```bash

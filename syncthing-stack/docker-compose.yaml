@@ -1,17 +1,17 @@
 version: '3'
 services:
   syncthing:
-    image: syncthing/syncthing:latest
+    image: syncthing/syncthing:${ST_TAG:-latest}
     container_name: syncthing
-    user: "3001:3000"
+    user: "${PUID}:${PGID}"
     restart: unless-stopped
-    hostname: truenas-us  # or truenas-us
+    hostname: ${HOSTNAME}
     volumes:
-      - /mnt/storagepool/master/Media/Movies:/data/movies
-      - /mnt/storagepool/master/Media/Tv:/data/tv
-      - /mnt/storagepool/apps_config/syncthing/config:/var/syncthing
+      - ${PATH_MOVIES}:/data/movies
+      - ${PATH_TV}:/data/tv
+      - ${STORAGE_ROOT}:/var/syncthing
     ports:
-      - 8384:8384    # Web UI
-      - 22000:22000/tcp
-      - 22000:22000/udp
-      - 21027:21027/udp  # local discovery
+      - "${UI_PORT}:${UI_PORT}"
+      - "${SYNC_PORT}:${SYNC_PORT}/tcp"
+      - "${SYNC_PORT}:${SYNC_PORT}/udp"
+      - "${DISCOVERY_PORT}:${DISCOVERY_PORT}/udp" 

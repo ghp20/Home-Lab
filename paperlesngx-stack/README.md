@@ -30,18 +30,6 @@ Document management — Paperless-ngx
 - `PAPERLESS_URL`
 - `POSTGRES_DB`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/paperless_ngx/postgres/17/docker`
-- `/mnt/storagepool/apps_config/paperless_ngx/data`
-- `/mnt/storagepool/apps_config/paperless_ngx/media`
-- `/mnt/storagepool/apps_config/paperless_ngx/consume`
-- `/mnt/storagepool/apps_config/paperless_ngx/trash`
-
-## Ports
-
-- `30070`
-
 ## Deployment
 
 ```bash

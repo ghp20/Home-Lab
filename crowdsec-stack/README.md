@@ -12,16 +12,7 @@ Security — CrowdSec
 
 ## Volumes
 
-- `/mnt/storagepool/apps_config/crowdsec/config/acquis.yaml`
-- `/mnt/storagepool/apps_config/crowdsec/data`
 - `/var/log`
-- `/mnt/storagepool/apps_config/npm/data/logs`
-- `/mnt/storagepool/apps_config/crowdsec/cloudflare-bouncer/cfg.yaml`
-
-## Ports
-
-- `6060`
-- `1514`
 
 ## Deployment
 

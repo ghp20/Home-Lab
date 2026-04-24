@@ -4,21 +4,19 @@ networks:
     name: trading_net
 
 services:
-
   db:
-    image: postgres:16
+    image: postgres:${PG_TAG:-16}
     container_name: trailing_stop_db
     restart: unless-stopped
     networks: [trading_net]
-    ports:
-      - "5433:5432"
+    ports: ["${DB_PORT}:5432"]
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{DB_PASSWORD}
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - /mnt/storagepool/apps_config/ron/trailing-stop/postgres/pgdata:/var/lib/postgresql/data
+      - ${STORAGE_ROOT}/postgres/pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 10s
@@ -35,14 +33,13 @@ services:
         -c log_min_duration_statement=2000
 
   agent:
-    image: trailing_stop_agent:latest
+    image: trailing_stop_agent:${AGENT_TAG:-latest}
     container_name: trailing_stop_agent
     restart: unless-stopped
-    user: "3001:3000"
+    user: "${PUID}:${PGID}"
     networks: [trading_net]
     depends_on:
-      db:
-        condition: service_healthy
+      db: {condition: service_healthy}
     stop_grace_period: 30s
     environment:
       - ALPACA_API_KEY=${ALPACA_API_KEY}{API_KEY}{ALPACA_API_KEY}
@@ -55,7 +52,7 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}{DB_PASSWORD}
       - DB_POOL_MIN=${DB_POOL_MIN}
       - DB_POOL_MAX=${DB_POOL_MAX}
-      - DB_SSLMODE=disable
+      - DB_SSLMODE=${DB_SSLMODE}
       - N8N_WEBHOOK_URL=${WEBHOOK_URL}{N8N_WEBHOOK_URL}
       - N8N_WEBHOOK_SECRET=${N8N_WEBHOOK_SECRET}
       - N8N_MIN_SEVERITY=${N8N_MIN_SEVERITY}
@@ -79,11 +76,11 @@ services:
       - STOP_UPDATE_INTERVAL_SECS=${STOP_UPDATE_INTERVAL_SECS}
       - MARKET_TIMEZONE=${MARKET_TIMEZONE}
       - LOG_LEVEL=${LOG_LEVEL}
-      - LOG_DIR=${LOG_DIR}
+      - LOG_DIR=/app/logs
       - HOST_IP=${HOST_IP}
       - SPY_REGIME_FILTER=${SPY_REGIME_FILTER}
       - SPY_MA_PERIOD=${SPY_MA_PERIOD}
       - EQUITY_CAP=${EQUITY_CAP}
     volumes:
-      - /mnt/storagepool/apps_config/ron/trailing-stop/logs:/app/logs
-      - /mnt/storagepool/apps_config/ron/trailing-stop/backtest:/app/backtest_results
+      - ${STORAGE_ROOT}/logs:/app/logs
+      - ${STORAGE_ROOT}/backtest:/app/backtest_results

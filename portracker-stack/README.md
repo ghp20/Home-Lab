@@ -8,11 +8,6 @@ Port tracking dashboard
   • portracker
 ```
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/portracker/data`
-- `/var/run/docker.sock`
-
 ## Deployment
 
 ```bash

@@ -3,66 +3,59 @@ version: "3.9"
 x-logging: &gelf_logging
   driver: gelf
   options:
-    gelf-address: "udp://${TRUENAS_HOST}:12201"
+    gelf-address: "udp://${GELF_HOST}:${GELF_PORT}"
     tag: "{{.Name}}"
     
 services:
   db:
-    image: postgis/postgis:16-3.5
+    image: postgis/postgis:${PG_TAG:-16-3.5}
     container_name: adventurelog_db
     restart: unless-stopped
     logging: *gelf_logging
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}               # default value from docs  [oai_citation:0‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
-      POSTGRES_USER: ${POSTGRES_USER}            # default value  [oai_citation:1‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}      # **CHANGE THIS** for production
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}
     volumes:
-      #- /mnt/storagepool/apps_config/adventurelog/.env:/app/.env
-      - /mnt/storagepool/apps_config/postgres:/var/lib/postgresql/data
+      - ${STORAGE_ROOT}/postgres:/var/lib/postgresql/data
 
   backend:
-    image: ghcr.io/seanmorley15/adventurelog-backend:latest
+    image: ghcr.io/seanmorley15/adventurelog-backend:${BACKEND_TAG:-latest}
     container_name: adventurelog_backend
     restart: unless-stopped
     logging: *gelf_logging
     depends_on:
       - db
     environment:
-      PGHOST: db                            # default from docs  [oai_citation:2‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
-      POSTGRES_DB: ${POSTGRES_DB}                # from docs
-      POSTGRES_USER: ${POSTGRES_USER}             # from docs
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}       # must match the DB above
-      SECRET_KEY=${SECRET_KEY}{SECRET_KEY}              # **CHANGE THIS** for production  [oai_citation:3‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
-      DJANGO_ADMIN_USERNAME: ${DJANGO_ADMIN_USERNAME}         # default  [oai_citation:4‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
-      DJANGO_ADMIN_PASSWORD=${ADMIN_PASSWORD}{DJANGO_ADMIN_PASSWORD}         # default  [oai_citation:5‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
-      DJANGO_ADMIN_EMAIL: ${DJANGO_ADMIN_EMAIL} # default  [oai_citation:6‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
-      PUBLIC_URL: http://${TRUENAS_HOST}:8016    # adjust to your public backend URL  [oai_citation:7‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
-      CSRF_TRUSTED_ORIGINS: http://${TRUENAS_HOST}:8016,http://${TRUENAS_HOST}:8015 # adjust for your env  [oai_citation:8‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
-      FRONTEND_URL: http://${TRUENAS_HOST}:8015  # URL of the frontend, for email summaries  [oai_citation:9‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
-      #BACKEND_PORT: 8016                   # default inside container  [oai_citation:10‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
-      DEBUG: False                         # recommended for production  [oai_citation:11‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
+      PGHOST: ${PGHOST}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}
+      SECRET_KEY=${SECRET_KEY}{SECRET_KEY}
+      DJANGO_ADMIN_USERNAME: ${DJANGO_ADMIN_USERNAME}
+      DJANGO_ADMIN_PASSWORD=${ADMIN_PASSWORD}{DJANGO_ADMIN_PASSWORD}
+      DJANGO_ADMIN_EMAIL: ${DJANGO_ADMIN_EMAIL}
+      PUBLIC_URL: ${PUBLIC_URL}
+      CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS}
+      FRONTEND_URL: ${FRONTEND_URL}
+      DEBUG: ${DEBUG}
     ports:
-      - "8016:8000"
+      - "${BACKEND_HOST_PORT}:${BACKEND_CONTAINER_PORT}"
     volumes:
-      #- /mnt/storagepool/apps_config/adventurelog/.env:/app/.env
-      - /mnt/storagepool/apps_config/media:/code/media
+      - ${STORAGE_ROOT}/media:/code/media
 
   frontend:
-    image: ghcr.io/seanmorley15/adventurelog-frontend:latest
+    image: ghcr.io/seanmorley15/adventurelog-frontend:${FRONTEND_TAG:-latest}
     container_name: adventurelog_frontend
     restart: unless-stopped
     logging: *gelf_logging
     depends_on:
       - backend
     environment:
-      PUBLIC_SERVER_URL: http://backend:8000   # connect to backend URL – adjust accordingly  [oai_citation:12‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
-      VITE_API_URL: http://backend:8000
-      ORIGIN: http://${TRUENAS_HOST}:8015                 # domain or IP you’ll use to access frontend  [oai_citation:13‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
-      BODY_SIZE_LIMIT: Infinity                      # default  [oai_citation:14‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
-      FRONTEND_PORT: 8015                             # default internal port  [oai_citation:15‡adventurelog.app](https://adventurelog.app/docs/install/docker.html)
+      PUBLIC_SERVER_URL: ${PUBLIC_SERVER_URL}
+      VITE_API_URL: ${VITE_API_URL}
+      ORIGIN: ${ORIGIN}
+      BODY_SIZE_LIMIT: ${BODY_SIZE_LIMIT}
+      FRONTEND_PORT: ${FRONTEND_PORT}
     ports:
-      - "8015:3000"
-
-volumes:
-  postgres_data: {}
-  adventurelog_media: {}
+      - "${FRONTEND_HOST_PORT}:${FRONTEND_CONTAINER_PORT}" 

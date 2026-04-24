@@ -28,15 +28,6 @@ Docker stack managed by Portainer
 - `PRINTER_ENDPOINT`
 - `SMTP_FROM`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/reactive-resume/db`
-- `/mnt/storagepool/apps_config/reactive-resume/data`
-
-## Ports
-
-- `30120`
-
 ## Deployment
 
 ```bash

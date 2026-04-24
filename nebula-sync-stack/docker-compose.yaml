@@ -1,36 +1,19 @@
-version: "3.8"
 
 services:
-  nebula-sync:
-    image: ghcr.io/lovelaze/nebula-sync:latest
-    container_name: nebula-sync
+  orbital-sync:
+    image: orbital-sync:local-v6
+    container_name: orbital-sync
+    user: "3001:3000"
     environment:
-      # REQUIRED:
-      - PRIMARY=http://${TRUENAS_HOST}:3000|${PIHOLE_PASSWORD}!
-      - REPLICAS=http://100.74.68.110:3000|Ellipsis
-      - FULL_SYNC=false         # or "false" if you want selective sync
-      - RUN_GRAVITY=false      # recommended false if using Dockerized Pi-hole — see issues  
-      # - CRON=0 * * * *        # optional: schedule, default every hour
-      - CRON=*/15 * * * *      # example: every 15 minutes
-      # Optional: timezone for logs / cron
-      - TZ=${TZ}
-
-      # Optional: if doing selective sync (FULL_SYNC=false), you can use e.g.:
-      - SYNC_CONFIG_DNS=true
-      # - SYNC_CONFIG_DHCP=false
-      # - SYNC_CONFIG_NTP=false
-      # - SYNC_CONFIG_RESOLVER=false
-      # - SYNC_CONFIG_DATABASE=false
-      # - SYNC_CONFIG_MISC=false
-      - SYNC_GRAVITY_AD_LIST=true
-      - SYNC_GRAVITY_AD_LIST_BY_GROUP=true
-      - SYNC_GRAVITY_DOMAIN_LIST=true
-      - SYNC_GRAVITY_DOMAIN_LIST_BY_GROUP=true
-
-      # Optional: disable TLS certificate verification (if using self-signed certs)
-      # - CLIENT_SKIP_TLS_VERIFICATION=true
+      - PIHOLE_VERSION=${PIHOLE_VERSION}
+      - PRIMARY_HOST_BASE_URL=${PRIMARY_HOST_BASE_URL}
+      - PRIMARY_HOST_PASSWORD=${PRIMARY_HOST_PASSWORD}
+      - PRIMARY_HOST_PATH=${PRIMARY_HOST_PATH}
+      - SECONDARY_HOSTS_1_BASE_URL=${SECONDARY_HOSTS_1_BASE_URL}
+      - SECONDARY_HOSTS_1_PASSWORD=${SECONDARY_HOSTS_1_PASSWORD}
+      - SECONDARY_HOSTS_1_PATH=${SECONDARY_HOSTS_1_PATH}
+      - INTERVAL_MINUTES=${INTERVAL_MINUTES}
+      - VERBOSE=true
     restart: unless-stopped
-    # uncomment the lines below if you'd like to mount env or log directory
     volumes:
-      - /mnt/storagepool/apps_config/nebula-sync/env:/app/env:ro
-      - /mnt/storagepool/apps_config/nebula-sync/logs:/app/logs
+      - /mnt/storagepool/apps_config/orbital-sync/data:/app/data

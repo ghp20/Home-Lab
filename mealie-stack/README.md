@@ -28,15 +28,6 @@ Recipe manager — Mealie
 - `PUID`
 - `SMTP_FROM_EMAIL`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/mealie/postgres`
-- `/mnt/storagepool/apps_config/mealie/mealie/data`
-
-## Ports
-
-- `9926`
-
 ## Deployment
 
 ```bash

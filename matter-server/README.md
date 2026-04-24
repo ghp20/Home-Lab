@@ -8,10 +8,6 @@ Docker stack managed by Portainer
   • matter-server
 ```
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/matter-server`
-
 ## Deployment
 
 ```bash

@@ -29,16 +29,6 @@ Invite management — Wizarr
 - `WIZARR_LOG_LEVEL`
 - `WIZARR_PORT`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/wizarr/database`
-- `/mnt/storagepool/apps_config/wizarr/storage`
-- `/mnt/storagepool/apps_config/wizarr/database/pgdata`
-
-## Ports
-
-- `5690`
-
 ## Deployment
 
 ```bash

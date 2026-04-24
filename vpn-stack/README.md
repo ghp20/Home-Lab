@@ -21,15 +21,6 @@ VPN download stack — Gluetun, qBittorrent, SABnzbd, BitMagnet
 - `POSTGRES_PASSWORD`
 - `POSTGRES_USER`
 
-## Volumes
-
-- `/dev/net/tun`
-- `/mnt/storagepool/apps_config/gluetun`
-- `/mnt/storagepool/apps_config/qbittorrent/config`
-- `/mnt/storagepool/master/Media/downloads`
-- `/mnt/storagepool/apps_config/sabnzbd/config`
-- `/mnt/storagepool/media/usenet_incomplete`
-
 ## Ports
 
 - `8085`

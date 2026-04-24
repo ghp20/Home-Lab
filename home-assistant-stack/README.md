@@ -19,9 +19,6 @@ Home automation — Home Assistant
 
 ## Volumes
 
-- `/mnt/storagepool/apps_config/homeassistant/postgres`
-- `/mnt/storagepool/apps_config/homeassistant/config`
-- `/mnt/storagepool/apps_config/homeassistant/media`
 - `/etc/localtime`
 - `/run/dbus`
 

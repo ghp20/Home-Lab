@@ -27,16 +27,6 @@ Recipe manager — Tandoor
 - `POSTGRES_PASSWORD`
 - `POSTGRES_PORT`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/tandoor-recipes/postgres`
-- `/mnt/storagepool/apps_config/tandoor-recipes/files`
-- `/mnt/storagepool/apps_config/tandoor-recipes/media`
-
-## Ports
-
-- `9925`
-
 ## Deployment
 
 ```bash

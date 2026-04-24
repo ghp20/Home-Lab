@@ -2,34 +2,34 @@ version: "3.8"
 
 services:
   db:
-    image: postgres:15
+    image: postgres:${PG_TAG:-15}
     container_name: vaultwarden-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: vaultwarden
-      POSTGRES_USER: vaultwarden
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}
     volumes:
-      - /mnt/storagepool/apps_config/vaultwarden/postgres:/var/lib/postgresql/data
+      - ${STORAGE_ROOT}/postgres:/var/lib/postgresql/data
     networks:
       - vaultwarden-net
 
   vaultwarden:
-    image: vaultwarden/server:latest
+    image: vaultwarden/server:${VW_TAG:-latest}
     container_name: vaultwarden
     restart: unless-stopped
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://vaultwarden:v3eKoRk_zV_-9FpB@vaultwarden-postgres/vaultwarden
-      ADMIN_TOKEN=${ADMIN_TOKEN}{HEX_SECRET}
-      ROCKET_PORT: 30032
-      DOMAIN: http://${TRUENAS_HOST}:30032
-      WEBSOCKET_ENABLED: "true"
+      DATABASE_URL: ${DATABASE_URL}
+      ADMIN_TOKEN=${ADMIN_TOKEN}{ADMIN_TOKEN}
+      ROCKET_PORT: ${ROCKET_PORT}
+      DOMAIN: ${DOMAIN}
+      WEBSOCKET_ENABLED: ${WEBSOCKET_ENABLED}
     ports:
-      - "30032:30032"
+      - "${HOST_PORT}:${ROCKET_PORT}"
     volumes:
-      - /mnt/storagepool/apps_config/vaultwarden/data:/data
+      - ${STORAGE_ROOT}/data:/data
     networks:
       - vaultwarden-net
 

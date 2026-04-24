@@ -14,7 +14,7 @@ services:
       - "8787:8787"
 
     environment:
-      - TZ=${TZ}
+      - TZ=${TZ}{TZ}
       - PUID=${PUID}
       - PGID=${PGID}
 
@@ -47,7 +47,7 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=${TZ}
+      - TZ=${TZ}{TZ}
     volumes:
       - /mnt/storagepool/apps_config/calibre/config:/config
       - /mnt/storagepool/master/Media/Books/ebooks:/books/ebooks
@@ -65,7 +65,7 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=${TZ}
+      - TZ=${TZ}{TZ}
     volumes:
       - /mnt/storagepool/apps_config/calibre-web/config:/config
       - /mnt/storagepool/master/Media/Books/ebooks:/books
@@ -82,7 +82,7 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=${TZ}
+      - TZ=${TZ}{TZ}
     volumes:
       - /mnt/storagepool/apps_config/audiobookshelf/config:/config
       - /mnt/storagepool/apps_config/audiobookshelf/metadata:/metadata
@@ -99,7 +99,7 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=${TZ}
+      - TZ=${TZ}{TZ}
     volumes:
       - /mnt/storagepool/master/Media/Books/ebooks:/books
       - /mnt/storagepool/master/Media/Books/ebooks:/incoming

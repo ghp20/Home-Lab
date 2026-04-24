@@ -8,10 +8,6 @@ DNS resolver — Unbound
   • unbound
 ```
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/unbound`
-
 ## Deployment
 
 ```bash

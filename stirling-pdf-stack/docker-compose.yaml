@@ -13,10 +13,10 @@ services:
       - /mnt/storagepool/apps_config/stirlingpdf/pipeline:/pipeline
     environment:
       - DOCKER_ENABLE_SECURITY=false
-      - LANGS=en_GB
+      - LANGS=${LANGS}
       - SERVER_PORT=8080
-      - ALLOWED_HOSTS=pdf.${N8N_DOMAIN},100.119.204.23,${TRUENAS_HOST}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
       - PASSWORD_PROTECT=true
-      - USERNAME=Gaurav
-      - PASSWORD=7E_CZL@T8vKh-FNM
+      - USERNAME=${USERNAME}
+      - PASSWORD=${PASSWORD}
       - SECURITY_ENABLELOGIN=true

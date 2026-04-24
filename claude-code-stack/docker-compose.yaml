@@ -2,18 +2,18 @@ version: "3.8"
 
 services:
   claude-code:
-    image: node:20-slim
+    image: node:${NODE_TAG:-20-slim}
     container_name: claude-code
     stdin_open: true
     tty: true
     working_dir: /workspace
     environment:
-      - ANTHROPIC_API_KEY=${API_KEY}{ANTHROPIC_API_KEY}  # replace with your key
-      - PATH=/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      - ANTHROPIC_API_KEY=${API_KEY}{ANTHROPIC_API_KEY}
+      - PATH=${PATH}
       - CLAUDE_DISABLE_OAUTH=true
     volumes:
-      - /mnt/storagepool/apps_config/claude-code:/root/.claude
-      - /mnt/storagepool/master/claude-code:/workspace  # mount your pool so Claude can work on files
+      - ${STORAGE_ROOT}:/root/.claude
+      - ${WORKSPACE_ROOT}:/workspace
     command: >
         bash -c "apt-get update && apt-get install -y curl && curl -fsSL https://claude.ai/install.sh | bash && ln -sf /root/.local/bin/claude /usr/local/bin/claude && tail -f /dev/null"
     restart: unless-stopped

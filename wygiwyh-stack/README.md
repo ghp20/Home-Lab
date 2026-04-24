@@ -27,16 +27,6 @@ AI image generation UI
 - `SQL_HOST`
 - `SQL_PASSWORD`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/wygiwyh/db`
-- `/mnt/storagepool/apps_config/wygiwyh/media`
-- `/mnt/storagepool/apps_config/wygiwyh/static`
-
-## Ports
-
-- `9711`
-
 ## Deployment
 
 ```bash

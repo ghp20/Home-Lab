@@ -8,7 +8,6 @@ Trading agent (Ron profile)
   • trading-agent-ron
   • trading-postgres-ron
   • trading-redis-ron
-  • trading-net-ron
 ```
 
 ## Key Env Vars
@@ -16,20 +15,6 @@ Trading agent (Ron profile)
 - `POSTGRES_DB`
 - `POSTGRES_PASSWORD`
 - `POSTGRES_USER`
-
-## Volumes
-
-- `/mnt/storagepool/apps_config/ron/trading-agent-ron/config/config.yaml`
-- `/mnt/storagepool/apps_config/ron/trading-agent-ron/config/.env`
-- `/mnt/storagepool/apps_config/ron/trading-agent-ron/models`
-- `/mnt/storagepool/apps_config/ron/trading-agent-ron/logs`
-- `/mnt/storagepool/apps_config/ron/trading-agent-ron/data`
-- `/mnt/storagepool/apps_config/ron/trading-agent-ron/src/`
-
-## Ports
-
-- `8002`
-- `5434`
 
 ## Deployment
 

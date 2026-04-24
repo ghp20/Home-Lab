@@ -8,16 +8,6 @@ Docker stack managed by Portainer
   • metube
 ```
 
-## Volumes
-
-- `/mnt/storagepool/master/Media/youtube`
-- `/mnt/storagepool/apps_config/metube/state`
-- `/mnt/storagepool/master/Media/youtube/metube-config/cookies.txt`
-
-## Ports
-
-- `8086`
-
 ## Deployment
 
 ```bash

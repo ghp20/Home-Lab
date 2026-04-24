@@ -6,18 +6,11 @@ Local LLM — Ollama
 
 ```
   • ollama
-  • homelab
 ```
 
 ## Key Env Vars
 
 - ``
-
-## Volumes
-
-- `/mnt/storagepool/apps_config/ollama/config`
-- `/mnt/storagepool/apps_config/ollama/data`
-- `/mnt/nvmepool/appsconfig/ollama/models`
 
 ## Deployment
 

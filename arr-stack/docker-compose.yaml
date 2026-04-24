@@ -1,9 +1,14 @@
 version: "3.9"
 
+x-common-env: &common-env
+  PUID=${PUID}{PUID}
+  PGID=${PGID}{PGID}
+  TZ=${TZ}{TZ}
+
 x-logging: &gelf_logging
   driver: gelf
   options:
-    gelf-address: "udp://${TRUENAS_HOST}:12201"
+    gelf-address: "udp://${GELF_HOST}:${GELF_PORT}"
     tag: "{{.Name}}"
 
 networks:
@@ -13,106 +18,86 @@ networks:
 services:
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
+    image: lscr.io/linuxserver/prowlarr:${PROWLARR_TAG:-latest}
     container_name: prowlarr
     networks: [arrnet]
     ports:
-      - "9696:9696"
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      - "${PROWLARR_PORT}:9696"
+    environment: *common-env
     volumes:
-      - /mnt/storagepool/apps_config/prowlarr/config:/config
+      - ${APPS_CONFIG}/prowlarr/config:/config
     restart: unless-stopped
     logging: *gelf_logging
 
   radarr:
-    image: lscr.io/linuxserver/radarr:latest
+    image: lscr.io/linuxserver/radarr:${RADARR_TAG:-latest}
     container_name: radarr
     networks: [arrnet]
     ports:
-      - "7878:7878"
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      - "${RADARR_PORT}:7878"
+    environment: *common-env
     volumes:
-      - /mnt/storagepool/apps_config/radarr/config:/config
-      - /mnt/storagepool/master/Media/Movies:/movies
-      - /mnt/storagepool/master/Media/downloads:/downloadsq
-      - /mnt/storagepool/master/Media/usenet/downloads:/downloads
+      - ${APPS_CONFIG}/radarr/config:/config
+      - ${MEDIA_ROOT}/Movies:/movies
+      - ${DOWNLOAD_ROOT}:/downloadsq
+      - ${USENET_ROOT}:/downloads
     restart: unless-stopped
     logging: *gelf_logging
 
   sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
+    image: lscr.io/linuxserver/sonarr:${SONARR_TAG:-latest}
     container_name: sonarr
     networks: [arrnet]
     ports:
-      - "8989:8989"
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      - "${SONARR_PORT}:8989"
+    environment: *common-env
     volumes:
-      - /mnt/storagepool/apps_config/sonarr/config:/config
-      - /mnt/storagepool/master/Media/downloads:/downloadsq
-      - /mnt/storagepool/master/Media/usenet/downloads:/downloads
-      - /mnt/storagepool/master/Media/Tv:/tv
+      - ${APPS_CONFIG}/sonarr/config:/config
+      - ${DOWNLOAD_ROOT}:/downloadsq
+      - ${USENET_ROOT}:/downloads
+      - ${MEDIA_ROOT}/Tv:/tv
     restart: unless-stopped
     logging: *gelf_logging
 
   bazarr:
-    image: lscr.io/linuxserver/bazarr:latest
+    image: lscr.io/linuxserver/bazarr:${BAZARR_TAG:-latest}
     container_name: bazarr
     restart: unless-stopped
     networks: [arrnet]
     ports:
-      - "6767:6767"
-    environment:
-      PUID=${PUID}
-      PGID=${PGID}
-      TZ=${TZ}
+      - "${BAZARR_PORT}:6767"
+    environment: *common-env
     volumes:
-      - /mnt/storagepool/apps_config/bazarr/config:/config
-      - /mnt/storagepool/master/Media/Movies:/movies
-      - /mnt/storagepool/master/Media/Tv:/tv
+      - ${APPS_CONFIG}/bazarr/config:/config
+      - ${MEDIA_ROOT}/Movies:/movies
+      - ${MEDIA_ROOT}/Tv:/tv
     logging: *gelf_logging
   
   lazylibrarian:
-    image: lscr.io/linuxserver/lazylibrarian:latest
+    image: lscr.io/linuxserver/lazylibrarian:${LAZYLIBRARIAN_TAG:-latest}
     container_name: lazylibrarian
     networks: [arrnet]
     ports:
-      - "5299:5299"
+      - "${LAZYLIBRARIAN_PORT}:5299"
     restart: unless-stopped
-
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      
+    environment: *common-env
     volumes:
-      - /mnt/storagepool/apps_config/lazylibrarian:/config
-      - /mnt/storagepool/master/Media/downloads/lazylibrarian:/downloadsq
-      - /mnt/storagepool/master/Media/downloads/complete:/complete
-      - /mnt/storagepool/master/Media/Books/ebooks:/books/ebooks
-      - /mnt/storagepool/master/Media/Books/audiobooks:/books/audiobooks
+      - ${APPS_CONFIG}/lazylibrarian:/config
+      - ${DOWNLOAD_ROOT}/lazylibrarian:/downloadsq
+      - ${DOWNLOAD_ROOT}/complete:/complete
+      - ${MEDIA_ROOT}/Books/ebooks:/books/ebooks
+      - ${MEDIA_ROOT}/Books/audiobooks:/books/audiobooks
     logging: *gelf_logging
 
   cleanuparr:
-    image: ghcr.io/cleanuparr/cleanuparr:latest
+    image: ghcr.io/cleanuparr/cleanuparr:${CLEANUPARR_TAG:-latest}
     container_name: cleanuparr
     networks: [arrnet]
     ports:
-      - "11011:11011"
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      - "${CLEANUPARR_PORT}:11011"
+    environment: *common-env
     volumes:
-      - /mnt/storagepool/apps_config/cleanuparr/config:/config
-      - /mnt/storagepool/master/Media/downloads:/downloadsq
+      - ${APPS_CONFIG}/cleanuparr/config:/config
+      - ${DOWNLOAD_ROOT}:/downloadsq
     restart: unless-stopped
     logging: *gelf_logging

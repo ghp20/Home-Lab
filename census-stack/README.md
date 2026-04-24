@@ -16,16 +16,6 @@ Docker stack managed by Portainer
 - `AUTH_USERNAME`
 - `TZ`
 
-## Volumes
-
-- `/var/run/docker.sock`
-- `/mnt/storagepool/apps_config/census/server`
-- `/mnt/storagepool/apps_config/census/config`
-
-## Ports
-
-- `8087`
-
 ## Deployment
 
 ```bash

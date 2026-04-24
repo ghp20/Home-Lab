@@ -10,14 +10,7 @@ Media server — Plex
 
 ## Volumes
 
-- `/mnt/storagepool/apps_config/plex/config`
-- `/mnt/storagepool/apps_config/plex/transcode`
-- `/mnt/storagepool/master/Media`
 - `/dev/dri`
-
-## Ports
-
-- `32400`
 
 ## Deployment
 

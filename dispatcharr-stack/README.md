@@ -11,11 +11,9 @@ Docker stack managed by Portainer
 
 ## Volumes
 
-- `/mnt/storagepool/apps_config/dispatcharr/data`
 - `/dev/dri/renderD128`
 - `/dev/dri/card0`
 - `/dev/net/tun`
-- `/mnt/storagepool/apps_config/gluetun-iptv`
 
 ## Deployment
 

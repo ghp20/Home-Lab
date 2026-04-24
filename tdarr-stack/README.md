@@ -11,17 +11,10 @@ Media transcoding — Tdarr
 
 ## Volumes
 
-- `/mnt/storagepool/apps_config/tdarr/server`
-- `/mnt/storagepool/apps_config/tdarr/config`
-- `/mnt/storagepool/apps_config/tdarr/log`
-- `/mnt/nvmepool/appsconfig/tdarr/temp`
-- `/mnt/storagepool/master/Media/`
-- `/mnt/storagepool/master/Media/Movies`
-
-## Ports
-
-- `8265`
-- `8266`
+- `/dev/dri/renderD128`
+- `/dev/dri/card0`
+- `/dev/dri/renderD128`
+- `/dev/dri/card0`
 
 ## Deployment
 

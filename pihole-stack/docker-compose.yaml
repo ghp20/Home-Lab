@@ -1,19 +1,17 @@
 services:
   pihole:
-    image: pihole/pihole:latest
+    image: pihole/pihole:${PIHOLE_TAG:-latest}
     container_name: pihole
     restart: unless-stopped
     network_mode: host
-
     environment:
-      TZ=${TZ}
-      WEB_PORT: "3000"
-      FTLCONF_webserver_port: "3000"
+      TZ=${TZ}{TZ}
+      WEB_PORT: "${WEB_PORT}"
+      FTLCONF_webserver_port: "${WEB_PORT}"
       FTLCONF_dns_listeningMode: "all"
       FTLCONF_NTP_IPV4_ACTIVE: "false"
       FTLCONF_NTP_IPV6_ACTIVE: "false"
-      FTLCONF_admin_password: "${PIHOLE_PASSWORD}!"
-
+      FTLCONF_admin_password: "${ADMIN_PASSWORD}"
     volumes:
-      - /mnt/storagepool/apps_config/pihole/etc-pihole:/etc/pihole
-      - /mnt/storagepool/apps_config/pihole/etc-dnsmasq.d:/etc/dnsmasq.d
+      - ${STORAGE_ROOT}/etc-pihole:/etc/pihole
+      - ${STORAGE_ROOT}/etc-dnsmasq.d:/etc/dnsmasq.d

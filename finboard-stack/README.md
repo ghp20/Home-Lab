@@ -7,7 +7,6 @@ Docker stack managed by Portainer
 ```
   • backend
   • frontend
-  • internal
 ```
 
 ## Key Env Vars
@@ -27,15 +26,6 @@ Docker stack managed by Portainer
 - `SMTP_PORT`
 - `SMTP_SECURE`
 - `SMTP_USER`
-
-## Volumes
-
-- `/mnt/storagepool/apps_config/finboard/db`
-- `/mnt/storagepool/apps_config/finboard/backups`
-
-## Ports
-
-- `8092`
 
 ## Deployment
 

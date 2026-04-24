@@ -9,15 +9,6 @@ LLM chat — AnythingLLM
   • anything-llm
 ```
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/anything_llm/data`
-- `/mnt/storagepool/apps_config/anything_llm/data`
-
-## Ports
-
-- `30239`
-
 ## Deployment
 
 ```bash

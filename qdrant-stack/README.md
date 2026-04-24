@@ -8,17 +8,6 @@ Docker stack managed by Portainer
   • qdrant
 ```
 
-## Volumes
-
-- `/mnt/nvmepool/appsconfig/qdrant/storage`
-- `/mnt/storagepool/apps_config/qdrant/snapshots`
-- `/mnt/storagepool/apps_config/qdrant/config`
-
-## Ports
-
-- `6333`
-- `6334`
-
 ## Deployment
 
 ```bash

@@ -7,17 +7,7 @@ Privacy-respecting metasearch — SearXNG
 ```
   • redis
   • searxng
-  • searxng-network
 ```
-
-## Volumes
-
-- `/mnt/storagepool/apps_config/searxng/redis`
-- `/mnt/storagepool/apps_config/searxng/config`
-
-## Ports
-
-- `8091`
 
 ## Deployment
 

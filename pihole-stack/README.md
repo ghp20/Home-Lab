@@ -13,11 +13,6 @@ Ad blocking — Pi-hole
 - `TZ`
 - `WEB_PORT`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/pihole/etc-pihole`
-- `/mnt/storagepool/apps_config/pihole/etc-dnsmasq.d`
-
 ## Deployment
 
 ```bash

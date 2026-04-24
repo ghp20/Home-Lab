@@ -3,34 +3,30 @@ version: "3.8"
 x-logging: &gelf_logging
   driver: gelf
   options:
-    gelf-address: "udp://${TRUENAS_HOST}:12201"
+    gelf-address: "udp://${GELF_HOST}:${GELF_PORT}"
     tag: "{{.Name}}"
+
 services:
   census-server:
-    image: ghcr.io/selfhosters-cc/container-census:latest
+    image: ghcr.io/selfhosters-cc/container-census:${CENSUS_TAG:-latest}
     container_name: census-server
     restart: unless-stopped
     logging: *gelf_logging
-
     group_add:
-      - "${DOCKER_GID:-999}"
-
+      - "${DOCKER_GID}"
     ports:
-      - "8087:8080"
-
+      - "${HOST_PORT}:${CONTAINER_PORT}"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/storagepool/apps_config/census/server:/app/data
-      - /mnt/storagepool/apps_config/census/config:/app/config
-
+      - ${DOCKER_SOCK}:/var/run/docker.sock
+      - ${STORAGE_ROOT}/server:/app/data
+      - ${STORAGE_ROOT}/config:/app/config
     environment:
-      AUTH_ENABLED: false
+      AUTH_ENABLED: ${AUTH_ENABLED}
       AUTH_USERNAME: ${AUTH_USERNAME}
       AUTH_PASSWORD=${AUTH_PASSWORD}{AUTH_PASSWORD}
-      TZ=${TZ}{TZ=${TZ}}
-
+      TZ=${TZ}{TZ}
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/api/health"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:${CONTAINER_PORT}/api/health"]
       interval: 30s
       timeout: 3s
       retries: 3

@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   firefly-db:
-    image: mariadb:10.6
+    image: mariadb:${DB_TAG:-10.6}
     container_name: firefly-db
     restart: always
     environment:
@@ -11,10 +11,10 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD=${SQL_PASSWORD}{MYSQL_PASSWORD}{MYSQL_PASSWORD}
     volumes:
-      - /mnt/storagepool/apps_config/firefly3/database:/var/lib/mysql
+      - ${STORAGE_ROOT}/database:/var/lib/mysql
 
   firefly-iii:
-    image: fireflyiii/core:latest
+    image: fireflyiii/core:${FF_TAG:-latest}
     container_name: firefly-iii
     restart: always
     depends_on:
@@ -29,16 +29,16 @@ services:
       DB_PASSWORD=${DB_PASSWORD}{DB_PASSWORD}
       TRUSTED_PROXIES: ${TRUSTED_PROXIES}
     ports:
-      - "8081:8080"
+      - "${CORE_HOST_PORT}:${CORE_CONTAINER_PORT}"
     volumes:
-      - /mnt/storagepool/apps_config/firefly3/uploads:/var/www/html/storage/upload
+      - ${STORAGE_ROOT}/uploads:/var/www/html/storage/upload
 
   firefly-importer:
-    image: fireflyiii/data-importer:latest
+    image: fireflyiii/data-importer:${IMP_TAG:-latest}
     container_name: firefly-importer
     restart: unless-stopped
     ports:
-      - "8083:8080"  # change if 8082 is already in use
+      - "${IMP_HOST_PORT}:${IMP_CONTAINER_PORT}"
     environment:
       FIREFLY_III_URL: ${FIREFLY_III_URL}
       FIREFLY_III_ACCESS_TOKEN=${ACCESS_TOKEN}{FIREFLY_III_ACCESS_TOKEN}
@@ -46,7 +46,3 @@ services:
       TRUSTED_PROXIES: ${TRUSTED_PROXIES}
     depends_on:
       - firefly-iii
-
-volumes:
-  firefly_db:
-  firefly_upload:

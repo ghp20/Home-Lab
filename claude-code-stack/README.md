@@ -8,11 +8,6 @@ Docker stack managed by Portainer
   • claude-code
 ```
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/claude-code`
-- `/mnt/storagepool/master/claude-code`
-
 ## Deployment
 
 ```bash

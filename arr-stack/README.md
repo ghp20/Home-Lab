@@ -21,24 +21,6 @@ Media management — Prowlarr, Radarr, Sonarr, Bazarr, Lazylibrarian, CleanupArr
 - `PUID`
 - `TZ`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/prowlarr/config`
-- `/mnt/storagepool/apps_config/radarr/config`
-- `/mnt/storagepool/master/Media/Movies`
-- `/mnt/storagepool/master/Media/downloads`
-- `/mnt/storagepool/master/Media/usenet/downloads`
-- `/mnt/storagepool/apps_config/sonarr/config`
-
-## Ports
-
-- `9696`
-- `7878`
-- `8989`
-- `6767`
-- `5299`
-- `11011`
-
 ## Deployment
 
 ```bash

@@ -8,12 +8,6 @@ File sync — Syncthing
   • syncthing
 ```
 
-## Volumes
-
-- `/mnt/storagepool/master/Media/Movies`
-- `/mnt/storagepool/master/Media/Tv`
-- `/mnt/storagepool/apps_config/syncthing/config`
-
 ## Deployment
 
 ```bash

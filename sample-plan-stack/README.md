@@ -7,16 +7,7 @@ Docker stack managed by Portainer
 ```
   • backend
   • frontend
-  • sample-plan-net
 ```
-
-## Volumes
-
-- `/mnt/storagepool/apps_config/sample-plan`
-
-## Ports
-
-- `8094`
 
 ## Deployment
 

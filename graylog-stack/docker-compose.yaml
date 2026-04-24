@@ -6,48 +6,35 @@ networks:
 
 services:
   mongodb:
-    image: mongo:7
+    image: mongo:${MONGO_TAG:-7}
     container_name: graylog-mongodb
     restart: unless-stopped
     networks: [graylog_net]
     volumes:
-      - /mnt/storagepool/apps_config/graylog/mongodb-data:/data/db
+      - ${STORAGE_ROOT}/mongodb-data:/data/db
 
   datanode:
-    image: graylog/graylog-datanode:7.0.4
+    image: graylog/graylog-datanode:${DATANODE_TAG:-7.0.4}
     container_name: graylog-datanode
     restart: unless-stopped
     networks: [graylog_net]
     environment:
-      # Required: must match Graylog's password secret
-      GRAYLOG_DATANODE_PASSWORD_SECRET: "${HEX_SECRET}"
-
-      # Required: persistent node id
+      GRAYLOG_DATANODE_PASSWORD_SECRET: ${GRAYLOG_DATANODE_PASSWORD_SECRET}
       GRAYLOG_DATANODE_NODE_ID_FILE: "/var/lib/graylog-datanode/node-id"
-
-      # Required: connect to Mongo
       GRAYLOG_DATANODE_MONGODB_URI: "mongodb://mongodb:27017/graylog"
-
-      # Optional but recommended: external URI for the Data Node API (used in some setups)
-      GRAYLOG_DATANODE_HTTP_EXTERNAL_URI: "http://${TRUENAS_HOST}:8999/"
-
-      # Optional: tune heap if you ingest a lot (start modest, increase later)
-      GRAYLOG_DATANODE_OPENSEARCH_HEAP: "8g"
-
+      GRAYLOG_DATANODE_HTTP_EXTERNAL_URI: "http://${HOST_IP}:${DATANODE_PORT}/"
+      GRAYLOG_DATANODE_OPENSEARCH_HEAP: "${OPENSEARCH_HEAP}"
     volumes:
-      - /mnt/storagepool/apps_config/graylog/datanode-data:/var/lib/graylog-datanode
-    # You usually do NOT need to expose 9200/9300 to LAN.
-    # Only expose 8999 if you need to reach Data Node API from outside the Docker network.
-    # Graylog’s Docker docs list Data Node ports and what they’re for.  [oai_citation:10‡Graylog Documentation](https://go2docs.graylog.org/current/downloading_and_installing_graylog/graylog_and_docker.htm)
+      - ${STORAGE_ROOT}/datanode-data:/var/lib/graylog-datanode
     ports:
-       - "8999:8999"
+       - "${DATANODE_PORT}:${DATANODE_PORT}"
     ulimits:
       memlock:
         soft: -1
         hard: -1
 
   graylog:
-    image: graylog/graylog:7.0.4
+    image: graylog/graylog:${GRAYLOG_TAG:-7.0.4}
     container_name: graylog
     restart: unless-stopped
     networks: [graylog_net]
@@ -55,29 +42,15 @@ services:
       - mongodb
       - datanode
     environment:
-      GRAYLOG_PASSWORD_SECRET: "${HEX_SECRET}"
-      GRAYLOG_ROOT_PASSWORD_SHA2: "${HEX_SECRET}"
-
+      GRAYLOG_PASSWORD_SECRET: ${GRAYLOG_PASSWORD_SECRET}
+      GRAYLOG_ROOT_PASSWORD_SHA2: ${GRAYLOG_ROOT_PASSWORD_SHA2}
       GRAYLOG_MONGODB_URI: "mongodb://mongodb:27017/graylog"
-
-      # IMPORTANT: set this to the URL you will use in your browser.
-      # Graylog uses it for links, callbacks, etc.
-      GRAYLOG_HTTP_EXTERNAL_URI: "http://${TRUENAS_HOST}:9000/"
-
-      # Optional: if you’ll put it behind a reverse proxy with HTTPS later
-      # GRAYLOG_HTTP_ENABLE_TLS: "false"
-
+      GRAYLOG_HTTP_EXTERNAL_URI: "http://${HOST_IP}:${WEB_PORT}/"
     volumes:
-      - /mnt/storagepool/apps_config/graylog/graylog-data:/usr/share/graylog/data
-
+      - ${STORAGE_ROOT}/graylog-data:/usr/share/graylog/data
     ports:
-      # Graylog Web + API  [oai_citation:11‡Graylog Documentation](https://go2docs.graylog.org/current/downloading_and_installing_graylog/graylog_and_docker.htm)
-      - "9000:9000/tcp"
-
-      # GELF input ports (you’ll create the input in the UI)  [oai_citation:12‡Graylog Documentation](https://go2docs.graylog.org/current/downloading_and_installing_graylog/graylog_and_docker.htm)
-      - "12201:12201/udp"
-      - "12201:12201/tcp"
-
-      # Syslog (optional, but useful)  [oai_citation:13‡Graylog Documentation](https://go2docs.graylog.org/current/downloading_and_installing_graylog/graylog_and_docker.htm)
-      - "5140:5140/udp"
-      - "5140:5140/tcp"
+      - "${WEB_PORT}:${WEB_PORT}/tcp"
+      - "${GELF_PORT}:${GELF_PORT}/udp"
+      - "${GELF_PORT}:${GELF_PORT}/tcp"
+      - "${SYSLOG_PORT}:${SYSLOG_PORT}/udp"
+      - "${SYSLOG_PORT}:${SYSLOG_PORT}/tcp" 

@@ -11,12 +11,6 @@ Workflow automation — n8n
   • trading-net-ron
 ```
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/n8n/portainer-restore-test`
-- `/mnt/storagepool/master/n8n/know_base`
-- `/mnt/storagepool/apps_config/n8n/postgres-data`
-
 ## Deployment
 
 ```bash

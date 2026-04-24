@@ -8,11 +8,6 @@ Docker stack managed by Portainer
   • app
 ```
 
-## Volumes
-
-- `/var/run/docker.sock`
-- `/mnt/storagepool/apps_config/tugtainer/config`
-
 ## Deployment
 
 ```bash

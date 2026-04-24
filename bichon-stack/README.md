@@ -8,14 +8,6 @@ AI digest bot — Bichon
   • bichon
 ```
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/bichon/data`
-
-## Ports
-
-- `15630`
-
 ## Deployment
 
 ```bash

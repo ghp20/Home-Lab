@@ -1,58 +1,55 @@
 version: "3.8"
 
 services:
-
   postgres:
-    image: postgres:17
+    image: postgres:${PG_TAG:-17}
     container_name: mealie-postgres
     restart: always
     environment:
-      POSTGRES_USER: mealie
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      POSTGRES_DB: mealie
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - /mnt/storagepool/apps_config/mealie/postgres:/var/lib/postgresql/data
+      - ${STORAGE_ROOT}/postgres:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "mealie"]
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
       interval: 30s
       timeout: 20s
       retries: 5
 
   mealie:
-    image: ghcr.io/mealie-recipes/mealie:v3.9.2
+    image: ghcr.io/mealie-recipes/mealie:${MEALIE_TAG:-v3.9.2}
     container_name: mealie
     depends_on:
       postgres:
         condition: service_healthy
     ports:
-      - "9926:9000"
+      - "${HOST_PORT}:${CONTAINER_PORT}"
     environment:
-      ALLOW_SIGNUP: "true"
-      PUID=${PUID}
-      PGID=${PGID}
-      TZ=${TZ}
-      BASE_URL: "https://mealie.${N8N_DOMAIN}"
-      DB_ENGINE: "postgres"
-      POSTGRES_SERVER: "postgres"
+      ALLOW_SIGNUP: "${ALLOW_SIGNUP}"
+      PUID=${PUID}{PUID}"
+      PGID=${PGID}{PGID}"
+      TZ=${TZ}{TZ}
+      BASE_URL: ${BASE_URL}
+      DB_ENGINE: ${DB_ENGINE}
+      POSTGRES_SERVER: ${POSTGRES_SERVER}
       POSTGRES_PORT: "5432"
-      POSTGRES_USER: "mealie"
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      POSTGRES_DB: "mealie"
-      # ---- OpenAI Integration ----
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
       OPENAI_API_KEY=${API_KEY}{OPENAI_API_KEY}"
-      OPENAI_MODEL: "gpt-4o-mini"
-      OPENAI_TEMPERATURE: "0.2"
-      OPENAI_MAX_TOKENS: "4096"
-      # ---- Email / SMTP ----
-      SMTP_HOST: smtp.gmail.com
-      SMTP_PORT: "587"
-      SMTP_FROM_NAME: "Mealie"
-      SMTP_FROM_EMAIL: "${USER_EMAIL}"
-      SMTP_USER: "garry00720"
-      SMTP_PASSWORD=${SMTP_PASSWORD}
-      SMTP_TLS: "true"
+      OPENAI_MODEL: "${OPENAI_MODEL}"
+      OPENAI_TEMPERATURE: "${OPENAI_TEMP}"
+      OPENAI_MAX_TOKENS: "${OPENAI_TOKENS}"
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: "${SMTP_PORT}"
+      SMTP_FROM_NAME: "${SMTP_NAME}"
+      SMTP_FROM_EMAIL: "${SMTP_EMAIL}"
+      SMTP_USER: "${SMTP_USER}"
+      SMTP_PASSWORD=${SMTP_PASSWORD}{SMTP_PASS}"
+      SMTP_TLS: "${SMTP_TLS}"
     volumes:
-      - /mnt/storagepool/apps_config/mealie/mealie/data:/app/data
+      - ${STORAGE_ROOT}/mealie/data:/app/data
     restart: always
 
 networks:

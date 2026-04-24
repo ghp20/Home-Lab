@@ -8,14 +8,6 @@ Docker stack managed by Portainer
   • app
 ```
 
-## Volumes
-
-- `/mnt/storagepool/apps_configs/tracktor/data`
-
-## Ports
-
-- `3334`
-
 ## Deployment
 
 ```bash

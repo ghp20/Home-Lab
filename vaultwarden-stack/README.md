@@ -21,15 +21,6 @@ Password manager — VaultWarden
 - `ROCKET_PORT`
 - `WEBSOCKET_ENABLED`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/vaultwarden/postgres`
-- `/mnt/storagepool/apps_config/vaultwarden/data`
-
-## Ports
-
-- `30032`
-
 ## Deployment
 
 ```bash

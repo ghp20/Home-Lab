@@ -26,14 +26,6 @@ Docker stack managed by Portainer
 - `SINGLE_USER_EMAIL`
 - `SINGLE_USER_MODE`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/cashlytics/postgres`
-
-## Ports
-
-- `3050`
-
 ## Deployment
 
 ```bash

@@ -8,10 +8,6 @@ Docker stack managed by Portainer
   • music-assistant-server
 ```
 
-## Ports
-
-- `8095`
-
 ## Deployment
 
 ```bash

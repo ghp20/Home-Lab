@@ -2,29 +2,19 @@ version: "3.9"
 
 services:
   music-assistant-server:
-    image: ghcr.io/music-assistant/server:latest
+    image: ghcr.io/music-assistant/server:${MA_TAG:-latest}
     container_name: music-assistant-server
     restart: unless-stopped
-
     ports:
-      - "8095:8095"   # or whatever port MA uses
-
+      - "${HOST_PORT}:${CONTAINER_PORT}"
     volumes:
-      # Persistent MA config & library DB
-      - "/mnt/storagepool/apps_config/musicassistant/data:/data:rw"
-      # Optional: your local music files on the NAS
-      - "/mnt/storagepool/master/Media/Music:/media:ro"
-
+      - "${STORAGE_ROOT}:/data:rw"
+      - "${MUSIC_ROOT}:/media:ro"
     cap_add:
       - SYS_ADMIN
       - DAC_READ_SEARCH
-
     security_opt:
       - apparmor:unconfined
-
     environment:
-      # Logging level: critical|error|warning|info|debug
-      - LOG_LEVEL=info
+      - LOG_LEVEL=${LOG_LEVEL}
       - MASS_DISABLE_ZEROCONF=true
-
-# No exposed ports here because host mode includes all required ports

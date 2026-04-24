@@ -5,13 +5,12 @@ Docker stack managed by Portainer
 ## Services
 
 ```
-  • nebula-sync
+  • orbital-sync
 ```
 
 ## Volumes
 
-- `/mnt/storagepool/apps_config/nebula-sync/env`
-- `/mnt/storagepool/apps_config/nebula-sync/logs`
+- `/mnt/storagepool/apps_config/orbital-sync/data`
 
 ## Deployment
 

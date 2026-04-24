@@ -8,14 +8,6 @@ Docker stack managed by Portainer
   • dashapp
 ```
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/dashapp`
-
-## Ports
-
-- `8050`
-
 ## Deployment
 
 ```bash

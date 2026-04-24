@@ -6,10 +6,8 @@ services:
     ports:
       - "${NC_PORT:-30027}:80"
     depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
     volumes:
       - ${STORAGE_ROOT}/appdata:/var/www/html
       - ${STORAGE_ROOT}/userdata:/var/www/html/data

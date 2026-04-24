@@ -9,16 +9,6 @@ Docker stack managed by Portainer
   • wireguard-us-server
 ```
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/wireguard/server_config`
-- `/lib/modules`
-
-## Ports
-
-- `22`
-- `443`
-
 ## Deployment
 
 ```bash

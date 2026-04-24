@@ -2,24 +2,20 @@ version: "3.8"
 
 services:
   plex:
-    image: lscr.io/linuxserver/plex:latest
+    image: lscr.io/linuxserver/plex:${PLEX_TAG:-latest}
     container_name: plex
     restart: unless-stopped
-
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - VERSION=docker
-      - PLEX_CLAIM=${PLEX_CLAIM}
-
+      - PUID=${PUID}{PUID}
+      - PGID=${PGID}{PGID}
+      - TZ=${TZ}{TZ}
+      - VERSION=${VERSION}
+      - PLEX_CLAIM=${PLEX_CLAIM}{PLEX_CLAIM}
     volumes:
-      - /mnt/storagepool/apps_config/plex/config:/config
-      - /mnt/storagepool/apps_config/plex/transcode:/transcode
-      - /mnt/storagepool/master/Media:/media
-
+      - ${STORAGE_ROOT}/config:/config
+      - ${STORAGE_ROOT}/transcode:/transcode
+      - ${MEDIA_ROOT}:/media
     ports:
-      - "32400:32400"
+      - "${PLEX_PORT}:${PLEX_PORT}"
     devices:
-      # Optional – enable ONLY if you plan to use hardware transcoding
       - /dev/dri:/dev/dri

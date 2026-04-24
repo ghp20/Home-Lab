@@ -1,68 +1,56 @@
 services:
   wizarr:
-    image: ghcr.io/wizarrrr/wizarr:latest
+    image: ghcr.io/wizarrrr/wizarr:${WIZARR_TAG:-latest}
     container_name: wizarr
     depends_on:
       - wizarr_postgres
       - wizarr_redis
       - wizarr_memcached
     ports:
-      - "5690:5690"
+      - "${HOST_PORT}:${CONTAINER_PORT}"
     environment:
-      # General
-      TZ=${TZ}
+      TZ=${TZ}{TZ}
       WIZARR_ENV: "production"
-      WIZARR_LOG_LEVEL: "log"           # verbose|debug|log|warn|error
-
-      # App port inside container
-      WIZARR_PORT: "5690"
-
-      # Storage paths
+      WIZARR_LOG_LEVEL: "log"
+      WIZARR_PORT: "${CONTAINER_PORT}"
       DB_DIR: "/data/database"
       STORAGE_DIR: "/data/storage"
-
-      # Postgres DB
       DB_HOSTNAME: "wizarr_postgres"
       DB_PORT: "5432"
-      DB_USERNAME: "postgres"
-      DB_PASSWORD=${DB_PASSWORD}             # keep this secure
-      DB_NAME: "wizarr"
+      DB_USERNAME: ${DB_USER}
+      DB_PASSWORD=${DB_PASSWORD}{DB_PASS}
+      DB_NAME: ${DB_NAME}
       DB_TYPE: "postgres"
-
     volumes:
-      - /mnt/storagepool/apps_config/wizarr/database:/data/database
-      - /mnt/storagepool/apps_config/wizarr/storage:/data/storage
-
+      - ${STORAGE_ROOT}/database:/data/database
+      - ${STORAGE_ROOT}/storage:/data/storage
     restart: unless-stopped
-    
 
   wizarr_postgres:
-    image: postgres:16-alpine
+    image: postgres:${PG_TAG:-16-alpine}
     container_name: wizarr_postgres
     environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}   # keep secure
-      POSTGRES_DB: "wizarr"
-      TZ=${TZ}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+      TZ=${TZ}{TZ}
     volumes:
-      - /mnt/storagepool/apps_config/wizarr/database/pgdata:/var/lib/postgresql/data
+      - ${STORAGE_ROOT}/database/pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
       interval: 20s
       timeout: 5s
       retries: 5
     restart: unless-stopped
-    
 
   wizarr_redis:
-    image: redis:7-alpine
+    image: redis:${REDIS_TAG:-7-alpine}
     container_name: wizarr_redis
     command: ["redis-server", "--appendonly", "yes"]
     restart: unless-stopped
-    
 
   wizarr_memcached:
-    image: memcached:1.6-alpine
+    image: memcached:${MEMCACHED_TAG:-1.6-alpine}
     container_name: wizarr_memcached
     command: ["-m", "64"]
     restart: unless-stopped

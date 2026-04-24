@@ -11,15 +11,7 @@ Server monitoring — Beszel
 
 ## Volumes
 
-- `/mnt/storagepool/apps_config/beszel/hub-data`
-- `/mnt/storagepool/apps_config/beszel/socket`
-- `/mnt/storagepool/apps_config/beszel/agent-data`
-- `/mnt/storagepool/apps_config/beszel/socket`
 - `/var/run/docker.sock`
-
-## Ports
-
-- `8097`
 
 ## Deployment
 

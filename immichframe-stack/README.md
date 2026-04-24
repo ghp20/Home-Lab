@@ -13,14 +13,6 @@ Photo frame — Immich Frame
 - `PLAYBACK_MODE`
 - `TZ`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/immichframe/cache`
-
-## Ports
-
-- `30042`
-
 ## Deployment
 
 ```bash

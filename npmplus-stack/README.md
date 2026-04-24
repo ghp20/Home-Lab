@@ -10,16 +10,6 @@ Docker stack managed by Portainer
   • crowdsec_net
 ```
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/npmplus/data`
-
-## Ports
-
-- `443`
-- `443`
-- `8181`
-
 ## Deployment
 
 ```bash

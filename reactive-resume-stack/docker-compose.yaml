@@ -2,23 +2,23 @@ version: "3.9"
 
 services:
   postgres:
-    image: postgres:16-alpine
+    image: postgres:${PG_TAG:-16-alpine}
     container_name: rr_postgres
     restart: unless-stopped
     volumes:
-      - /mnt/storagepool/apps_config/reactive-resume/db:/var/lib/postgresql/data
+      - ${STORAGE_ROOT}/db:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
 
   printer:
-    image: ghcr.io/browserless/chromium:latest
+    image: ghcr.io/browserless/chromium:${PRINTER_TAG:-latest}
     container_name: rr_printer
     restart: unless-stopped
     extra_hosts:
@@ -28,53 +28,31 @@ services:
       CONCURRENT: 10
 
   app:
-    image: amruthpillai/reactive-resume:latest
+    image: amruthpillai/reactive-resume:${APP_TAG:-latest}
     container_name: rr_app
     restart: unless-stopped
     ports:
-      - "30120:3000"
+      - "${HOST_PORT}:${CONTAINER_PORT}"
     depends_on:
       postgres:
         condition: service_healthy
       printer:
         condition: service_started
-
     volumes:
-      # keep your existing dataset
-      - /mnt/storagepool/apps_config/reactive-resume/data:/app/data
-
+      - ${STORAGE_ROOT}/data:/app/data
     environment:
-      # --- Core ---
       NODE_ENV: production
-      PORT: 3000
-      APP_URL: http://${TRUENAS_HOST}:30120
-      TZ=${TZ}
-
-      # --- Database ---
-      DATABASE_URL: postgresql://postgres:mX6NLWHCsFQaHZdp@postgres:5432/postgres
-
-      # --- Auth (64-char secrets REQUIRED) ---
-      AUTH_SECRET=${AUTH_SECRET}{HEX_SECRET}
-
-      # --- Printer / PDF ---
+      PORT: ${CONTAINER_PORT}
+      APP_URL: ${APP_URL}
+      TZ=${TZ}{TZ}
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      AUTH_SECRET=${AUTH_SECRET}{AUTH_SECRET}
       PRINTER_ENDPOINT: ws://printer:3000
-
-      # --- Email (disabled safely) ---
-      SMTP_HOST: smtp.gmail.com
-      SMTP_PORT: 587
-      SMTP_USER: ${USER_EMAIL}
-      SMTP_PASS=${SMTP_PASS}
-      SMTP_FROM: "Gaurav Phadke"
-
-      # --- Storage (local filesystem, not S3) ---
-      S3_ACCESS_KEY_ID:
-      S3_SECRET_ACCESS_KEY:
-      S3_REGION:
-      S3_ENDPOINT:
-      S3_BUCKET:
-      S3_FORCE_PATH_STYLE: "false"
-
-      # --- Feature Flags ---
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS=${SMTP_PASS}{SMTP_PASS}
+      SMTP_FROM: ${SMTP_FROM}
       FLAG_DEBUG_PRINTER: "false"
       FLAG_DISABLE_SIGNUPS: "false"
-      FLAG_DISABLE_EMAIL_AUTH: "false"
+      FLAG_DISABLE_EMAIL_AUTH: "false" 

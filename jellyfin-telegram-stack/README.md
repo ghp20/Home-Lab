@@ -15,10 +15,6 @@ Docker stack managed by Portainer
 - `TELEGRAM_CHAT_ID`
 - `TELEGRAM_TOKEN`
 
-## Volumes
-
-- `/mnt/storagepool/scripts/jellyfin-telegram`
-
 ## Deployment
 
 ```bash

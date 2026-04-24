@@ -2,31 +2,29 @@ version: "3.8"
     
 services:
   crowdsec:
-    image: crowdsecurity/crowdsec:latest
+    image: crowdsecurity/crowdsec:${CS_TAG:-latest}
     container_name: crowdsec
     restart: unless-stopped
     environment:
-      - TZ=${TZ}
-      - COLLECTIONS=crowdsecurity/linux crowdsecurity/http-cve
+      - TZ=${TZ}{TZ}
+      - COLLECTIONS=${COLLECTIONS}
     volumes:
-      - /mnt/storagepool/apps_config/crowdsec/config/acquis.yaml:/etc/crowdsec/acquis.yaml
-      - /mnt/storagepool/apps_config/crowdsec/data:/var/lib/crowdsec/data
+      - ${STORAGE_ROOT}/config/acquis.yaml:/etc/crowdsec/acquis.yaml
+      - ${STORAGE_ROOT}/data:/var/lib/crowdsec/data
       - /var/log:/var/log:ro
-      - /mnt/storagepool/apps_config/npm/data/logs:/var/log/nginx:ro
+      - ${NPM_LOGS_ROOT}:/var/log/nginx:ro
     ports:
-      - "6060:6060"   # Prometheus metrics
-      - "1514:1514/udp"          # Syslog ingest from Graylog (UDP)
-
+      - "${METRICS_PORT}:6060"
+      - "${SYSLOG_PORT}:1514/udp"
     networks:
       - crowdsec-net
 
-
   crowdsec-cloudflare-bouncer:
-    image: crowdsecurity/cloudflare-bouncer:latest
+    image: crowdsecurity/cloudflare-bouncer:${CF_BOUNCER_TAG:-latest}
     container_name: crowdsec-cloudflare-bouncer
     restart: unless-stopped
     volumes:
-      - /mnt/storagepool/apps_config/crowdsec/cloudflare-bouncer/cfg.yaml:/etc/crowdsec/bouncers/crowdsec-cloudflare-bouncer.yaml:ro
+      - ${STORAGE_ROOT}/cloudflare-bouncer/cfg.yaml:/etc/crowdsec/bouncers/crowdsec-cloudflare-bouncer.yaml:ro
     depends_on:
       - crowdsec
     networks:

@@ -2,30 +2,30 @@ version: "3.8"
 
 services:
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:${PROM_TAG:-latest}
     container_name: prometheus
     restart: unless-stopped
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
     volumes:
-      - /mnt/storagepool/apps_config/monitoring/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - /mnt/storagepool/apps_config/monitoring/prometheus/data:/prometheus
+      - ${STORAGE_ROOT}/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ${STORAGE_ROOT}/prometheus/data:/prometheus
     ports:
-      - "9090:9090"
+      - "${PROM_PORT}:${PROM_PORT}"
     networks:
       - monitoring-net
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:${GRAFANA_TAG:-latest}
     container_name: grafana
     restart: unless-stopped
     environment:
-      - TZ=${TZ}
+      - TZ=${TZ}{TZ}
     volumes:
-      - /mnt/storagepool/apps_config/monitoring/grafana/data:/var/lib/grafana
+      - ${STORAGE_ROOT}/grafana/data:/var/lib/grafana
     ports:
-      - "3002:3000"
+      - "${GRAFANA_HOST_PORT}:${GRAFANA_CONTAINER_PORT}"
     networks:
       - monitoring-net
 

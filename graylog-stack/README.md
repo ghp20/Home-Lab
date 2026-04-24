@@ -22,21 +22,6 @@ Log management — Graylog
 - `GRAYLOG_MONGODB_URI`
 - `GRAYLOG_PASSWORD_SECRET`
 
-## Volumes
-
-- `/mnt/storagepool/apps_config/graylog/mongodb-data`
-- `/mnt/storagepool/apps_config/graylog/datanode-data`
-- `/mnt/storagepool/apps_config/graylog/graylog-data`
-
-## Ports
-
-- `8999`
-- `9000`
-- `12201`
-- `12201`
-- `5140`
-- `5140`
-
 ## Deployment
 
 ```bash

@@ -3,23 +3,23 @@ version: '3.8'
 x-logging: &gelf_logging
   driver: gelf
   options:
-    gelf-address: "udp://${TRUENAS_HOST}:12201"
+    gelf-address: "udp://${GELF_HOST}:${GELF_PORT}"
     tag: "{{.Name}}"
     
 services:
   collabora:
-    image: collabora/code:latest
+    image: collabora/code:${COLLAB_TAG:-latest}
     container_name: collabora
     restart: unless-stopped
     logging: *gelf_logging
     environment:
-      - domain=${domain}  # 👈 Your Nextcloud domain (escaped)
+      - domain=${domain}
       - server_name=${server_name}
       - username=${username}
       - password=${password}
-      - extra_params=--o:ssl.enable=false --o:ssl.termination=true --o:net.proxy_prefix=true
+      - extra_params=${EXTRA_PARAMS}
     ports:
-      - "9980:9980"
+      - "${HOST_PORT}:${CONTAINER_PORT}"
     cap_add:
       - MKNOD
       - SYS_CHROOT
@@ -32,4 +32,4 @@ services:
     security_opt:
       - seccomp:unconfined
     volumes:
-      - /mnt/storagepool/apps_config/collabora/config:/etc/loolwsd
+      - ${CONFIG_PATH}:/etc/loolwsd

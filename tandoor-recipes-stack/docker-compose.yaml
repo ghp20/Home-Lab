@@ -2,60 +2,51 @@ version: "3.9"
 
 services:
   postgres:
-    image: postgres:18
+    image: postgres:${PG_TAG:-18}
     container_name: tandoor-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: recipes
-      POSTGRES_USER: recipes
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      PGDATA: /var/lib/postgresql/18/docker
-      TZ=${TZ}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}
+      PGDATA: ${PGDATA}
+      TZ=${TZ}{TZ}
     volumes:
-      - /mnt/storagepool/apps_config/tandoor-recipes/postgres:/var/lib/postgresql/18/docker
+      - ${STORAGE_ROOT}/postgres:${PGDATA}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -p 5432 -U recipes"]
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -p 5432 -U ${POSTGRES_USER}"]
       interval: 5s
       timeout: 5s
       retries: 15
 
   tandoor:
-    image: vabene1111/recipes:latest
+    image: vabene1111/recipes:${TANDOOR_TAG:-latest}
     container_name: tandoor-recipes
     restart: unless-stopped
     depends_on:
       postgres:
         condition: service_healthy
     ports:
-      - "9925:80"
+      - "${HOST_PORT}:${CONTAINER_PORT}"
     environment:
-      # ---- General ----
-      TZ=${TZ}
-      DEBUG: "0"
-      ALLOWED_HOSTS: "*"
-
-      # ---- Database ----
+      TZ=${TZ}{TZ}
+      DEBUG: ${DEBUG}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS}
       DB_ENGINE: django.db.backends.postgresql
       POSTGRES_HOST: postgres
       POSTGRES_PORT: 5432
-      POSTGRES_DB: recipes
-      POSTGRES_USER: recipes
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-
-      # ---- Tandoor ----
-      SECRET_KEY=${SECRET_KEY}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}
+      SECRET_KEY=${SECRET_KEY}{SECRET_KEY}
       FRACTION_PREF_DEFAULT: "0"
       COMMENT_PREF_DEFAULT: "1"
       SHOPPING_AUTO_SYNC: "1"
       GUNICORN_MEDIA: "1"
-
-
-      # --- AI / OpenAI ---
       AI_ENABLE: "1"
       AI_PROVIDER: openai
       OPENAI_API_KEY=${API_KEY}{OPENAI_API_KEY}
-      OPENAI_MODEL: gpt-4o-mini
-
+      OPENAI_MODEL: ${OPENAI_MODEL}
     volumes:
-      - /mnt/storagepool/apps_config/tandoor-recipes/files:/opt/recipes/files
-      - /mnt/storagepool/apps_config/tandoor-recipes/media:/opt/recipes/mediafiles
+      - ${STORAGE_ROOT}/files:/opt/recipes/files
+      - ${STORAGE_ROOT}/media:/opt/recipes/mediafiles
