@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  autoheal:
+    image: willfarrell/autoheal:${AUTOHEAL_TAG:-latest}
+    container_name: autoheal
+    restart: unless-stopped
+    environment:
+      - AUTOHEAL_INTERVAL=${INTERVAL}
+      - AUTOHEAL_START_PERIOD=${START_PERIOD}
+    volumes:
+      - ${DOCKER_SOCK}:/var/run/docker.sock

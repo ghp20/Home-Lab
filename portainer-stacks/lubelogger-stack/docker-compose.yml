@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  lubelogger:
+    image: ghcr.io/hargata/lubelogger:${LL_TAG:-latest}
+    container_name: lubelogger
+    restart: unless-stopped
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      ASPNETCORE_URLS: http://0.0.0.0:${CONTAINER_PORT}
+      LL__Locale: ${LL_LOCALE}
+      LL__Culture: ${LL_CULTURE}
+      LL__Smtp__Enabled: "${SMTP_ENABLED}"
+      LL__MOTD__Enabled: "${MOTD_ENABLED}"
+      ASPNETCORE_DATAPROTECTION__DIRECTORY: /App/keys
+    volumes:
+      - ${STORAGE_ROOT}/data:/App/data
+      - ${STORAGE_ROOT}/keys:/App/keys
+    ports:
+      - "${HOST_PORT}:${CONTAINER_PORT}" 

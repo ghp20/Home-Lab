@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  matter-server:
+    image: ghcr.io/home-assistant-libs/python-matter-server:${MATTER_TAG:-stable}
+    container_name: matter-server
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ${STORAGE_ROOT}:/data
+    environment:
+      - TZ=${TZ}

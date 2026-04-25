@@ -1,0 +1,76 @@
+version: "3.8"
+
+services:
+  immich-server:
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-v1.106.1}
+    volumes:
+      - ${STORAGE_ROOT}/data:/data
+      - ${EXTERNAL_PATH}:/external
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - IMMICH_PORT=${IMMICH_PORT}
+      - IMMICH_MACHINE_LEARNING_URL=http://immich-machine-learning:3003
+      - DB_HOSTNAME=${DB_HOSTNAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_DATABASE_NAME=${DB_DATABASE_NAME}
+      - DB_PASSWORD=changeme
+      - REDIS_HOSTNAME=${REDIS_HOSTNAME}
+      - REDIS_PASSWORD=changeme
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    ports:
+      - "${IMMICH_PORT}:${IMMICH_PORT}"
+    depends_on: [database, redis]
+    restart: always
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['${GPU_ID}']
+              capabilities: [gpu]
+
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-v1.106.1}-cuda
+    volumes:
+      - immich-ml-cache:/mlcache
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    restart: always
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['${GPU_ID}']
+              capabilities: [gpu]
+
+  redis:
+    container_name: immich_redis
+    image: valkey/valkey:${VALKEY_VERSION:-latest}
+    command: --port 6379 --requirepass ${REDIS_PASSWORD}
+    restart: always
+
+  database:
+    container_name: immich_postgres
+    image: ghcr.io/immich-app/postgres:${PG_VERSION:-latest}
+    environment:
+      - POSTGRES_PASSWORD=changeme
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_DB=${DB_DATABASE_NAME}
+      - PGDATA=/var/lib/postgresql/18/docker
+      - PUID=${PUID}
+      - PGID=${PGID}
+    volumes:
+      - ${STORAGE_ROOT}/postgres:/var/lib/postgresql
+    restart: always
+
+volumes:
+  immich-ml-cache:

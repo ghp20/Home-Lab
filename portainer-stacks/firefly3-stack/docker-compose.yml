@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  firefly-db:
+    image: mariadb:${DB_TAG:-10.6}
+    container_name: firefly-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD=changeme
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD=changeme
+    volumes:
+      - ${STORAGE_ROOT}/database:/var/lib/mysql
+
+  firefly-iii:
+    image: fireflyiii/core:${FF_TAG:-latest}
+    container_name: firefly-iii
+    restart: always
+    depends_on:
+      - firefly-db
+    environment:
+      APP_KEY: ${APP_KEY}
+      DB_CONNECTION: ${DB_CONNECTION}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD=changeme
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES}
+    ports:
+      - "${CORE_HOST_PORT}:${CORE_CONTAINER_PORT}"
+    volumes:
+      - ${STORAGE_ROOT}/uploads:/var/www/html/storage/upload
+
+  firefly-importer:
+    image: fireflyiii/data-importer:${IMP_TAG:-latest}
+    container_name: firefly-importer
+    restart: unless-stopped
+    ports:
+      - "${IMP_HOST_PORT}:${IMP_CONTAINER_PORT}"
+    environment:
+      FIREFLY_III_URL: ${FIREFLY_III_URL}
+      FIREFLY_III_ACCESS_TOKEN=api-key-placeholder
+      APP_URL: ${APP_URL}
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES}
+    depends_on:
+      - firefly-iii

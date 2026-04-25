@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  timelinize:
+    image: ghcr.io/timelinize/timelinize:${TLZ_TAG:-latest}
+    container_name: timelinize
+    restart: unless-stopped
+    ports:
+      - "${HOST_PORT}:${CONTAINER_PORT}"
+    volumes:
+      - ${STORAGE_ROOT}/repo:/repo
+      - ${STORAGE_ROOT}/config:/config
+      - ${IMPORT_ROOT}:/import
+      - ${IMMICH_ROOT}:/immich:ro
+    environment:
+      TZ: ${TZ}
+      XDG_CONFIG_HOME: ${XDG_CONFIG_HOME}
+      TLZ_ORIGIN: ${TLZ_ORIGIN}
+    user: "${PUID}:${PGID}" 

@@ -1,0 +1,70 @@
+version: "3.8"
+
+services:
+
+  postgres:
+    image: postgres:${PG_TAG:-17}
+    container_name: paperless-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${PAPERLESS_DBNAME}
+      POSTGRES_USER: ${PAPERLESS_DBUSER}
+      POSTGRES_PASSWORD=changeme
+      TZ: ${TZ}
+    volumes:
+      - ${STORAGE_ROOT}/path/to/mount/var/lib/postgresql/data
+
+  redis:
+    image: redis:${REDIS_TAG:-7}
+    container_name: paperless-redis
+    restart: unless-stopped
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+
+  tika:
+    image: apache/tika:${TIKA_TAG:-latest}
+    container_name: paperless-tika
+    restart: unless-stopped
+
+  gotenberg:
+    image: gotenberg/gotenberg:${GOTENBERG_TAG:-8}
+    container_name: paperless-gotenberg
+    restart: unless-stopped
+    command:
+      - "gotenberg"
+      - "--chromium-disable-javascript=true"
+      - "--chromium-allow-list=^file:///tmp/.*"
+
+  paperless:
+    image: ghcr.io/paperless-ngx/paperless-ngx:${PAPERLESS_TAG:-latest}
+    container_name: paperless-ngx
+    restart: unless-stopped
+    depends_on:
+      - postgres
+      - redis
+      - tika
+      - gotenberg
+    ports:
+      - "${PAPERLESS_PORT:-30070}:8000"
+    environment:
+      USERMAP_UID: ${USERMAP_UID}
+      USERMAP_GID: ${USERMAP_GID}
+      TZ: ${TZ}
+      PAPERLESS_URL: ${PAPERLESS_URL}
+      PAPERLESS_ALLOWED_HOSTS: ${PAPERLESS_ALLOWED_HOSTS}
+      PAPERLESS_CSRF_TRUSTED_ORIGINS: ${PAPERLESS_CSRF_TRUSTED_ORIGINS}
+      PAPERLESS_REDIS: redis://redis:6379
+      PAPERLESS_DBHOST: postgres
+      PAPERLESS_DBNAME: ${PAPERLESS_DBNAME}
+      PAPERLESS_DBUSER: ${PAPERLESS_DBUSER}
+      PAPERLESS_DBPASS=changeme
+      PAPERLESS_TIKA_ENABLED: "1"
+      PAPERLESS_TIKA_ENDPOINT: http://tika:9998
+      PAPERLESS_GOTENBERG_ENDPOINT: http://gotenberg:3000
+      PAPERLESS_ENABLE_TRASH: "1"
+      PAPERLESS_TOTP_ENABLED: "1"
+      PAPERLESS_SECRET_KEY=api-key-placeholder
+    volumes:
+      - ${STORAGE_ROOT}/data:/usr/src/paperless/data
+      - ${STORAGE_ROOT}/media:/usr/src/paperless/media
+      - ${STORAGE_ROOT}/consume:/usr/src/paperless/consume
+      - ${STORAGE_ROOT}/trash:/usr/src/paperless/trash

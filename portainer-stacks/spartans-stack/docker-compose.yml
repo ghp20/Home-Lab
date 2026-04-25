@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  react-app:
+    image: node:${NODE_TAG:-16-alpine}
+    container_name: logistics-react
+    working_dir: /app
+    volumes:
+      - ${STORAGE_ROOT}:/app/build
+    ports:
+      - "${HOST_PORT}:${CONTAINER_PORT}"
+    command: sh -c "npm install -g serve && serve -s build -l ${CONTAINER_PORT}"
+    restart: always

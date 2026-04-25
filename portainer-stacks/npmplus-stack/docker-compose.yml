@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  npmplus:
+    image: zoeyvid/npmplus:${NPMPLUS_TAG:-2026-04-12-r1}
+    container_name: npmplus
+    restart: always
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - DISABLE_HTTP=true
+      - CROWDSEC_LAPI_URL=${CROWDSEC_LAPI_URL}
+      - CROWDSEC_LAPI_KEY=api-key-placeholder
+    ports:
+      - "${HTTPS_PORT}:443/tcp"
+      - "${HTTPS_PORT}:443/udp"
+      - "${ADMIN_PORT}:81/tcp"
+    volumes:
+      - ${STORAGE_ROOT}:/data
+    networks:
+      - default
+      - crowdsec_net
+    healthcheck:
+      disable: true
+
+networks:
+  default:
+  crowdsec_net:
+    external: true
+    name: crowdsec-stack_crowdsec-net

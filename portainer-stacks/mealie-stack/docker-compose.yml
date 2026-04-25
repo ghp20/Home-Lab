@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:${PG_TAG:-17}
+    container_name: mealie-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD=changeme
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ${STORAGE_ROOT}/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
+      interval: 30s
+      timeout: 20s
+      retries: 5
+
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:${MEALIE_TAG:-v3.9.2}
+    container_name: mealie
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "${HOST_PORT}:${CONTAINER_PORT}"
+    environment:
+      ALLOW_SIGNUP: "${ALLOW_SIGNUP}"
+      PUID: "${PUID}"
+      PGID: "${PGID}"
+      TZ: ${TZ}
+      BASE_URL: ${BASE_URL}
+      DB_ENGINE: ${DB_ENGINE}
+      POSTGRES_SERVER: ${POSTGRES_SERVER}
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD=changeme
+      POSTGRES_DB: ${POSTGRES_DB}
+      OPENAI_API_KEY=api-key-placeholder
+      OPENAI_MODEL: "${OPENAI_MODEL}"
+      OPENAI_TEMPERATURE: "${OPENAI_TEMP}"
+      OPENAI_MAX_TOKENS: "${OPENAI_TOKENS}"
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: "${SMTP_PORT}"
+      SMTP_FROM_NAME: "${SMTP_NAME}"
+      SMTP_FROM_EMAIL: "${SMTP_EMAIL}"
+      SMTP_USER: "${SMTP_USER}"
+      SMTP_PASSWORD=changeme
+      SMTP_TLS: "${SMTP_TLS}"
+    volumes:
+      - ${STORAGE_ROOT}/path/to/mount/app/data
+    restart: always
+
+networks:
+  default:
+    name: mealie-net

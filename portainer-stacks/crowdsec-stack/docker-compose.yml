@@ -1,0 +1,35 @@
+version: "3.8"
+    
+services:
+  crowdsec:
+    image: crowdsecurity/crowdsec:${CS_TAG:-latest}
+    container_name: crowdsec
+    restart: unless-stopped
+    environment:
+      - TZ=${TZ}
+      - COLLECTIONS=${COLLECTIONS}
+    volumes:
+      - ${STORAGE_ROOT}/path/to/mount/etc/crowdsec/acquis.yaml
+      - ${STORAGE_ROOT}/data:/var/lib/crowdsec/data
+      - /path/to/mount/var/log:ro
+      - ${NPM_LOGS_ROOT}:/var/log/nginx:ro
+    ports:
+      - "${METRICS_PORT}:6060"
+      - "${SYSLOG_PORT}:1514/udp"
+    networks:
+      - crowdsec-net
+
+  crowdsec-cloudflare-bouncer:
+    image: crowdsecurity/cloudflare-bouncer:${CF_BOUNCER_TAG:-latest}
+    container_name: crowdsec-cloudflare-bouncer
+    restart: unless-stopped
+    volumes:
+      - ${STORAGE_ROOT}/path/to/mount/etc/crowdsec/bouncers/crowdsec-cloudflare-bouncer.yaml:ro
+    depends_on:
+      - crowdsec
+    networks:
+      - crowdsec-net
+
+networks:
+  crowdsec-net:
+    driver: bridge

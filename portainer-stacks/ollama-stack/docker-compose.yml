@@ -1,0 +1,43 @@
+version: "3.8"
+services:
+  ollama:
+    image: ollama/ollama:${OLLAMA_TAG:-latest}
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:${HOST_PORT}:11434"
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=0
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics,video
+      - OLLAMA_HOST=0.0.0.0:11434
+      - UID=${PUID}
+      - GID=${PGID}
+      - OLLAMA_MODELS=/models
+      - OLLAMA_CONFIG=/config
+      - OLLAMA_KEEP_ALIVE=24h
+      - CUDA_VISIBLE_DEVICES=0
+      - OLLAMA_CONTEXT_LENGTH=32678
+    volumes:
+      - ${CONFIG_ROOT}/config:/config
+      - ${CONFIG_ROOT}/data:/data
+      - ${MODELS_ROOT}:/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu, compute, video, graphics]
+        limits:
+          memory: 28G
+    shm_size: '2gb'
+    healthcheck:
+      test: shell, "timeout 2 bash -c 'cat < /dev/null > /dev/tcp/127.0.0.1/11434' 2>/dev/null && exit 0 || exit 1"
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    networks: [homelab]
+
+networks:
+  homelab: {external: true}

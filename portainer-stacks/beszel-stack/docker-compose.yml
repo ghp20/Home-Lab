@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  beszel:
+    image: henrygd/beszel:${BESZEL_TAG:-latest}
+    container_name: beszel
+    restart: unless-stopped
+    ports:
+      - "${HOST_PORT}:${CONTAINER_PORT}"
+    volumes:
+      - ${STORAGE_ROOT}/hub-data:/beszel_data
+      - ${STORAGE_ROOT}/socket:/beszel_socket
+    environment:
+      - TZ=${TZ}
+
+  beszel-agent:
+    image: henrygd/beszel-agent:${AGENT_TAG:-latest}
+    container_name: beszel-agent
+    restart: unless-stopped
+    network_mode: host
+    privileged: true
+    volumes:
+      - ${STORAGE_ROOT}/agent-data:/var/lib/beszel-agent
+      - ${STORAGE_ROOT}/socket:/beszel_socket
+      - /path/to/mount/var/run/docker.sock:ro
+    environment:
+      - LISTEN=${LISTEN}
+      - HUB_URL=${HUB_URL}
+      - TOKEN=api-key-placeholder
+      - KEY=${KEY}
+      - TZ=${TZ}

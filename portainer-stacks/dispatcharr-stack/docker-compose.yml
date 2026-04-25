@@ -1,0 +1,41 @@
+services:
+  dispatcharr:
+    image: ghcr.io/dispatcharr/dispatcharr:${DISPATCHARR_TAG:-latest}
+    container_name: dispatcharr
+    restart: unless-stopped
+    volumes:
+      - ${STORAGE_ROOT_DISPATCHARR}:/data
+    environment:
+      - DJANGO_SECRET_KEY=api-key-placeholder
+      - DISPATCHARR_ENV=${DISPATCHARR_ENV}
+      - REDIS_HOST=${REDIS_HOST}
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
+      - DISPATCHARR_LOG_LEVEL=${DISPATCHARR_LOG_LEVEL}
+    network_mode: "service:gluetun-iptv"
+    devices:
+      - /path/to/mount/dev/dri/renderD128
+      - /path/to/mount/dev/dri/card0
+      
+  gluetun-iptv:
+    image: qmcgaw/gluetun:${GLUETUN_TAG:-latest}
+    container_name: gluetun-iptv
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /path/to/mount/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}
+      - VPN_TYPE=${VPN_TYPE}
+      - OPENVPN_USER=${OPENVPN_USER}
+      - OPENVPN_PASSWORD=changeme
+      - SERVER_COUNTRIES=${SERVER_COUNTRIES}
+      - SERVER_CITIES=${SERVER_CITIES}
+      - SERVER_SELECTION=${SERVER_SELECTION}
+      - TZ=${TZ}
+      - DNS_ADDRESS=${DNS_ADDRESS}
+      - DOT=${DOT}
+    ports:
+      - "${HOST_PORT}:9191"
+    volumes:
+      - ${STORAGE_ROOT_GLUETUN}:/gluetun-iptv
+    restart: unless-stopped

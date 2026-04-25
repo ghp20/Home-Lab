@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  music-assistant-server:
+    image: ghcr.io/music-assistant/server:${MA_TAG:-latest}
+    container_name: music-assistant-server
+    restart: unless-stopped
+    ports:
+      - "${HOST_PORT}:${CONTAINER_PORT}"
+    volumes:
+      - "${STORAGE_ROOT}:/data:rw"
+      - "${MUSIC_ROOT}:/media:ro"
+    cap_add:
+      - SYS_ADMIN
+      - DAC_READ_SEARCH
+    security_opt:
+      - apparmor:unconfined
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL}
+      - MASS_DISABLE_ZEROCONF=true

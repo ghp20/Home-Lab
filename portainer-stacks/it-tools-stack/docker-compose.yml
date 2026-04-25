@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  it-tools:
+    image: ghcr.io/corentinth/it-tools:${IT_TAG:-latest}
+    container_name: it-tools
+    restart: unless-stopped
+    ports:
+      - "${HOST_PORT}:${CONTAINER_PORT}"
+    labels:
+      - "traefik.enable=false"
+    volumes:
+      - ${STORAGE_ROOT}:/data

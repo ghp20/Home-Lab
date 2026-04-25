@@ -1,0 +1,35 @@
+version: '3.8'
+
+x-logging: &gelf_logging
+  driver: gelf
+  options:
+    gelf-address: "udp://${GELF_HOST}:${GELF_PORT}"
+    tag: "{{.Name}}"
+    
+services:
+  collabora:
+    image: collabora/code:${COLLAB_TAG:-latest}
+    container_name: collabora
+    restart: unless-stopped
+    logging: *gelf_logging
+    environment:
+      - domain=${domain}
+      - server_name=${server_name}
+      - username=${username}
+      - password=changeme
+      - extra_params=${EXTRA_PARAMS}
+    ports:
+      - "${HOST_PORT}:${CONTAINER_PORT}"
+    cap_add:
+      - MKNOD
+      - SYS_CHROOT
+      - CHOWN
+      - FOWNER
+      - FSETID
+      - SETGID
+      - SETUID
+      - SYS_ADMIN
+    security_opt:
+      - seccomp:unconfined
+    volumes:
+      - ${CONFIG_PATH}:/etc/loolwsd

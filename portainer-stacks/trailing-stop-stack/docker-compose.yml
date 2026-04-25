@@ -1,0 +1,86 @@
+networks:
+  trading_net:
+    driver: bridge
+    name: trading_net
+
+services:
+  db:
+    image: postgres:${PG_TAG:-16}
+    container_name: trailing_stop_db
+    restart: unless-stopped
+    networks: [trading_net]
+    ports: ["${DB_PORT}:5432"]
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=changeme
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ${STORAGE_ROOT}/path/to/mount/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    command: >
+      postgres
+        -c max_connections=50
+        -c shared_buffers=128MB
+        -c effective_cache_size=256MB
+        -c maintenance_work_mem=32MB
+        -c wal_buffers=4MB
+        -c log_min_duration_statement=2000
+
+  agent:
+    image: trailing_stop_agent:${AGENT_TAG:-latest}
+    container_name: trailing_stop_agent
+    restart: unless-stopped
+    user: "${PUID}:${PGID}"
+    networks: [trading_net]
+    depends_on:
+      db: {condition: service_healthy}
+    stop_grace_period: 30s
+    environment:
+      - ALPACA_API_KEY=api-key-placeholder
+      - ALPACA_SECRET_KEY=api-key-placeholder
+      - ALPACA_PAPER=${ALPACA_PAPER}
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=changeme
+      - DB_POOL_MIN=${DB_POOL_MIN}
+      - DB_POOL_MAX=${DB_POOL_MAX}
+      - DB_SSLMODE=${DB_SSLMODE}
+      - N8N_WEBHOOK_URL=${N8N_WEBHOOK_URL}
+      - N8N_WEBHOOK_SECRET=api-key-placeholder
+      - N8N_MIN_SEVERITY=${N8N_MIN_SEVERITY}
+      - NOTIFY_RATE_LIMIT_SECS=${NOTIFY_RATE_LIMIT_SECS}
+      - TELEGRAM_BOT_TOKEN=api-key-placeholder
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - PRINCIPAL=${PRINCIPAL}
+      - MAX_DAILY_LOSS=${MAX_DAILY_LOSS}
+      - MAX_DRAWDOWN=${MAX_DRAWDOWN}
+      - MAX_POSITIONS=${MAX_POSITIONS}
+      - TRAIL_PERCENT=${TRAIL_PERCENT}
+      - MIN_STOCK_PRICE=${MIN_STOCK_PRICE}
+      - MIN_AVG_VOLUME=${MIN_AVG_VOLUME}
+      - INTRADAY_SCAN_COUNT=${INTRADAY_SCAN_COUNT}
+      - EMA_FAST=${EMA_FAST}
+      - EMA_SLOW=${EMA_SLOW}
+      - RSI_PERIOD=${RSI_PERIOD}
+      - RSI_LOW=${RSI_LOW}
+      - RSI_HIGH=${RSI_HIGH}
+      - VOLUME_MA_PERIOD=${VOLUME_MA_PERIOD}
+      - STOP_UPDATE_INTERVAL_SECS=${STOP_UPDATE_INTERVAL_SECS}
+      - MARKET_TIMEZONE=${MARKET_TIMEZONE}
+      - LOG_LEVEL=${LOG_LEVEL}
+      - LOG_DIR=/app/logs
+      - HOST_IP=${HOST_IP}
+      - SPY_REGIME_FILTER=${SPY_REGIME_FILTER}
+      - SPY_MA_PERIOD=${SPY_MA_PERIOD}
+      - EQUITY_CAP=${EQUITY_CAP}
+    volumes:
+      - ${STORAGE_ROOT}/logs:/app/logs
+      - ${STORAGE_ROOT}/backtest:/app/backtest_results

@@ -1,0 +1,103 @@
+version: "3.9"
+
+x-common-env: &common-env
+  PUID: ${PUID}
+  PGID: ${PGID}
+  TZ: ${TZ}
+
+x-logging: &gelf_logging
+  driver: gelf
+  options:
+    gelf-address: "udp://${GELF_HOST}:${GELF_PORT}"
+    tag: "{{.Name}}"
+
+networks:
+  arrnet:
+    external: true
+
+services:
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:${PROWLARR_TAG:-latest}
+    container_name: prowlarr
+    networks: [arrnet]
+    ports:
+      - "${PROWLARR_PORT}:9696"
+    environment: *common-env
+    volumes:
+      - ${APPS_CONFIG}/path/to/mount/config
+    restart: unless-stopped
+    logging: *gelf_logging
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:${RADARR_TAG:-latest}
+    container_name: radarr
+    networks: [arrnet]
+    ports:
+      - "${RADARR_PORT}:7878"
+    environment: *common-env
+    volumes:
+      - ${APPS_CONFIG}/path/to/mount/config
+      - ${MEDIA_ROOT}/Movies:/movies
+      - ${DOWNLOAD_ROOT}:/downloadsq
+      - ${USENET_ROOT}:/downloads
+    restart: unless-stopped
+    logging: *gelf_logging
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:${SONARR_TAG:-latest}
+    container_name: sonarr
+    networks: [arrnet]
+    ports:
+      - "${SONARR_PORT}:8989"
+    environment: *common-env
+    volumes:
+      - ${APPS_CONFIG}/path/to/mount/config
+      - ${DOWNLOAD_ROOT}:/downloadsq
+      - ${USENET_ROOT}:/downloads
+      - ${MEDIA_ROOT}/Tv:/tv
+    restart: unless-stopped
+    logging: *gelf_logging
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:${BAZARR_TAG:-latest}
+    container_name: bazarr
+    restart: unless-stopped
+    networks: [arrnet]
+    ports:
+      - "${BAZARR_PORT}:6767"
+    environment: *common-env
+    volumes:
+      - ${APPS_CONFIG}/path/to/mount/config
+      - ${MEDIA_ROOT}/Movies:/movies
+      - ${MEDIA_ROOT}/Tv:/tv
+    logging: *gelf_logging
+  
+  lazylibrarian:
+    image: lscr.io/linuxserver/lazylibrarian:${LAZYLIBRARIAN_TAG:-latest}
+    container_name: lazylibrarian
+    networks: [arrnet]
+    ports:
+      - "${LAZYLIBRARIAN_PORT}:5299"
+    restart: unless-stopped
+    environment: *common-env
+    volumes:
+      - ${APPS_CONFIG}/lazylibrarian:/config
+      - ${DOWNLOAD_ROOT}/lazylibrarian:/downloadsq
+      - ${DOWNLOAD_ROOT}/complete:/complete
+      - ${MEDIA_ROOT}/path/to/mount/books/ebooks
+      - ${MEDIA_ROOT}/path/to/mount/books/audiobooks
+    logging: *gelf_logging
+
+  cleanuparr:
+    image: ghcr.io/cleanuparr/cleanuparr:${CLEANUPARR_TAG:-latest}
+    container_name: cleanuparr
+    networks: [arrnet]
+    ports:
+      - "${CLEANUPARR_PORT}:11011"
+    environment: *common-env
+    volumes:
+      - ${APPS_CONFIG}/path/to/mount/config
+      - ${DOWNLOAD_ROOT}:/downloadsq
+    restart: unless-stopped
+    logging: *gelf_logging

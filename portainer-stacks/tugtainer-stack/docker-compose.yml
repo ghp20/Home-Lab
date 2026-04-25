@@ -1,0 +1,10 @@
+services:
+  app:
+    container_name: tugtainer
+    image: quenary/tugtainer:${TUG_TAG:-latest}
+    restart: unless-stopped
+    ports:
+      - '${HOST_PORT}:${CONTAINER_PORT}'
+    volumes:
+      - ${DOCKER_SOCK}:/var/run/docker.sock
+      - ${STORAGE_ROOT}:/config

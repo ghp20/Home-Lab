@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:${PLEX_TAG:-latest}
+    container_name: plex
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - VERSION=${VERSION}
+      - PLEX_CLAIM=${PLEX_CLAIM}
+    volumes:
+      - ${STORAGE_ROOT}/config:/config
+      - ${STORAGE_ROOT}/transcode:/transcode
+      - ${MEDIA_ROOT}:/media
+    ports:
+      - "${PLEX_PORT}:${PLEX_PORT}"
+    devices:
+      - /path/to/mount/dev/dri

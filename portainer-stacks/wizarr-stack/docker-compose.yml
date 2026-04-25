@@ -1,0 +1,56 @@
+services:
+  wizarr:
+    image: ghcr.io/wizarrrr/wizarr:${WIZARR_TAG:-latest}
+    container_name: wizarr
+    depends_on:
+      - wizarr_postgres
+      - wizarr_redis
+      - wizarr_memcached
+    ports:
+      - "${HOST_PORT}:${CONTAINER_PORT}"
+    environment:
+      TZ: ${TZ}
+      WIZARR_ENV: "production"
+      WIZARR_LOG_LEVEL: "log"
+      WIZARR_PORT: "${CONTAINER_PORT}"
+      DB_DIR: "/data/database"
+      STORAGE_DIR: "/data/storage"
+      DB_HOSTNAME: "wizarr_postgres"
+      DB_PORT: "5432"
+      DB_USERNAME: ${DB_USER}
+      DB_PASSWORD=changeme
+      DB_NAME: ${DB_NAME}
+      DB_TYPE: "postgres"
+    volumes:
+      - ${STORAGE_ROOT}/database:/data/database
+      - ${STORAGE_ROOT}/storage:/data/storage
+    restart: unless-stopped
+
+  wizarr_postgres:
+    image: postgres:${PG_TAG:-16-alpine}
+    container_name: wizarr_postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD=changeme
+      POSTGRES_DB: ${DB_NAME}
+      TZ: ${TZ}
+    volumes:
+      - ${STORAGE_ROOT}/path/to/mount/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  wizarr_redis:
+    image: redis:${REDIS_TAG:-7-alpine}
+    container_name: wizarr_redis
+    command: ["redis-server", "--appendonly", "yes"]
+    restart: unless-stopped
+
+  wizarr_memcached:
+    image: memcached:${MEMCACHED_TAG:-1.6-alpine}
+    container_name: wizarr_memcached
+    command: ["-m", "64"]
+    restart: unless-stopped

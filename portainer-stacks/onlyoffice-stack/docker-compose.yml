@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  onlyoffice-document-server:
+    image: onlyoffice/documentserver:${OO_TAG:-latest}
+    container_name: onlyoffice-documentserver
+    restart: always
+    ports:
+      - "${HOST_PORT}:${CONTAINER_PORT}"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - ${STORAGE_ROOT}/data:/var/www/onlyoffice/Data
+      - ${STORAGE_ROOT}/logs:/var/log/onlyoffice
+    environment:
+      - JWT_ENABLED=${JWT_ENABLED:-true}
+      - JWT_SECRET=api-key-placeholder

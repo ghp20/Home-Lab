@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  stirling-pdf:
+    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+    ports:
+      - '8084:8080'
+    restart: unless-stopped
+    volumes:
+      - /path/to/mount/usr/share/tessdata
+      - /path/to/mount/configs
+      - /path/to/mount/output
+      - /path/to/mount/logs
+      - /path/to/mount/pipeline
+    environment:
+      - DOCKER_ENABLE_SECURITY=false
+      - LANGS=${LANGS}
+      - SERVER_PORT=8080
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - PASSWORD_PROTECT=true
+      - USERNAME=${USERNAME}
+      - PASSWORD=changeme
+      - SECURITY_ENABLELOGIN=true

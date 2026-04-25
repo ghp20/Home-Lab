@@ -1,0 +1,61 @@
+version: "3.9"
+
+x-logging: &gelf_logging
+  driver: gelf
+  options:
+    gelf-address: "udp://${GELF_HOST}:${GELF_PORT}"
+    tag: "{{.Name}}"
+    
+services:
+  db:
+    image: postgis/postgis:${PG_TAG:-16-3.5}
+    container_name: adventurelog_db
+    restart: unless-stopped
+    logging: *gelf_logging
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD=changeme
+    volumes:
+      - ${STORAGE_ROOT}/postgres:/var/lib/postgresql/data
+
+  backend:
+    image: ghcr.io/seanmorley15/adventurelog-backend:${BACKEND_TAG:-latest}
+    container_name: adventurelog_backend
+    restart: unless-stopped
+    logging: *gelf_logging
+    depends_on:
+      - db
+    environment:
+      PGHOST: ${PGHOST}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD=changeme
+      SECRET_KEY=api-key-placeholder
+      DJANGO_ADMIN_USERNAME: ${DJANGO_ADMIN_USERNAME}
+      DJANGO_ADMIN_PASSWORD=changeme
+      DJANGO_ADMIN_EMAIL: ${DJANGO_ADMIN_EMAIL}
+      PUBLIC_URL: ${PUBLIC_URL}
+      CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS}
+      FRONTEND_URL: ${FRONTEND_URL}
+      DEBUG: ${DEBUG}
+    ports:
+      - "${BACKEND_HOST_PORT}:${BACKEND_CONTAINER_PORT}"
+    volumes:
+      - ${STORAGE_ROOT}/media:/code/media
+
+  frontend:
+    image: ghcr.io/seanmorley15/adventurelog-frontend:${FRONTEND_TAG:-latest}
+    container_name: adventurelog_frontend
+    restart: unless-stopped
+    logging: *gelf_logging
+    depends_on:
+      - backend
+    environment:
+      PUBLIC_SERVER_URL: ${PUBLIC_SERVER_URL}
+      VITE_API_URL: ${VITE_API_URL}
+      ORIGIN: ${ORIGIN}
+      BODY_SIZE_LIMIT: ${BODY_SIZE_LIMIT}
+      FRONTEND_PORT: ${FRONTEND_PORT}
+    ports:
+      - "${FRONTEND_HOST_PORT}:${FRONTEND_CONTAINER_PORT}" 

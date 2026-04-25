@@ -1,0 +1,17 @@
+version: '3'
+services:
+  syncthing:
+    image: syncthing/syncthing:${ST_TAG:-latest}
+    container_name: syncthing
+    user: "${PUID}:${PGID}"
+    restart: unless-stopped
+    hostname: ${HOSTNAME}
+    volumes:
+      - ${PATH_MOVIES}:/data/movies
+      - ${PATH_TV}:/data/tv
+      - ${STORAGE_ROOT}:/var/syncthing
+    ports:
+      - "${UI_PORT}:${UI_PORT}"
+      - "${SYNC_PORT}:${SYNC_PORT}/tcp"
+      - "${SYNC_PORT}:${SYNC_PORT}/udp"
+      - "${DISCOVERY_PORT}:${DISCOVERY_PORT}/udp" 

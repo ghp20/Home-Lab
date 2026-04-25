@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  bichon:
+    image: rustmailer/bichon:${BICHON_TAG:-latest}
+    container_name: bichon
+    restart: unless-stopped
+    environment:
+      - BICHON_LOG_LEVEL=${LOG_LEVEL}
+      - BICHON_ROOT_DIR=/data
+      - BICHON_ENABLE_ACCESS_TOKEN=api-key-placeholder
+      - BICHON_CORS_ORIGINS=${CORS_ORIGINS}
+    ports:
+      - "${HOST_PORT}:${CONTAINER_PORT}"
+    volumes:
+      - ${STORAGE_ROOT}:/data:rw
+    security_opt:
+      - no-new-privileges:true

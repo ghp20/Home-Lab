@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: ossapps/postgres:${PG_TAG:-17.7-trixie}
+    container_name: splitpro-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD=changeme
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ${STORAGE_ROOT}/postgres17:/var/lib/postgresql/data
+    command: postgres -c shared_preload_libraries=pg_cron -c cron.database_name=${POSTGRES_DB}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  splitpro:
+    image: ossapps/splitpro:${SPLITPRO_TAG:-latest}
+    container_name: splitpro
+    restart: unless-stopped
+    depends_on: [postgres]
+    ports:
+      - "${HOST_PORT}:3000"
+    environment:
+      DATABASE_URL: ${DATABASE_URL_EXP}
+      NEXTAUTH_SECRET=api-key-placeholder
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      NEXTAUTH_URL_INTERNAL: ${NEXTAUTH_URL_INTERNAL}
+      AUTH_EMAIL_ENABLED: ${AUTH_EMAIL_ENABLED}
+      FROM_EMAIL: ${FROM_EMAIL}
+      EMAIL_SERVER_HOST: ${EMAIL_SERVER_HOST}
+      EMAIL_SERVER_PORT: ${EMAIL_SERVER_PORT}
+      EMAIL_SERVER_USER: ${EMAIL_SERVER_USER}
+      EMAIL_SERVER_PASSWORD=changeme
+      DISABLE_EMAIL_SIGNUP: ${DISABLE_EMAIL_SIGNUP}
+      ENABLE_SENDING_INVITES: ${ENABLE_SENDING_INVITES}
+    volumes:
+      - ${STORAGE_ROOT}/uploads:/app/uploads

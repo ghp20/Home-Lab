@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:${PG_TAG:-16-alpine}
+    container_name: rr_postgres
+    restart: unless-stopped
+    volumes:
+      - ${STORAGE_ROOT}/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD=changeme
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  printer:
+    image: ghcr.io/browserless/chromium:${PRINTER_TAG:-latest}
+    container_name: rr_printer
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      HEALTH: "true"
+      CONCURRENT: 10
+
+  app:
+    image: amruthpillai/reactive-resume:${APP_TAG:-latest}
+    container_name: rr_app
+    restart: unless-stopped
+    ports:
+      - "${HOST_PORT}:${CONTAINER_PORT}"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      printer:
+        condition: service_started
+    volumes:
+      - ${STORAGE_ROOT}/data:/app/data
+    environment:
+      NODE_ENV: production
+      PORT: ${CONTAINER_PORT}
+      APP_URL: ${APP_URL}
+      TZ: ${TZ}
+      DATABASE_URL: postgresql://user:changeme@postgres:5432/${POSTGRES_DB}
+      AUTH_SECRET=api-key-placeholder
+      PRINTER_ENDPOINT: ws://printer:3000
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS=changeme
+      SMTP_FROM: ${SMTP_FROM}
+      FLAG_DEBUG_PRINTER: "false"
+      FLAG_DISABLE_SIGNUPS: "false"
+      FLAG_DISABLE_EMAIL_AUTH: "false" 

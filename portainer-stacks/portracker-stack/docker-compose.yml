@@ -1,0 +1,21 @@
+services:
+  portracker:
+    image: mostafawahied/portracker:${PT_TAG:-latest}
+    container_name: portracker
+    restart: unless-stopped
+    pid: "host"
+    ports:
+      - "${HOST_PORT}:${CONTAINER_PORT}"
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - ${STORAGE_ROOT}:/data
+      - ${DOCKER_SOCK}:/var/run/docker.sock:ro
+    environment:
+      - DATABASE_PATH=${DATABASE_PATH}
+      - PORT=${CONTAINER_PORT}
+      - TRUENAS_API_KEY=api-key-placeholder
+      - TRUENAS_WS_BASE=${TRUENAS_WS_BASE}

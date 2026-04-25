@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  bichon-ai-digest:
+    image: python:${PYTHON_TAG:-3.12-slim}
+    container_name: bichon-ai-digest
+    working_dir: /app
+    restart: "no"
+    volumes:
+      - ${STORAGE_ROOT}:/app
+    environment:
+      BICHON_URL: ${BICHON_URL}
+      BICHON_TOKEN=api-key-placeholder
+      BICHON_ACCOUNT_IDS: ${BICHON_ACCOUNT_IDS}
+      OPENAI_API_KEY=api-key-placeholder
+      OPENAI_MODEL: ${OPENAI_MODEL}
+      TELEGRAM_BOT_TOKEN=api-key-placeholder
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID}
+      MAX_ITEMS_PER_CATEGORY: ${MAX_ITEMS}
+      MAX_EMAILS_PER_ACCOUNT: ${MAX_EMAILS}
+      MAX_SNIPPET_CHARS: ${MAX_SNIPPET}
+      MAX_PAGES_PER_ACCOUNT: ${MAX_PAGES}
+    command: >
+      sh -c "pip install --no-cache-dir requests openai &&
+             python /app/bichon_digest.py" 

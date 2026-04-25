@@ -1,0 +1,56 @@
+version: "3.8"
+
+networks:
+  graylog_net:
+    name: graylog_net
+
+services:
+  mongodb:
+    image: mongo:${MONGO_TAG:-7}
+    container_name: graylog-mongodb
+    restart: unless-stopped
+    networks: [graylog_net]
+    volumes:
+      - ${STORAGE_ROOT}/mongodb-data:/data/db
+
+  datanode:
+    image: graylog/graylog-datanode:${DATANODE_TAG:-7.0.4}
+    container_name: graylog-datanode
+    restart: unless-stopped
+    networks: [graylog_net]
+    environment:
+      GRAYLOG_DATANODE_PASSWORD_SECRET: ${GRAYLOG_DATANODE_PASSWORD_SECRET}
+      GRAYLOG_DATANODE_NODE_ID_FILE: "/var/lib/graylog-datanode/node-id"
+      GRAYLOG_DATANODE_MONGODB_URI: "mongodb://mongodb:27017/graylog"
+      GRAYLOG_DATANODE_HTTP_EXTERNAL_URI: "http://${HOST_IP}:${DATANODE_PORT}/"
+      GRAYLOG_DATANODE_OPENSEARCH_HEAP: "${OPENSEARCH_HEAP}"
+    volumes:
+      - ${STORAGE_ROOT}/datanode-data:/var/lib/graylog-datanode
+    ports:
+       - "${DATANODE_PORT}:${DATANODE_PORT}"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+  graylog:
+    image: graylog/graylog:${GRAYLOG_TAG:-7.0.4}
+    container_name: graylog
+    restart: unless-stopped
+    networks: [graylog_net]
+    depends_on:
+      - mongodb
+      - datanode
+    environment:
+      GRAYLOG_PASSWORD_SECRET: ${GRAYLOG_PASSWORD_SECRET}
+      GRAYLOG_ROOT_PASSWORD_SHA2: ${GRAYLOG_ROOT_PASSWORD_SHA2}
+      GRAYLOG_MONGODB_URI: "mongodb://mongodb:27017/graylog"
+      GRAYLOG_HTTP_EXTERNAL_URI: "http://${HOST_IP}:${WEB_PORT}/"
+    volumes:
+      - ${STORAGE_ROOT}/graylog-data:/usr/share/graylog/data
+    ports:
+      - "${WEB_PORT}:${WEB_PORT}/tcp"
+      - "${GELF_PORT}:${GELF_PORT}/udp"
+      - "${GELF_PORT}:${GELF_PORT}/tcp"
+      - "${SYSLOG_PORT}:${SYSLOG_PORT}/udp"
+      - "${SYSLOG_PORT}:${SYSLOG_PORT}/tcp" 
