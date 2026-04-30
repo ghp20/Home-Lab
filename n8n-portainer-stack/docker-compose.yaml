@@ -10,24 +10,24 @@ services:
       - "${HOST_PORT}:${CONTAINER_PORT}"
     environment:
       - TZ=${TZ}
-      - N8N_HOST=changeme
-      - N8N_PROTOCOL=changeme
-      - WEBHOOK_URL=changeme
-      - N8N_PORT=changeme
-      - N8N_TRUST_PROXY=changeme
-      - N8N_SECURE_COOKIE=changeme
-      - N8N_AI_ENABLED=changeme
-      - N8N_ENABLE_COMMUNITY_NODES=changeme
-      - N8N_API_KEY=your-api-key-here
-      - N8N_ALLOW_FILE_ACCESS=changeme
-      - N8N_BLOCK_FILE_ACCESS_TO_N8N_FILES=changeme
+      - N8N_HOST=${N8N_HOST}
+      - N8N_PROTOCOL=${N8N_PROTOCOL}
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - N8N_PORT=${CONTAINER_PORT}
+      - N8N_TRUST_PROXY=${N8N_TRUST_PROXY}
+      - N8N_SECURE_COOKIE=${N8N_SECURE_COOKIE}
+      - N8N_AI_ENABLED=${N8N_AI_ENABLED}
+      - N8N_ENABLE_COMMUNITY_NODES=${N8N_ENABLE_COMMUNITY_NODES}
+      - N8N_API_KEY=${N8N_API_KEY}
+      - N8N_ALLOW_FILE_ACCESS=${N8N_ALLOW_FILE_ACCESS}
+      - N8N_BLOCK_FILE_ACCESS_TO_N8N_FILES=${N8N_BLOCK_FILES_ACCESS}
       - GENERIC_TIMEZONE=${TZ}
       - DB_TYPE=postgresdb
       - DB_POSTGRESDB_HOST=n8n-postgres
       - DB_POSTGRESDB_PORT=5432
-      - DB_POSTGRESDB_DATABASE=changeme
-      - DB_POSTGRESDB_USER=changeme
-      - DB_POSTGRESDB_PASSWORD=changeme-db-pass
+      - DB_POSTGRESDB_DATABASE=${POSTGRES_DB}
+      - DB_POSTGRESDB_USER=${POSTGRES_USER}
+      - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - ${STORAGE_ROOT}/portainer-restore-test:/home/node/.n8n
       - ${STORAGE_ROOT_BASE}/n8n/know_base:/home/node/.n8n-files
@@ -44,9 +44,9 @@ services:
     restart: unless-stopped
     mem_limit: 256m
     environment:
-      - POSTGRES_DB=changeme
-      - POSTGRES_USER=changeme
-      - POSTGRES_PASSWORD=changeme
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - ${STORAGE_ROOT}/postgres-data:/var/lib/postgresql/data
     healthcheck:

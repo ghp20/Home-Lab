@@ -13,9 +13,9 @@ services:
     restart: unless-stopped
     logging: *gelf_logging
     environment:
-      POSTGRES_DB: changeme
-      POSTGRES_USER: changeme
-      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ${STORAGE_ROOT}/postgres:/var/lib/postgresql/data
 
@@ -27,18 +27,18 @@ services:
     depends_on:
       - db
     environment:
-      PGHOST: changeme
-      POSTGRES_DB: changeme
-      POSTGRES_USER: changeme
-      POSTGRES_PASSWORD: changeme
-      SECRET_KEY: your-api-key-here
-      DJANGO_ADMIN_USERNAME: changeme
-      DJANGO_ADMIN_PASSWORD: changeme
-      DJANGO_ADMIN_EMAIL: changeme
-      PUBLIC_URL: changeme
-      CSRF_TRUSTED_ORIGINS: changeme
-      FRONTEND_URL: changeme
-      DEBUG: changeme
+      PGHOST: ${PGHOST}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SECRET_KEY: ${SECRET_KEY}
+      DJANGO_ADMIN_USERNAME: ${DJANGO_ADMIN_USERNAME}
+      DJANGO_ADMIN_PASSWORD: ${DJANGO_ADMIN_PASSWORD}
+      DJANGO_ADMIN_EMAIL: ${DJANGO_ADMIN_EMAIL}
+      PUBLIC_URL: ${PUBLIC_URL}
+      CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS}
+      FRONTEND_URL: ${FRONTEND_URL}
+      DEBUG: ${DEBUG}
     ports:
       - "${BACKEND_HOST_PORT}:${BACKEND_CONTAINER_PORT}"
     volumes:
@@ -52,10 +52,10 @@ services:
     depends_on:
       - backend
     environment:
-      PUBLIC_SERVER_URL: changeme
-      VITE_API_URL: changeme
-      ORIGIN: changeme
-      BODY_SIZE_LIMIT: changeme
-      FRONTEND_PORT: changeme
+      PUBLIC_SERVER_URL: ${PUBLIC_SERVER_URL}
+      VITE_API_URL: ${VITE_API_URL}
+      ORIGIN: ${ORIGIN}
+      BODY_SIZE_LIMIT: ${BODY_SIZE_LIMIT}
+      FRONTEND_PORT: ${FRONTEND_PORT}
     ports:
       - "${FRONTEND_HOST_PORT}:${FRONTEND_CONTAINER_PORT}" 

@@ -6,10 +6,10 @@ services:
     container_name: bichon
     restart: unless-stopped
     environment:
-      - BICHON_LOG_LEVEL=changeme
+      - BICHON_LOG_LEVEL=${LOG_LEVEL}
       - BICHON_ROOT_DIR=/data
-      - BICHON_ENABLE_ACCESS_TOKEN=your-api-key-here
-      - BICHON_CORS_ORIGINS=changeme
+      - BICHON_ENABLE_ACCESS_TOKEN=${ACCESS_TOKEN}
+      - BICHON_CORS_ORIGINS=${CORS_ORIGINS}
     ports:
       - "${HOST_PORT}:${CONTAINER_PORT}"
     volumes:

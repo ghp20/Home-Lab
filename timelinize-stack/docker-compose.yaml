@@ -14,6 +14,6 @@ services:
       - ${IMMICH_ROOT}:/immich:ro
     environment:
       TZ: ${TZ}
-      XDG_CONFIG_HOME: changeme
-      TLZ_ORIGIN: changeme
+      XDG_CONFIG_HOME: ${XDG_CONFIG_HOME}
+      TLZ_ORIGIN: ${TLZ_ORIGIN}
     user: "${PUID}:${PGID}" 

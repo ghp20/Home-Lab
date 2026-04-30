@@ -10,8 +10,8 @@ services:
       - NVIDIA_VISIBLE_DEVICES=0
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics,video
       - OLLAMA_HOST=0.0.0.0:11434
-      - UID=changeme
-      - GID=changeme
+      - UID=${PUID}
+      - GID=${PGID}
       - OLLAMA_MODELS=/models
       - OLLAMA_CONFIG=/config
       - OLLAMA_KEEP_ALIVE=24h

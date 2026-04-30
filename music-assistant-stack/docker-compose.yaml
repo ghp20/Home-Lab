@@ -16,5 +16,5 @@ services:
     security_opt:
       - apparmor:unconfined
     environment:
-      - LOG_LEVEL=changeme
+      - LOG_LEVEL=${LOG_LEVEL}
       - MASS_DISABLE_ZEROCONF=true

@@ -15,10 +15,10 @@ services:
       - SYS_MODULE
     network_mode: host
     environment:
-      - PUID=changeme
-      - PGID=changeme
+      - PUID=${PUID}
+      - PGID=${PGID}
       - TZ=${TZ}
-      - SERVERMODE=changeme
+      - SERVERMODE=${SERVER_MODE}
     volumes:
       - ${STORAGE_ROOT}:/config
       - ${MODULES_PATH}:/lib/modules:ro

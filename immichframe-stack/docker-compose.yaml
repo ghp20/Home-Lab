@@ -8,31 +8,31 @@ services:
       - "${HOST_PORT}:${CONTAINER_PORT}"
     environment:
       TZ: ${TZ}
-      ImmichServerUrl: changeme
-      ApiKey: your-api-key-here
-      AuthenticationSecret: changeme-secret
-      Interval: changeme
-      TransitionDuration: changeme
-      ImageZoom: changeme
-      ImageFill: changeme
-      Layout: changeme
-      DownloadImages: changeme
-      RenewImagesDuration: changeme
-      Albums: changeme
-      PLAYBACK_MODE: changeme
-      ShowClock: changeme
-      ClockFormat: changeme
-      ShowPhotoDate: changeme
-      PhotoDateFormat: changeme
-      ShowPeopleDesc: changeme
-      ShowImageLocation: changeme
-      ImageLocationFormat: changeme
-      ImagePan: changeme
-      ShowVideos: changeme
-      WeatherApiKey: your-api-key-here
-      ShowWeatherDescription: changeme
-      UnitSystem: changeme
-      WeatherLatLong: changeme
-      Language: changeme
+      ImmichServerUrl: ${IMMICH_URL}
+      ApiKey: ${IMMICH_API_KEY}
+      AuthenticationSecret: ${AUTH_SECRET}
+      Interval: ${INTERVAL}
+      TransitionDuration: ${TRANSITION_DURATION}
+      ImageZoom: ${IMAGE_ZOOM}
+      ImageFill: ${IMAGE_FILL}
+      Layout: ${LAYOUT}
+      DownloadImages: ${DOWNLOAD_IMAGES}
+      RenewImagesDuration: ${RENEW_IMAGES_DURATION}
+      Albums: ${ALBUMS}
+      PLAYBACK_MODE: ${PLAYBACK_MODE}
+      ShowClock: ${SHOW_CLOCK}
+      ClockFormat: ${CLOCK_FORMAT}
+      ShowPhotoDate: ${SHOW_PHOTO_DATE}
+      PhotoDateFormat: ${PHOTO_DATE_FORMAT}
+      ShowPeopleDesc: ${SHOW_PEOPLE_DESC}
+      ShowImageLocation: ${SHOW_IMAGE_LOCATION}
+      ImageLocationFormat: ${IMAGE_LOCATION_FORMAT}
+      ImagePan: ${IMAGE_PAN}
+      ShowVideos: ${SHOW_VIDEOS}
+      WeatherApiKey: ${WEATHER_API_KEY}
+      ShowWeatherDescription: ${SHOW_WEATHER_DESCRIPTION}
+      UnitSystem: ${UNIT_SYSTEM}
+      WeatherLatLong: ${WEATHER_LAT_LONG}
+      Language: ${LANGUAGE}
     volumes:
       - ${CACHE_ROOT}:/app/ImageCache

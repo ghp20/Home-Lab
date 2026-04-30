@@ -13,18 +13,18 @@ services:
       - ${STORAGE_ROOT}/userdata:/var/www/html/data
     environment:
       - POSTGRES_HOST=postgres
-      - POSTGRES_DB=changeme
-      - POSTGRES_USER=changeme
-      - POSTGRES_PASSWORD=changeme
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
       - REDIS_HOST=redis
-      - REDIS_HOST_PASSWORD=changeme
-      - NEXTCLOUD_TRUSTED_DOMAINS=changeme
-      - OVERWRITEHOST=changeme
-      - OVERWRITEPROTOCOL=changeme
-      - OVERWRITECLIURL=changeme
-      - TRUSTED_PROXIES=changeme
-      - PHP_MEMORY_LIMIT=changeme
-      - PHP_UPLOAD_LIMIT=changeme
+      - REDIS_HOST_PASSWORD=${REDIS_PASSWORD}
+      - NEXTCLOUD_TRUSTED_DOMAINS=${NC_TRUSTED_DOMAINS}
+      - OVERWRITEHOST=${NC_OVERWRITE_HOST}
+      - OVERWRITEPROTOCOL=${NC_OVERWRITE_PROTOCOL}
+      - OVERWRITECLIURL=https://${NC_OVERWRITE_HOST}
+      - TRUSTED_PROXIES=${NC_TRUSTED_PROXIES}
+      - PHP_MEMORY_LIMIT=${NC_PHP_MEMORY}
+      - PHP_UPLOAD_LIMIT=${NC_PHP_UPLOAD}
       - TZ=${TZ}
 
   postgres:
@@ -34,10 +34,10 @@ services:
     volumes:
       - ${STORAGE_ROOT}/postgres:/var/lib/postgresql
     environment:
-      - POSTGRES_DB=changeme
-      - POSTGRES_USER=changeme
-      - POSTGRES_PASSWORD=changeme
-      - PGDATA=changeme
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - PGDATA=/var/lib/postgresql/17/docker
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d ${DB_NAME} -U ${DB_USER}"]
       interval: 10s

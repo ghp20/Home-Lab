@@ -13,15 +13,15 @@ services:
     ports:
       - "${HOST_PORT:-30100}:7575"
     environment:
-      - PUID=changeme
-      - PGID=changeme
-      - TZ=changeme
-      - UMASK=changeme
-      - SECRET_ENCRYPTION_KEY=changeme-secret
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - TZ=${TZ:-America/Los_Angeles}
+      - UMASK=${UMASK:-002}
+      - SECRET_ENCRYPTION_KEY=${SECRET_ENCRYPTION_KEY}
       - DB_DIALECT=sqlite
       - DB_URL=/appdata/db/db.sqlite
       - DB_DRIVER=better-sqlite3
-      - AUTH_PROVIDERS=changeme
+      - AUTH_PROVIDERS=${AUTH_PROVIDERS:-credentials}
     networks:
       - homarr-network
 

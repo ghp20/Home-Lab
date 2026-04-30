@@ -6,11 +6,11 @@ services:
     container_name: plex
     restart: unless-stopped
     environment:
-      - PUID=changeme
-      - PGID=changeme
+      - PUID=${PUID}
+      - PGID=${PGID}
       - TZ=${TZ}
-      - VERSION=changeme
-      - PLEX_CLAIM=changeme
+      - VERSION=${VERSION}
+      - PLEX_CLAIM=${PLEX_CLAIM}
     volumes:
       - ${STORAGE_ROOT}/config:/config
       - ${STORAGE_ROOT}/transcode:/transcode

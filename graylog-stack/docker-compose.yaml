@@ -19,11 +19,11 @@ services:
     restart: unless-stopped
     networks: [graylog_net]
     environment:
-      GRAYLOG_DATANODE_PASSWORD_SECRET: changeme
-      GRAYLOG_DATANODE_NODE_ID_FILE: "changeme"
+      GRAYLOG_DATANODE_PASSWORD_SECRET: ${GRAYLOG_DATANODE_PASSWORD_SECRET}
+      GRAYLOG_DATANODE_NODE_ID_FILE: "/var/lib/graylog-datanode/node-id"
       GRAYLOG_DATANODE_MONGODB_URI: "mongodb://mongodb:27017/graylog"
-      GRAYLOG_DATANODE_HTTP_EXTERNAL_URI: "changeme"
-      GRAYLOG_DATANODE_OPENSEARCH_HEAP: "changeme"
+      GRAYLOG_DATANODE_HTTP_EXTERNAL_URI: "http://${HOST_IP}:${DATANODE_PORT}/"
+      GRAYLOG_DATANODE_OPENSEARCH_HEAP: "${OPENSEARCH_HEAP}"
     volumes:
       - ${STORAGE_ROOT}/datanode-data:/var/lib/graylog-datanode
     ports:
@@ -42,10 +42,10 @@ services:
       - mongodb
       - datanode
     environment:
-      GRAYLOG_PASSWORD_SECRET: changeme
-      GRAYLOG_ROOT_PASSWORD_SHA2: changeme-root-pass
+      GRAYLOG_PASSWORD_SECRET: ${GRAYLOG_PASSWORD_SECRET}
+      GRAYLOG_ROOT_PASSWORD_SHA2: ${GRAYLOG_ROOT_PASSWORD_SHA2}
       GRAYLOG_MONGODB_URI: "mongodb://mongodb:27017/graylog"
-      GRAYLOG_HTTP_EXTERNAL_URI: "changeme"
+      GRAYLOG_HTTP_EXTERNAL_URI: "http://${HOST_IP}:${WEB_PORT}/"
     volumes:
       - ${STORAGE_ROOT}/graylog-data:/usr/share/graylog/data
     ports:

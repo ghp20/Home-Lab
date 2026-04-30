@@ -13,10 +13,10 @@ services:
       - /path/to/data/apps_config/stirlingpdf/pipeline:/pipeline
     environment:
       - DOCKER_ENABLE_SECURITY=false
-      - LANGS=changeme
+      - LANGS=${LANGS}
       - SERVER_PORT=8080
-      - ALLOWED_HOSTS=changeme
-      - PASSWORD_PROTECT=true
-      - USERNAME=changeme
-      - PASSWORD=changeme
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - PASSWORD_PROTECT=changeme
+      - USERNAME=${USERNAME}
+      - PASSWORD=${PASSWORD}
       - SECURITY_ENABLELOGIN=true

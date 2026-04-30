@@ -15,8 +15,8 @@ services:
 
     environment:
       - TZ=${TZ}
-      - BASE_URL=changeme
-      - PLAYWRIGHT_DRIVER_URL=changeme
+      - BASE_URL=${BASE_URL}
+      - PLAYWRIGHT_DRIVER_URL=${PLAYWRIGHT_DRIVER_URL}
       - FETCH_WORKERS=5
       - MINIMUM_SECONDS_RECHECK_TIME=60
       - HIDE_REFERER=true

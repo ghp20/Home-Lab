@@ -19,9 +19,9 @@ services:
     init: true
 
     environment:
-      POSTGRES_USER: changeme
-      POSTGRES_PASSWORD: changeme
-      POSTGRES_DB: changeme
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
 
     volumes:
       - /path/to/data/apps_config/journiv/postgres_data:/var/lib/postgresql/data
@@ -72,18 +72,18 @@ services:
     command: /opt/venv/bin/python -m celery -A app.core.celery_app worker --loglevel=info -c 2
 
     environment:
-      ENVIRONMENT: changeme
+      ENVIRONMENT: ${ENVIRONMENT}
       SERVICE_ROLE: celery-worker
-      DB_DRIVER: changeme
-      POSTGRES_HOST: changeme
-      POSTGRES_USER: changeme
-      POSTGRES_DB: changeme
-      POSTGRES_PASSWORD: changeme
-      REDIS_URL: changeme
-      CELERY_BROKER_URL: changeme
-      CELERY_RESULT_BACKEND: changeme
-      SECRET_KEY: your-api-key-here
-      DOMAIN_NAME: changeme
+      DB_DRIVER: ${DB_DRIVER}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      REDIS_URL: ${REDIS_URL}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+      CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
+      SECRET_KEY: ${SECRET_KEY}
+      DOMAIN_NAME: ${DOMAIN_NAME}
 
     volumes:
       - /path/to/data/apps_config/journiv/app_data:/data
@@ -117,19 +117,19 @@ services:
       - "8000:8000"
 
     environment:
-      ENVIRONMENT: changeme
-      SERVICE_ROLE: changeme
-      DB_DRIVER: changeme
-      POSTGRES_HOST: changeme
-      POSTGRES_USER: changeme
-      POSTGRES_DB: changeme
-      POSTGRES_PASSWORD: changeme
-      REDIS_URL: changeme
-      CELERY_BROKER_URL: changeme
-      CELERY_RESULT_BACKEND: changeme
-      RATE_LIMIT_STORAGE_URI: changeme
-      SECRET_KEY: your-api-key-here
-      DOMAIN_NAME: changeme
+      ENVIRONMENT: ${ENVIRONMENT}
+      SERVICE_ROLE: ${SERVICE_ROLE}
+      DB_DRIVER: ${DB_DRIVER}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      REDIS_URL: ${REDIS_URL}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+      CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
+      RATE_LIMIT_STORAGE_URI: ${RATE_LIMIT_STORAGE_URI}
+      SECRET_KEY: ${SECRET_KEY}
+      DOMAIN_NAME: ${DOMAIN_NAME}
 
     volumes:
       - /path/to/data/apps_config/journiv/app_data:/data

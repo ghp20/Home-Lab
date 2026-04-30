@@ -11,10 +11,10 @@ services:
     networks: [trading_net]
     ports: ["${DB_PORT}:5432"]
     environment:
-      - POSTGRES_DB=changeme
-      - POSTGRES_USER=changeme
-      - POSTGRES_PASSWORD=changeme
-      - PGDATA=changeme
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - ${STORAGE_ROOT}/postgres/pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -42,45 +42,45 @@ services:
       db: {condition: service_healthy}
     stop_grace_period: 30s
     environment:
-      - ALPACA_API_KEY=your-api-key-here
-      - ALPACA_SECRET_KEY=your-api-key-here
-      - ALPACA_PAPER=changeme
+      - ALPACA_API_KEY=${ALPACA_API_KEY}
+      - ALPACA_SECRET_KEY=${ALPACA_SECRET_KEY}
+      - ALPACA_PAPER=${ALPACA_PAPER}
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_NAME=changeme
-      - DB_USER=changeme
-      - DB_PASSWORD=changeme-db-pass
-      - DB_POOL_MIN=changeme
-      - DB_POOL_MAX=changeme
-      - DB_SSLMODE=changeme
-      - N8N_WEBHOOK_URL=changeme
-      - N8N_WEBHOOK_SECRET=changeme-secret
-      - N8N_MIN_SEVERITY=changeme
-      - NOTIFY_RATE_LIMIT_SECS=changeme
-      - TELEGRAM_BOT_TOKEN=your-api-key-here
-      - TELEGRAM_CHAT_ID=changeme
-      - PRINCIPAL=changeme
-      - MAX_DAILY_LOSS=changeme
-      - MAX_DRAWDOWN=changeme
-      - MAX_POSITIONS=changeme
-      - TRAIL_PERCENT=changeme
-      - MIN_STOCK_PRICE=changeme
-      - MIN_AVG_VOLUME=changeme
-      - INTRADAY_SCAN_COUNT=changeme
-      - EMA_FAST=changeme
-      - EMA_SLOW=changeme
-      - RSI_PERIOD=changeme
-      - RSI_LOW=changeme
-      - RSI_HIGH=changeme
-      - VOLUME_MA_PERIOD=changeme
-      - STOP_UPDATE_INTERVAL_SECS=changeme
-      - MARKET_TIMEZONE=changeme
-      - LOG_LEVEL=changeme
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_POOL_MIN=${DB_POOL_MIN}
+      - DB_POOL_MAX=${DB_POOL_MAX}
+      - DB_SSLMODE=${DB_SSLMODE}
+      - N8N_WEBHOOK_URL=${N8N_WEBHOOK_URL}
+      - N8N_WEBHOOK_SECRET=${N8N_WEBHOOK_SECRET}
+      - N8N_MIN_SEVERITY=${N8N_MIN_SEVERITY}
+      - NOTIFY_RATE_LIMIT_SECS=${NOTIFY_RATE_LIMIT_SECS}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - PRINCIPAL=${PRINCIPAL}
+      - MAX_DAILY_LOSS=${MAX_DAILY_LOSS}
+      - MAX_DRAWDOWN=${MAX_DRAWDOWN}
+      - MAX_POSITIONS=${MAX_POSITIONS}
+      - TRAIL_PERCENT=${TRAIL_PERCENT}
+      - MIN_STOCK_PRICE=${MIN_STOCK_PRICE}
+      - MIN_AVG_VOLUME=${MIN_AVG_VOLUME}
+      - INTRADAY_SCAN_COUNT=${INTRADAY_SCAN_COUNT}
+      - EMA_FAST=${EMA_FAST}
+      - EMA_SLOW=${EMA_SLOW}
+      - RSI_PERIOD=${RSI_PERIOD}
+      - RSI_LOW=${RSI_LOW}
+      - RSI_HIGH=${RSI_HIGH}
+      - VOLUME_MA_PERIOD=${VOLUME_MA_PERIOD}
+      - STOP_UPDATE_INTERVAL_SECS=${STOP_UPDATE_INTERVAL_SECS}
+      - MARKET_TIMEZONE=${MARKET_TIMEZONE}
+      - LOG_LEVEL=${LOG_LEVEL}
       - LOG_DIR=/app/logs
-      - HOST_IP=changeme
-      - SPY_REGIME_FILTER=changeme
-      - SPY_MA_PERIOD=changeme
-      - EQUITY_CAP=changeme
+      - HOST_IP=${HOST_IP}
+      - SPY_REGIME_FILTER=${SPY_REGIME_FILTER}
+      - SPY_MA_PERIOD=${SPY_MA_PERIOD}
+      - EQUITY_CAP=${EQUITY_CAP}
     volumes:
       - ${STORAGE_ROOT}/logs:/app/logs
       - ${STORAGE_ROOT}/backtest:/app/backtest_results

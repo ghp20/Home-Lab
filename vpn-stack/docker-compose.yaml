@@ -24,19 +24,19 @@ services:
       - "3333:3333"
       - "8089:8080"
     environment:
-      - VPN_SERVICE_PROVIDER=changeme
-      - VPN_TYPE=changeme
-      - WIREGUARD_PRIVATE_KEY=your-private-key-here
-      - SERVER_COUNTRIES=changeme
+      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}
+      - VPN_TYPE=${VPN_TYPE}
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - SERVER_COUNTRIES=${SERVER_COUNTRIES}
       - TZ=${TZ}
       - CONTROL_SERVER_ADDRESS=:8000
       - DOT=on
       - DNS_ADDRESS=1.1.1.1
       - DNS_KEEP_NAMESERVER=off
       - BLOCK_IPV6=on
-      - FIREWALL=changeme
-      - FIREWALL_INPUT_PORTS=changeme
-      - FIREWALL_OUTBOUND_SUBNETS=changeme
+      - FIREWALL=on
+      - FIREWALL_INPUT_PORTS=${FIREWALL_INPUT_PORTS}
+      - FIREWALL_OUTBOUND_SUBNETS=${FIREWALL_OUTBOUND_SUBNETS}
       - BLOCK_MALICIOUS=on
       - HEALTH_TARGET_ADDRESS=cloudflare.com:443
     volumes:
@@ -50,8 +50,8 @@ services:
     network_mode: "service:gluetun"
     depends_on: [gluetun]
     environment:
-      - PUID=changeme
-      - PGID=changeme
+      - PUID=${PUID}
+      - PGID=${PGID}
       - TZ=${TZ}
       - WEBUI_PORT=8085
     volumes:
@@ -65,8 +65,8 @@ services:
     network_mode: "service:gluetun"
     depends_on: [gluetun]
     environment:
-      - PUID=changeme
-      - PGID=changeme
+      - PUID=${PUID}
+      - PGID=${PGID}
       - TZ=${TZ}
     volumes:
       - ${APPS_CONFIG}/sabnzbd/config:/config
@@ -80,9 +80,9 @@ services:
     network_mode: "service:gluetun"
     depends_on: [gluetun]
     environment:
-      POSTGRES_DB: changeme
-      POSTGRES_USER: changeme
-      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ${APPS_CONFIG}/bitmagnet/postgres:/var/lib/postgresql/data
 
@@ -95,8 +95,8 @@ services:
     environment:
       - TZ=${TZ}
       - BITMAGNET__HTTP__ENABLED=true
-      - BITMAGNET__HTTP__ADDR=changeme
-      - POSTGRES_DSN=changeme
+      - BITMAGNET__HTTP__ADDR=${BITMAGNET_HTTP_ADDR}
+      - POSTGRES_DSN=${POSTGRES_DSN}
     volumes:
       - ${APPS_CONFIG}/bitmagnet/config:/config
       - ${APPS_CONFIG}/bitmagnet/data:/data
@@ -110,7 +110,7 @@ services:
     depends_on: [postgres-bitmagnet]
     environment:
       - TZ=${TZ}
-      - POSTGRES_DSN=changeme
+      - POSTGRES_DSN=${POSTGRES_DSN}
     volumes:
       - ${APPS_CONFIG}/bitmagnet/config:/config
       - ${APPS_CONFIG}/bitmagnet/data:/data

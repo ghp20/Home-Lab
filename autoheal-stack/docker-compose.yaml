@@ -6,7 +6,7 @@ services:
     container_name: autoheal
     restart: unless-stopped
     environment:
-      - AUTOHEAL_INTERVAL=changeme
-      - AUTOHEAL_START_PERIOD=changeme
+      - AUTOHEAL_INTERVAL=${INTERVAL}
+      - AUTOHEAL_START_PERIOD=${START_PERIOD}
     volumes:
       - ${DOCKER_SOCK}:/var/run/docker.sock

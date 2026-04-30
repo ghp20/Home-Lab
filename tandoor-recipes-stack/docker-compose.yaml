@@ -6,10 +6,10 @@ services:
     container_name: tandoor-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: changeme
-      POSTGRES_USER: changeme
-      POSTGRES_PASSWORD: changeme
-      PGDATA: changeme
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: ${PGDATA}
       TZ: ${TZ}
     volumes:
       - ${STORAGE_ROOT}/postgres:${PGDATA}
@@ -30,23 +30,23 @@ services:
       - "${HOST_PORT}:${CONTAINER_PORT}"
     environment:
       TZ: ${TZ}
-      DEBUG: changeme
-      ALLOWED_HOSTS: changeme
+      DEBUG: ${DEBUG}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS}
       DB_ENGINE: django.db.backends.postgresql
       POSTGRES_HOST: postgres
       POSTGRES_PORT: 5432
-      POSTGRES_DB: changeme
-      POSTGRES_USER: changeme
-      POSTGRES_PASSWORD: changeme
-      SECRET_KEY: your-api-key-here
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SECRET_KEY: ${SECRET_KEY}
       FRACTION_PREF_DEFAULT: "0"
       COMMENT_PREF_DEFAULT: "1"
       SHOPPING_AUTO_SYNC: "1"
       GUNICORN_MEDIA: "1"
       AI_ENABLE: "1"
       AI_PROVIDER: openai
-      OPENAI_API_KEY: your-api-key-here
-      OPENAI_MODEL: changeme
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OPENAI_MODEL: ${OPENAI_MODEL}
     volumes:
       - ${STORAGE_ROOT}/files:/opt/recipes/files
       - ${STORAGE_ROOT}/media:/opt/recipes/mediafiles

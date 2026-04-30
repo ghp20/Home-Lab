@@ -12,14 +12,14 @@ services:
       TZ: ${TZ}
       WIZARR_ENV: "production"
       WIZARR_LOG_LEVEL: "log"
-      WIZARR_PORT: "changeme"
+      WIZARR_PORT: "${CONTAINER_PORT}"
       DB_DIR: "/data/database"
       STORAGE_DIR: "/data/storage"
       DB_HOSTNAME: "wizarr_postgres"
       DB_PORT: "5432"
-      DB_USERNAME: changeme
-      DB_PASSWORD: changeme-db-pass
-      DB_NAME: changeme
+      DB_USERNAME: ${DB_USER}
+      DB_PASSWORD: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
       DB_TYPE: "postgres"
     volumes:
       - ${STORAGE_ROOT}/database:/data/database
@@ -30,9 +30,9 @@ services:
     image: postgres:${PG_TAG:-16-alpine}
     container_name: wizarr_postgres
     environment:
-      POSTGRES_USER: changeme
-      POSTGRES_PASSWORD: changeme
-      POSTGRES_DB: changeme
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
       TZ: ${TZ}
     volumes:
       - ${STORAGE_ROOT}/database/pgdata:/var/lib/postgresql/data

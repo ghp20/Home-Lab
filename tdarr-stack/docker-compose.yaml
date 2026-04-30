@@ -10,12 +10,12 @@ services:
       - "${API_PORT}:${API_PORT}"
     environment:
       - TZ=${TZ}
-      - PUID=changeme
-      - PGID=changeme
+      - PUID=${PUID}
+      - PGID=${PGID}
       - UMASK=002
       - serverIP=0.0.0.0
-      - serverPort=changeme
-      - webUIPort=changeme
+      - serverPort=${API_PORT}
+      - webUIPort=${UI_PORT}
     volumes:
       - ${STORAGE_ROOT}/server:/app/server
       - ${STORAGE_ROOT}/config:/app/configs
@@ -43,11 +43,11 @@ services:
     restart: unless-stopped
     environment:
       - TZ=${TZ}
-      - PUID=changeme
-      - PGID=changeme
+      - PUID=${PUID}
+      - PGID=${PGID}
       - UMASK=002
       - serverIP=tdarr
-      - serverPort=changeme
+      - serverPort=${API_PORT}
       - nodeName=truenas-us-node
     volumes:
       - ${STORAGE_ROOT}/config:/app/configs

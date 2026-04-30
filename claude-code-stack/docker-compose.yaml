@@ -8,8 +8,8 @@ services:
     tty: true
     working_dir: /workspace
     environment:
-      - ANTHROPIC_API_KEY=your-api-key-here
-      - PATH=changeme
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - PATH=${PATH}
       - CLAUDE_DISABLE_OAUTH=true
     volumes:
       - ${STORAGE_ROOT}:/root/.claude

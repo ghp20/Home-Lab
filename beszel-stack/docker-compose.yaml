@@ -24,8 +24,8 @@ services:
       - ${STORAGE_ROOT}/socket:/beszel_socket
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
-      - LISTEN=changeme
-      - HUB_URL=changeme
-      - TOKEN=your-api-key-here
-      - KEY=changeme
+      - LISTEN=${LISTEN}
+      - HUB_URL=${HUB_URL}
+      - TOKEN=${TOKEN}
+      - KEY=${KEY}
       - TZ=${TZ}

@@ -13,11 +13,11 @@ services:
     restart: unless-stopped
     logging: *gelf_logging
     environment:
-      - domain=changeme
-      - server_name=changeme
-      - username=changeme
-      - password=changeme
-      - extra_params=changeme
+      - domain=${domain}
+      - server_name=${server_name}
+      - username=${username}
+      - password=${password}
+      - extra_params=${EXTRA_PARAMS}
     ports:
       - "${HOST_PORT}:${CONTAINER_PORT}"
     cap_add:

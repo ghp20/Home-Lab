@@ -6,21 +6,21 @@ services:
     container_name: fin-backend
     restart: unless-stopped
     environment:
-      NODE_ENV: changeme
+      NODE_ENV: ${NODE_ENV}
       PORT: 3000
-      JWT_SECRET: changeme-secret
-      DB_PATH: changeme
-      DB_BACKUP_DIR: changeme
-      SMTP_HOST: changeme
-      SMTP_PORT: changeme
-      SMTP_SECURE: changeme
-      SMTP_USER: changeme
-      SMTP_PASS: changeme
-      SMTP_FROM: changeme
-      APP_URL: changeme
-      PLAID_CLIENT_ID: changeme
-      PLAID_SECRET: changeme-secret
-      PLAID_ENV: changeme
+      JWT_SECRET: ${JWT_SECRET}
+      DB_PATH: ${DB_PATH}
+      DB_BACKUP_DIR: ${DB_BACKUP_DIR}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_SECURE: ${SMTP_SECURE}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS=changeme-smtp-pass
+      SMTP_FROM: ${SMTP_FROM}
+      APP_URL: ${APP_URL}
+      PLAID_CLIENT_ID: ${PLAID_CLIENT_ID}
+      PLAID_SECRET: ${PLAID_SECRET}
+      PLAID_ENV: ${PLAID_ENV}
     volumes:
       - ${STORAGE_ROOT}/db:/data
       - ${STORAGE_ROOT}/backups:/data/backups

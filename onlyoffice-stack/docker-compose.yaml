@@ -16,5 +16,5 @@ services:
       - ${STORAGE_ROOT}/data:/var/www/onlyoffice/Data
       - ${STORAGE_ROOT}/logs:/var/log/onlyoffice
     environment:
-      - JWT_ENABLED=changeme
-      - JWT_SECRET=changeme-secret
+      - JWT_ENABLED=${JWT_ENABLED:-true}
+      - JWT_SECRET=${JWT_SECRET}

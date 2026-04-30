@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     environment:
       - TZ=${TZ}
-      - COLLECTIONS=changeme
+      - COLLECTIONS=${COLLECTIONS}
     volumes:
       - ${STORAGE_ROOT}/config/acquis.yaml:/etc/crowdsec/acquis.yaml
       - ${STORAGE_ROOT}/data:/var/lib/crowdsec/data

@@ -11,8 +11,8 @@ services:
       - ${MEDIA_ROOT}:/downloads:rw
       - ${STORAGE_ROOT}/state:/downloads/.metube:rw
     environment:
-      - UID=changeme
-      - GID=changeme
-      - DOWNLOAD_DIR=changeme
-      - STATE_DIR=changeme
-      - YTDL_OPTIONS=changeme
+      - UID=${PUID}
+      - GID=${PGID}
+      - DOWNLOAD_DIR=${DOWNLOAD_DIR}
+      - STATE_DIR=${STATE_DIR}
+      - YTDL_OPTIONS=${YTDL_OPTIONS}
