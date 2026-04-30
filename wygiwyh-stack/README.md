@@ -1,41 +1,24 @@
-# wygiwyh-stack
+# Wygiwyh Stack
 
-AI image generation UI
+> Docker Compose stack for **wygiwyh-stack**
+
+## Status
+
+🔴 Inactive
 
 ## Services
 
-```
-  • db
-  • wygiwyh
-```
+| Service | Description |
+|---------|-------------|
+| `db` | - |
+| `wygiwyh` | - |
 
-## Key Env Vars
+## Source
 
-- `ADMIN_EMAIL`
-- `ADMIN_PASSWORD`
-- `DEBUG`
-- `DJANGO_ALLOWED_HOSTS`
-- `ENABLE_SOFT_DELETE`
-- `HTTPS_ENABLED`
-- `KEEP_DELETED_TRANSACTIONS_FOR`
-- `OUTBOUND_PORT`
-- `POSTGRES_DB`
-- `POSTGRES_PASSWORD`
-- `POSTGRES_USER`
-- `SECRET_KEY`
-- `SQL_DATABASE`
-- `SQL_HOST`
-- `SQL_PASSWORD`
-
-## Deployment
-
-```bash
-cd wygiwyh-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

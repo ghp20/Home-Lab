@@ -1,36 +1,23 @@
-# bichon-ai-digest-stack
+# Bichon Ai Digest Stack
 
-AI news digest
+> Docker Compose stack for **bichon-ai-digest-stack**
+
+## Status
+
+🟢 Active
 
 ## Services
 
-```
-  • bichon-ai-digest
-```
+| Service | Description |
+|---------|-------------|
+| `bichon-ai-digest` | - |
 
-## Key Env Vars
+## Source
 
-- `BICHON_ACCOUNT_IDS`
-- `BICHON_TOKEN`
-- `BICHON_URL`
-- `MAX_EMAILS_PER_ACCOUNT`
-- `MAX_ITEMS_PER_CATEGORY`
-- `MAX_PAGES_PER_ACCOUNT`
-- `MAX_SNIPPET_CHARS`
-- `OPENAI_API_KEY`
-- `OPENAI_MODEL`
-- `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_CHAT_ID`
-
-## Deployment
-
-```bash
-cd bichon-ai-digest-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

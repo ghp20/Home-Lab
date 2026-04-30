@@ -1,40 +1,27 @@
-# book-stack
+# Book Stack
 
-Docker stack managed by Portainer
+> Docker Compose stack for **book-stack**
+
+## Status
+
+🟢 Active
 
 ## Services
 
-```
-  • books_net
-  • bookshelf
-  • calibre
-  • calibre-web
-  • audiobookshelf
-  • calibre-importer
-```
+| Service | Description |
+|---------|-------------|
+| `bookshelf` | - |
+| `calibre` | - |
+| `calibre-web` | - |
+| `audiobookshelf` | - |
+| `calibre-importer` | - |
 
-## Volumes
+## Source
 
-- `/mnt/storagepool/apps_config/bookshelf/config`
-- `/mnt/storagepool/master/Media/downloads`
-- `/mnt/storagepool/master/Media/usenet/downloads`
-- `/mnt/storagepool/master/Media/Books/ebooks`
-- `/mnt/storagepool/master/Media/Books/audiobooks`
-- `/mnt/storagepool/apps_config/calibre/config`
-
-## Ports
-
-- `8787`
-
-## Deployment
-
-```bash
-cd book-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

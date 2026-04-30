@@ -15,7 +15,7 @@ services:
       - ${STORAGE_ROOT}:/data
       - ${DOCKER_SOCK}:/var/run/docker.sock:ro
     environment:
-      - DATABASE_PATH=${DATABASE_PATH}
-      - PORT=${CONTAINER_PORT}
-      - TRUENAS_API_KEY=${API_KEY}{TRUENAS_API_KEY}
-      - TRUENAS_WS_BASE=${TRUENAS_WS_BASE}
+      - DATABASE_PATH=changeme
+      - PORT=changeme
+      - TRUENAS_API_KEY=your-api-key-here
+      - TRUENAS_WS_BASE=changeme

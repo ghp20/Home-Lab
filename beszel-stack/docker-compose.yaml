@@ -11,7 +11,7 @@ services:
       - ${STORAGE_ROOT}/hub-data:/beszel_data
       - ${STORAGE_ROOT}/socket:/beszel_socket
     environment:
-      - TZ=${TZ}{TZ}
+      - TZ=${TZ}
 
   beszel-agent:
     image: henrygd/beszel-agent:${AGENT_TAG:-latest}
@@ -24,8 +24,8 @@ services:
       - ${STORAGE_ROOT}/socket:/beszel_socket
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
-      - LISTEN=${LISTEN}
-      - HUB_URL=${HUB_URL}
-      - TOKEN=${TOKEN}
-      - KEY=${KEY}
-      - TZ=${TZ}{TZ}
+      - LISTEN=changeme
+      - HUB_URL=changeme
+      - TOKEN=your-api-key-here
+      - KEY=changeme
+      - TZ=${TZ}

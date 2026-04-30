@@ -1,26 +1,23 @@
-# plex-stack
+# Plex Stack
 
-Media server — Plex
+> Docker Compose stack for **plex-stack**
+
+## Status
+
+🔴 Inactive
 
 ## Services
 
-```
-  • plex
-```
+| Service | Description |
+|---------|-------------|
+| `plex` | - |
 
-## Volumes
+## Source
 
-- `/dev/dri`
-
-## Deployment
-
-```bash
-cd plex-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

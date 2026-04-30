@@ -9,4 +9,4 @@ services:
     volumes:
       - ${STORAGE_ROOT}:/data
     environment:
-      - TZ=${TZ}{TZ}
+      - TZ=${TZ}

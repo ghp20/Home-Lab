@@ -1,40 +1,25 @@
-# cashlytics-stack
+# Cashlytics Stack
 
-Docker stack managed by Portainer
+> Docker Compose stack for **cashlytics-stack**
+
+## Status
+
+🔴 Inactive
 
 ## Services
 
-```
-  • postgres
-  • cashlytics
-  • cashlytics-cron
-```
+| Service | Description |
+|---------|-------------|
+| `postgres` | - |
+| `cashlytics` | - |
+| `cashlytics-cron` | - |
 
-## Key Env Vars
+## Source
 
-- `AUTH_SECRET`
-- `AUTH_TRUST_HOST`
-- `CRON_SECRET`
-- `DATABASE_URL`
-- `NEXT_PUBLIC_APP_URL`
-- `NEXT_PUBLIC_DEFAULT_CURRENCY`
-- `NEXT_PUBLIC_DEFAULT_LOCALE`
-- `OPENAI_API_KEY`
-- `POSTGRES_DB`
-- `POSTGRES_PASSWORD`
-- `POSTGRES_USER`
-- `SINGLE_USER_EMAIL`
-- `SINGLE_USER_MODE`
-
-## Deployment
-
-```bash
-cd cashlytics-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

@@ -9,17 +9,17 @@ services:
     volumes:
       - ${STORAGE_ROOT}:/app
     environment:
-      BICHON_URL: ${BICHON_URL}
-      BICHON_TOKEN=${BICHON_TOKEN}{BICHON_TOKEN}
-      BICHON_ACCOUNT_IDS: ${BICHON_ACCOUNT_IDS}
-      OPENAI_API_KEY=${API_KEY}{OPENAI_API_KEY}
-      OPENAI_MODEL: ${OPENAI_MODEL}
-      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
-      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID}
-      MAX_ITEMS_PER_CATEGORY: ${MAX_ITEMS}
-      MAX_EMAILS_PER_ACCOUNT: ${MAX_EMAILS}
-      MAX_SNIPPET_CHARS: ${MAX_SNIPPET}
-      MAX_PAGES_PER_ACCOUNT: ${MAX_PAGES}
+      BICHON_URL: changeme
+      BICHON_TOKEN: your-api-key-here
+      BICHON_ACCOUNT_IDS: changeme
+      OPENAI_API_KEY: your-api-key-here
+      OPENAI_MODEL: changeme
+      TELEGRAM_BOT_TOKEN: your-api-key-here
+      TELEGRAM_CHAT_ID: changeme
+      MAX_ITEMS_PER_CATEGORY: changeme
+      MAX_EMAILS_PER_ACCOUNT: changeme
+      MAX_SNIPPET_CHARS: changeme
+      MAX_PAGES_PER_ACCOUNT: changeme
     command: >
       sh -c "pip install --no-cache-dir requests openai &&
              python /app/bichon_digest.py" 

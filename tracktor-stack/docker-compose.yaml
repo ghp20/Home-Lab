@@ -8,6 +8,6 @@ services:
     volumes:
       - ${STORAGE_ROOT}:/data
     environment:
-      - TRACKTOR_DEMO_MODE=${DEMO_MODE}
-      - FORCE_DATA_SEED=${SEED_DATA}
-      - CORS_ORIGINS=${CORS_ORIGINS}
+      - TRACKTOR_DEMO_MODE=changeme
+      - FORCE_DATA_SEED=changeme
+      - CORS_ORIGINS=changeme

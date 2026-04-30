@@ -9,13 +9,13 @@ services:
       - "${UI_PORT}:${UI_PORT}"
       - "${API_PORT}:${API_PORT}"
     environment:
-      - TZ=${TZ}{TZ}
-      - PUID=${PUID}{PUID}
-      - PGID=${PGID}{PGID}
+      - TZ=${TZ}
+      - PUID=changeme
+      - PGID=changeme
       - UMASK=002
       - serverIP=0.0.0.0
-      - serverPort=${API_PORT}
-      - webUIPort=${UI_PORT}
+      - serverPort=changeme
+      - webUIPort=changeme
     volumes:
       - ${STORAGE_ROOT}/server:/app/server
       - ${STORAGE_ROOT}/config:/app/configs
@@ -42,12 +42,12 @@ services:
     container_name: tdarr-node
     restart: unless-stopped
     environment:
-      - TZ=${TZ}{TZ}
-      - PUID=${PUID}{PUID}
-      - PGID=${PGID}{PGID}
+      - TZ=${TZ}
+      - PUID=changeme
+      - PGID=changeme
       - UMASK=002
       - serverIP=tdarr
-      - serverPort=${API_PORT}
+      - serverPort=changeme
       - nodeName=truenas-us-node
     volumes:
       - ${STORAGE_ROOT}/config:/app/configs

@@ -13,4 +13,4 @@ services:
       - ${STORAGE_ROOT}/data:/data
       - ${STORAGE_ROOT}/certs:/etc/letsencrypt
     environment:
-      - TZ=${TZ}{TZ}
+      - TZ=${TZ}

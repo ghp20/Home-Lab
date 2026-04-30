@@ -1,41 +1,24 @@
-# tandoor-recipes-stack
+# Tandoor Recipes Stack
 
-Recipe manager — Tandoor
+> Docker Compose stack for **tandoor-recipes-stack**
+
+## Status
+
+🔴 Inactive
 
 ## Services
 
-```
-  • postgres
-  • tandoor
-```
+| Service | Description |
+|---------|-------------|
+| `postgres` | - |
+| `tandoor` | - |
 
-## Key Env Vars
+## Source
 
-- `AI_ENABLE`
-- `AI_PROVIDER`
-- `ALLOWED_HOSTS`
-- `COMMENT_PREF_DEFAULT`
-- `DB_ENGINE`
-- `DEBUG`
-- `FRACTION_PREF_DEFAULT`
-- `GUNICORN_MEDIA`
-- `OPENAI_API_KEY`
-- `OPENAI_MODEL`
-- `PGDATA`
-- `POSTGRES_DB`
-- `POSTGRES_HOST`
-- `POSTGRES_PASSWORD`
-- `POSTGRES_PORT`
-
-## Deployment
-
-```bash
-cd tandoor-recipes-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

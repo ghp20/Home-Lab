@@ -6,7 +6,7 @@ services:
     container_name: sample-plan-backend
     restart: unless-stopped
     environment:
-      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL=changeme
     volumes:
       - ${STORAGE_ROOT}:/data
     networks: [sample-plan-net]

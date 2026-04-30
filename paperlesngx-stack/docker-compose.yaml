@@ -7,10 +7,10 @@ services:
     container_name: paperless-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${PAPERLESS_DBNAME}
-      POSTGRES_USER: ${PAPERLESS_DBUSER}
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{PAPERLESS_DBPASS}
-      TZ=${TZ}{TZ}
+      POSTGRES_DB: changeme
+      POSTGRES_USER: changeme
+      POSTGRES_PASSWORD: changeme
+      TZ: ${TZ}
     volumes:
       - ${STORAGE_ROOT}/postgres/17/docker:/var/lib/postgresql/data
 
@@ -46,23 +46,23 @@ services:
     ports:
       - "${PAPERLESS_PORT:-30070}:8000"
     environment:
-      USERMAP_UID: ${USERMAP_UID}
-      USERMAP_GID: ${USERMAP_GID}
-      TZ=${TZ}{TZ}
-      PAPERLESS_URL: ${PAPERLESS_URL}
-      PAPERLESS_ALLOWED_HOSTS: ${PAPERLESS_ALLOWED_HOSTS}
-      PAPERLESS_CSRF_TRUSTED_ORIGINS: ${PAPERLESS_CSRF_TRUSTED_ORIGINS}
+      USERMAP_UID: changeme
+      USERMAP_GID: changeme
+      TZ: ${TZ}
+      PAPERLESS_URL: changeme
+      PAPERLESS_ALLOWED_HOSTS: changeme
+      PAPERLESS_CSRF_TRUSTED_ORIGINS: changeme
       PAPERLESS_REDIS: redis://redis:6379
       PAPERLESS_DBHOST: postgres
-      PAPERLESS_DBNAME: ${PAPERLESS_DBNAME}
-      PAPERLESS_DBUSER: ${PAPERLESS_DBUSER}
-      PAPERLESS_DBPASS: ${PAPERLESS_DBPASS}
+      PAPERLESS_DBNAME: changeme
+      PAPERLESS_DBUSER: changeme
+      PAPERLESS_DBPASS: changeme
       PAPERLESS_TIKA_ENABLED: "1"
       PAPERLESS_TIKA_ENDPOINT: http://tika:9998
       PAPERLESS_GOTENBERG_ENDPOINT: http://gotenberg:3000
       PAPERLESS_ENABLE_TRASH: "1"
       PAPERLESS_TOTP_ENABLED: "1"
-      PAPERLESS_SECRET_KEY=${SECRET_KEY}{PAPERLESS_SECRET_KEY}
+      PAPERLESS_SECRET_KEY: your-api-key-here
     volumes:
       - ${STORAGE_ROOT}/data:/usr/src/paperless/data
       - ${STORAGE_ROOT}/media:/usr/src/paperless/media

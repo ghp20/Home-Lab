@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:${PG_TAG:-16-alpine}
+    container_name: spartans-db
+    environment:
+      POSTGRES_DB: changeme
+      POSTGRES_USER: changeme
+      POSTGRES_PASSWORD: changeme
+    volumes:
+      - ${STORAGE_ROOT}/db:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    image: spartans-backend:${BACKEND_TAG:-latest}
+    container_name: spartans-backend
+    environment:
+      DATABASE_URL: changeme
+      SECRET_KEY: your-api-key-here
+      ADMIN_USERNAME: changeme
+      ADMIN_PASSWORD: changeme
+      ACCESS_TOKEN_EXPIRE_MINUTES: your-api-key-here
+      CORS_ORIGINS: changeme
+    volumes:
+      - ${STORAGE_ROOT}/backend:/app/assets
+    depends_on:
+      db: {condition: service_healthy}
+    restart: unless-stopped
+
+  frontend:
+    image: spartans-frontend:${FRONTEND_TAG:-latest}
+    container_name: spartans-frontend
+    ports:
+      - "${HOST_PORT}:80"
+    volumes:
+      - ${STORAGE_ROOT}/frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ${STORAGE_ROOT}/frontend/logo.png:/usr/share/nginx/html/logo.png:ro
+    depends_on: [backend]
+    restart: unless-stopped

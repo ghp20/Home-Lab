@@ -1,35 +1,25 @@
-# vaultwarden-stack
+# Vaultwarden Stack
 
-Password manager — VaultWarden
+> Docker Compose stack for **vaultwarden-stack**
+
+## Status
+
+🟢 Active
 
 ## Services
 
-```
-  • db
-  • vaultwarden
-  • vaultwarden-net
-```
+| Service | Description |
+|---------|-------------|
+| `db` | - |
+| `vaultwarden` | - |
+| `vaultwarden-net` | - |
 
-## Key Env Vars
+## Source
 
-- `ADMIN_TOKEN`
-- `DATABASE_URL`
-- `DOMAIN`
-- `POSTGRES_DB`
-- `POSTGRES_PASSWORD`
-- `POSTGRES_USER`
-- `ROCKET_PORT`
-- `WEBSOCKET_ENABLED`
-
-## Deployment
-
-```bash
-cd vaultwarden-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

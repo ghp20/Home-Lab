@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  homarr:
+    image: ghcr.io/homarr-labs/homarr:${HOMARR_TAG:-latest}
+    container_name: homarr
+    restart: unless-stopped
+    volumes:
+      - ${APPDATA_DIR}:/appdata
+      - ${CONFIGS_DIR}:/configs
+      - ${ICONS_DIR}:/icons
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - "${HOST_PORT:-30100}:7575"
+    environment:
+      - PUID=changeme
+      - PGID=changeme
+      - TZ=changeme
+      - UMASK=changeme
+      - SECRET_ENCRYPTION_KEY=changeme-secret
+      - DB_DIALECT=sqlite
+      - DB_URL=/appdata/db/db.sqlite
+      - DB_DRIVER=better-sqlite3
+      - AUTH_PROVIDERS=changeme
+    networks:
+      - homarr-network
+
+networks:
+  homarr-network:
+    name: homarr-network
+    driver: bridge

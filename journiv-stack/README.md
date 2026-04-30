@@ -1,56 +1,28 @@
-# journiv-stack
+# Journiv Stack
 
-Personal journal/writing platform
+> Docker Compose stack for **journiv-stack**
+
+## Status
+
+🟢 Active
 
 ## Services
 
-```
-  • options
-  • postgres
-  • redis
-  • celery-worker
-  • app
-  • backend
-  • frontend
-```
+| Service | Description |
+|---------|-------------|
+| `postgres` | - |
+| `redis` | - |
+| `celery-worker` | - |
+| `app` | - |
+| `backend` | - |
+| `frontend` | - |
 
-## Key Env Vars
+## Source
 
-- `CELERY_BROKER_URL`
-- `CELERY_RESULT_BACKEND`
-- `DB_DRIVER`
-- `DOMAIN_NAME`
-- `ENVIRONMENT`
-- `POSTGRES_DB`
-- `POSTGRES_HOST`
-- `POSTGRES_PASSWORD`
-- `POSTGRES_USER`
-- `RATE_LIMIT_STORAGE_URI`
-- `REDIS_URL`
-- `SECRET_KEY`
-- `SERVICE_ROLE`
-
-## Volumes
-
-- `/var/run/postgresql`
-- `/mnt/storagepool/apps_config/journiv/postgres_data`
-- `/mnt/storagepool/apps_config/journiv/redis_data`
-- `/mnt/storagepool/apps_config/journiv/app_data`
-- `/mnt/storagepool/apps_config/journiv/app_data`
-
-## Ports
-
-- `8000`
-
-## Deployment
-
-```bash
-cd journiv-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

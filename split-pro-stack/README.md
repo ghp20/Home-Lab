@@ -1,41 +1,24 @@
-# split-pro-stack
+# Split Pro Stack
 
-Docker stack managed by Portainer
+> Docker Compose stack for **split-pro-stack**
+
+## Status
+
+🔴 Inactive
 
 ## Services
 
-```
-  • postgres
-  • splitpro
-```
+| Service | Description |
+|---------|-------------|
+| `postgres` | - |
+| `splitpro` | - |
 
-## Key Env Vars
+## Source
 
-- `AUTH_EMAIL_ENABLED`
-- `DATABASE_URL`
-- `DISABLE_EMAIL_SIGNUP`
-- `EMAIL_SERVER_HOST`
-- `EMAIL_SERVER_PASSWORD`
-- `EMAIL_SERVER_PORT`
-- `EMAIL_SERVER_USER`
-- `ENABLE_SENDING_INVITES`
-- `FROM_EMAIL`
-- `NEXTAUTH_SECRET`
-- `NEXTAUTH_URL`
-- `NEXTAUTH_URL_INTERNAL`
-- `POSTGRES_DB`
-- `POSTGRES_PASSWORD`
-- `POSTGRES_USER`
-
-## Deployment
-
-```bash
-cd split-pro-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

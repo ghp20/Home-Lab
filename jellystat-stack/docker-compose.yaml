@@ -5,10 +5,10 @@ services:
     image: postgres:${PG_TAG:-17}
     container_name: jellystat-db
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}
-      TZ=${TZ}{TZ}
+      POSTGRES_DB: changeme
+      POSTGRES_USER: changeme
+      POSTGRES_PASSWORD: changeme
+      TZ: ${TZ}
     volumes:
       - ${STORAGE_ROOT}/postgres:/var/lib/postgresql/data
     restart: unless-stopped
@@ -19,13 +19,13 @@ services:
     ports:
       - "${HOST_PORT}:${CONTAINER_PORT}"
     environment:
-      - TZ=${TZ}{TZ}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}
+      - TZ=${TZ}
+      - POSTGRES_USER=changeme
+      - POSTGRES_PASSWORD=changeme
       - POSTGRES_IP=jellystat-db
       - POSTGRES_PORT=5432
-      - POSTGRES_DB=${POSTGRES_DB}
-      - JWT_SECRET=${JWT_SECRET}{JWT_SECRET}
+      - POSTGRES_DB=changeme
+      - JWT_SECRET=changeme-secret
     volumes:
       - ${STORAGE_ROOT}/backup:/app/backend/backup-data
     depends_on:

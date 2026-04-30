@@ -1,43 +1,26 @@
-# wizarr-stack
+# Wizarr Stack
 
-Invite management — Wizarr
+> Docker Compose stack for **wizarr-stack**
+
+## Status
+
+🟢 Active
 
 ## Services
 
-```
-  • wizarr
-  • wizarr_postgres
-  • wizarr_redis
-  • wizarr_memcached
-```
+| Service | Description |
+|---------|-------------|
+| `wizarr` | - |
+| `wizarr_postgres` | - |
+| `wizarr_redis` | - |
+| `wizarr_memcached` | - |
 
-## Key Env Vars
+## Source
 
-- `DB_DIR`
-- `DB_HOSTNAME`
-- `DB_NAME`
-- `DB_PASSWORD`
-- `DB_PORT`
-- `DB_TYPE`
-- `DB_USERNAME`
-- `POSTGRES_DB`
-- `POSTGRES_PASSWORD`
-- `POSTGRES_USER`
-- `STORAGE_DIR`
-- `TZ`
-- `WIZARR_ENV`
-- `WIZARR_LOG_LEVEL`
-- `WIZARR_PORT`
-
-## Deployment
-
-```bash
-cd wizarr-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

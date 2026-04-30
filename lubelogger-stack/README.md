@@ -1,30 +1,23 @@
-# lubelogger-stack
+# Lubelogger Stack
 
-Docker stack managed by Portainer
+> Docker Compose stack for **lubelogger-stack**
+
+## Status
+
+🟢 Active
 
 ## Services
 
-```
-  • lubelogger
-```
+| Service | Description |
+|---------|-------------|
+| `lubelogger` | - |
 
-## Key Env Vars
+## Source
 
-- `ASPNETCORE_DATAPROTECTION__DIRECTORY`
-- `ASPNETCORE_URLS`
-- `PGID`
-- `PUID`
-- `TZ`
-
-## Deployment
-
-```bash
-cd lubelogger-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

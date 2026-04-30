@@ -10,17 +10,17 @@ services:
       - "${HOST_PORT}:4000"
     user: "${PUID}:${PGID}"
     environment:
-      MONETR_ENVIRONMENT: ${MONETR_ENVIRONMENT}
-      MONETR_ALLOW_SIGN_UP: ${MONETR_ALLOW_SIGN_UP}
-      MONETR_PG_ADDRESS: ${MONETR_PG_ADDRESS}
-      MONETR_PG_PORT: ${MONETR_PG_PORT}
-      MONETR_PG_USERNAME: ${MONETR_PG_USERNAME}
-      MONETR_PG_PASSWORD=${MONETR_PG_PASSWORD}{MONETR_PG_PASSWORD}
-      MONETR_PG_DATABASE: ${MONETR_PG_DATABASE}
-      MONETR_REDIS_ENABLED: ${MONETR_REDIS_ENABLED}
-      MONETR_REDIS_ADDRESS: ${MONETR_REDIS_ADDRESS}
-      MONETR_REDIS_PORT: ${MONETR_REDIS_PORT}
-      MONETR_SERVER_EXTERNAL_URL: ${MONETR_SERVER_EXTERNAL_URL}
+      MONETR_ENVIRONMENT: changeme
+      MONETR_ALLOW_SIGN_UP: changeme
+      MONETR_PG_ADDRESS: changeme
+      MONETR_PG_PORT: changeme
+      MONETR_PG_USERNAME: changeme
+      MONETR_PG_PASSWORD: changeme
+      MONETR_PG_DATABASE: changeme
+      MONETR_REDIS_ENABLED: changeme
+      MONETR_REDIS_ADDRESS: changeme
+      MONETR_REDIS_PORT: changeme
+      MONETR_SERVER_EXTERNAL_URL: changeme
     volumes:
       - ${STORAGE_ROOT}/config:/etc/monetr
     depends_on:
@@ -33,9 +33,9 @@ services:
     container_name: monetr-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${MONETR_PG_USERNAME}
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{MONETR_PG_PASSWORD}
-      POSTGRES_DB: ${MONETR_PG_DATABASE}
+      POSTGRES_USER: changeme
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: changeme
     volumes:
       - ${STORAGE_ROOT}/postgres:/var/lib/postgresql/data
     healthcheck:

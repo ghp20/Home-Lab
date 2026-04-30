@@ -1,30 +1,26 @@
-# trading-agent-ron-stack
+# Trading Agent Ron Stack
 
-Trading agent (Ron profile)
+> Docker Compose stack for **trading-agent-ron-stack**
+
+## Status
+
+🟢 Active
 
 ## Services
 
-```
-  • trading-agent-ron
-  • trading-postgres-ron
-  • trading-redis-ron
-```
+| Service | Description |
+|---------|-------------|
+| `trading-agent-ron` | - |
+| `trading-postgres-ron` | - |
+| `trading-redis-ron` | - |
+| `trading-net-ron` | - |
 
-## Key Env Vars
+## Source
 
-- `POSTGRES_DB`
-- `POSTGRES_PASSWORD`
-- `POSTGRES_USER`
-
-## Deployment
-
-```bash
-cd trading-agent-ron-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

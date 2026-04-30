@@ -1,26 +1,24 @@
-# ollama-stack
+# Ollama Stack
 
-Local LLM — Ollama
+> Docker Compose stack for **ollama-stack**
+
+## Status
+
+🔴 Inactive
 
 ## Services
 
-```
-  • ollama
-```
+| Service | Description |
+|---------|-------------|
+| `ollama` | - |
+| `homelab` | - |
 
-## Key Env Vars
+## Source
 
-- ``
-
-## Deployment
-
-```bash
-cd ollama-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

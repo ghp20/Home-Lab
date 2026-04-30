@@ -8,9 +8,9 @@ services:
     security_opt:
       - no-new-privileges:true
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: changeme
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: changeme
     volumes:
       - ${STORAGE_ROOT}/db:/var/lib/postgresql/data:rw
     healthcheck:
@@ -30,24 +30,24 @@ services:
     ports:
       - "${HOST_PORT}:${CONTAINER_PORT}"
     environment:
-      TZ=${TZ}{TZ}
-      DEBUG: ${DEBUG}
-      URL: ${APP_URL}
-      HTTPS_ENABLED: ${HTTPS_ENABLED}
-      SECRET_KEY=${SECRET_KEY}{SECRET_KEY}
-      DJANGO_ALLOWED_HOSTS: ${ALLOWED_HOSTS}
-      OUTBOUND_PORT: ${OUTBOUND_PORT}
-      ADMIN_EMAIL: ${ADMIN_EMAIL}
-      ADMIN_PASSWORD=${ADMIN_PASSWORD}{ADMIN_PASSWORD}
-      SQL_DATABASE: ${POSTGRES_DB}
-      SQL_USER: ${POSTGRES_USER}
-      SQL_PASSWORD=${SQL_PASSWORD}{POSTGRES_PASSWORD}
+      TZ: ${TZ}
+      DEBUG: changeme
+      URL: changeme
+      HTTPS_ENABLED: changeme
+      SECRET_KEY: your-api-key-here
+      DJANGO_ALLOWED_HOSTS: changeme
+      OUTBOUND_PORT: changeme
+      ADMIN_EMAIL: changeme
+      ADMIN_PASSWORD: changeme
+      SQL_DATABASE: changeme
+      SQL_USER: changeme
+      SQL_PASSWORD: changeme
       SQL_HOST: wygiwyh-db
       SQL_PORT: 5432
-      WEB_CONCURRENCY: ${WEB_CONCURRENCY}
-      ENABLE_SOFT_DELETE: ${ENABLE_SOFT_DELETE}
-      KEEP_DELETED_TRANSACTIONS_FOR: ${KEEP_DAYS}
-      TASK_WORKERS: ${WORKERS}
+      WEB_CONCURRENCY: changeme
+      ENABLE_SOFT_DELETE: changeme
+      KEEP_DELETED_TRANSACTIONS_FOR: changeme
+      TASK_WORKERS: changeme
     volumes:
       - ${STORAGE_ROOT}/media:/app/media:rw
       - ${STORAGE_ROOT}/static:/app/static:rw

@@ -6,9 +6,9 @@ services:
     container_name: splitpro-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: changeme
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: changeme
     volumes:
       - ${STORAGE_ROOT}/postgres17:/var/lib/postgresql/data
     command: postgres -c shared_preload_libraries=pg_cron -c cron.database_name=${POSTGRES_DB}
@@ -26,17 +26,17 @@ services:
     ports:
       - "${HOST_PORT}:3000"
     environment:
-      DATABASE_URL: ${DATABASE_URL_EXP}
-      NEXTAUTH_SECRET=${AUTH_SECRET}{NEXTAUTH_SECRET}{NEXTAUTH_SECRET}
-      NEXTAUTH_URL: ${NEXTAUTH_URL}
-      NEXTAUTH_URL_INTERNAL: ${NEXTAUTH_URL_INTERNAL}
-      AUTH_EMAIL_ENABLED: ${AUTH_EMAIL_ENABLED}
-      FROM_EMAIL: ${FROM_EMAIL}
-      EMAIL_SERVER_HOST: ${EMAIL_SERVER_HOST}
-      EMAIL_SERVER_PORT: ${EMAIL_SERVER_PORT}
-      EMAIL_SERVER_USER: ${EMAIL_SERVER_USER}
-      EMAIL_SERVER_PASSWORD=${EMAIL_SERVER_PASSWORD}{EMAIL_SERVER_PASSWORD}
-      DISABLE_EMAIL_SIGNUP: ${DISABLE_EMAIL_SIGNUP}
-      ENABLE_SENDING_INVITES: ${ENABLE_SENDING_INVITES}
+      DATABASE_URL: changeme
+      NEXTAUTH_SECRET: changeme-secret
+      NEXTAUTH_URL: changeme
+      NEXTAUTH_URL_INTERNAL: changeme
+      AUTH_EMAIL_ENABLED: changeme
+      FROM_EMAIL: changeme
+      EMAIL_SERVER_HOST: changeme
+      EMAIL_SERVER_PORT: changeme
+      EMAIL_SERVER_USER: changeme
+      EMAIL_SERVER_PASSWORD: changeme
+      DISABLE_EMAIL_SIGNUP: changeme
+      ENABLE_SENDING_INVITES: changeme
     volumes:
       - ${STORAGE_ROOT}/uploads:/app/uploads

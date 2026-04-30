@@ -1,42 +1,25 @@
-# firefly3-stack
+# Firefly3 Stack
 
-Personal finance — Firefly III
+> Docker Compose stack for **firefly3-stack**
+
+## Status
+
+🔴 Inactive
 
 ## Services
 
-```
-  • firefly-db
-  • firefly-iii
-  • firefly-importer
-```
+| Service | Description |
+|---------|-------------|
+| `firefly-db` | - |
+| `firefly-iii` | - |
+| `firefly-importer` | - |
 
-## Key Env Vars
+## Source
 
-- `APP_KEY`
-- `APP_URL`
-- `DB_CONNECTION`
-- `DB_DATABASE`
-- `DB_HOST`
-- `DB_PASSWORD`
-- `DB_PORT`
-- `DB_USERNAME`
-- `FIREFLY_III_ACCESS_TOKEN`
-- `FIREFLY_III_URL`
-- `MYSQL_DATABASE`
-- `MYSQL_PASSWORD`
-- `MYSQL_ROOT_PASSWORD`
-- `MYSQL_USER`
-- `TRUSTED_PROXIES`
-
-## Deployment
-
-```bash
-cd firefly3-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

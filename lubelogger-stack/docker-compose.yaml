@@ -6,14 +6,14 @@ services:
     container_name: lubelogger
     restart: unless-stopped
     environment:
-      PUID=${PUID}{PUID}
-      PGID=${PGID}{PGID}
-      TZ=${TZ}{TZ}
-      ASPNETCORE_URLS: http://0.0.0.0:${CONTAINER_PORT}
-      LL__Locale: ${LL_LOCALE}
-      LL__Culture: ${LL_CULTURE}
-      LL__Smtp__Enabled: "${SMTP_ENABLED}"
-      LL__MOTD__Enabled: "${MOTD_ENABLED}"
+      PUID: changeme
+      PGID: changeme
+      TZ: ${TZ}
+      ASPNETCORE_URLS: changeme
+      LL__Locale: changeme
+      LL__Culture: changeme
+      LL__Smtp__Enabled: "changeme"
+      LL__MOTD__Enabled: "changeme"
       ASPNETCORE_DATAPROTECTION__DIRECTORY: /App/keys
     volumes:
       - ${STORAGE_ROOT}/data:/App/data

@@ -17,12 +17,12 @@ services:
     volumes:
       - ${STORAGE_ROOT}/data:/data
     environment:
-      MEILI_ADDR: ${MEILI_ADDR}
-      BROWSER_WEB_URL: ${BROWSER_WEB_URL}
-      DATA_DIR: ${DATA_DIR}
-      NEXTAUTH_SECRET=${AUTH_SECRET}{NEXTAUTH_SECRET}{NEXTAUTH_SECRET}
-      NEXTAUTH_URL: ${NEXTAUTH_URL}
-      OPENAI_API_KEY=${API_KEY}{OPENAI_API_KEY}
+      MEILI_ADDR: changeme
+      BROWSER_WEB_URL: changeme
+      DATA_DIR: changeme
+      NEXTAUTH_SECRET: changeme-secret
+      NEXTAUTH_URL: changeme
+      OPENAI_API_KEY: your-api-key-here
     depends_on:
       - meilisearch
       - chrome

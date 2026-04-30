@@ -21,10 +21,10 @@ services:
       - ${STORAGE_ROOT}/server:/app/data
       - ${STORAGE_ROOT}/config:/app/config
     environment:
-      AUTH_ENABLED: ${AUTH_ENABLED}
-      AUTH_USERNAME: ${AUTH_USERNAME}
-      AUTH_PASSWORD=${AUTH_PASSWORD}{AUTH_PASSWORD}
-      TZ=${TZ}{TZ}
+      AUTH_ENABLED: changeme
+      AUTH_USERNAME: changeme
+      AUTH_PASSWORD: changeme
+      TZ: ${TZ}
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:${CONTAINER_PORT}/api/health"]
       interval: 30s

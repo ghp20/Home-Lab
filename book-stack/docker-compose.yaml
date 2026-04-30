@@ -14,9 +14,9 @@ services:
       - "8787:8787"
 
     environment:
-      - TZ=${TZ}{TZ}
-      - PUID=${PUID}
-      - PGID=${PGID}
+      - TZ=${TZ}
+      - PUID=3001
+      - PGID=3000
 
     dns:
       - 1.1.1.1
@@ -24,15 +24,15 @@ services:
 
     volumes:
       # Config
-      - /mnt/storagepool/apps_config/bookshelf/config:/config
+      - /path/to/data/apps_config/bookshelf/config:/config
 
       # Downloads (normalized)
-      - /mnt/storagepool/master/Media/downloads:/downloads/torrents
-      - /mnt/storagepool/master/Media/usenet/downloads:/downloads/usenet
+      - /path/to/data/master/Media/downloads:/downloads/torrents
+      - /path/to/data/master/Media/usenet/downloads:/downloads/usenet
 
       # Final libraries
-      - /mnt/storagepool/master/Media/Books/ebooks:/ebooks
-      - /mnt/storagepool/master/Media/Books/audiobooks:/audiobooks
+      - /path/to/data/master/Media/Books/ebooks:/ebooks
+      - /path/to/data/master/Media/Books/audiobooks:/audiobooks
 
     security_opt:
       - no-new-privileges:true
@@ -45,13 +45,13 @@ services:
     ports:
       - 8099:8080
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}{TZ}
+      - PUID=3001
+      - PGID=3000
+      - TZ=${TZ}
     volumes:
-      - /mnt/storagepool/apps_config/calibre/config:/config
-      - /mnt/storagepool/master/Media/Books/ebooks:/books/ebooks
-      - /mnt/storagepool/apps_config/calibre/inbox:/inbox
+      - /path/to/data/apps_config/calibre/config:/config
+      - /path/to/data/master/Media/Books/ebooks:/books/ebooks
+      - /path/to/data/apps_config/calibre/inbox:/inbox
     restart: unless-stopped
 
   # ---------------- Calibre-Web ----------------
@@ -63,12 +63,12 @@ services:
     ports:
       - 8101:8083
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}{TZ}
+      - PUID=3001
+      - PGID=3000
+      - TZ=${TZ}
     volumes:
-      - /mnt/storagepool/apps_config/calibre-web/config:/config
-      - /mnt/storagepool/master/Media/Books/ebooks:/books
+      - /path/to/data/apps_config/calibre-web/config:/config
+      - /path/to/data/master/Media/Books/ebooks:/books
     restart: unless-stopped
 
   # ---------------- Audiobookshelf ----------------
@@ -80,13 +80,13 @@ services:
     ports:
       - 13378:80
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}{TZ}
+      - PUID=3001
+      - PGID=3000
+      - TZ=${TZ}
     volumes:
-      - /mnt/storagepool/apps_config/audiobookshelf/config:/config
-      - /mnt/storagepool/apps_config/audiobookshelf/metadata:/metadata
-      - /mnt/storagepool/master/Media/Books/audiobooks:/audiobooks
+      - /path/to/data/apps_config/audiobookshelf/config:/config
+      - /path/to/data/apps_config/audiobookshelf/metadata:/metadata
+      - /path/to/data/master/Media/Books/audiobooks:/audiobooks
     restart: unless-stopped
 
   calibre-importer:
@@ -97,14 +97,14 @@ services:
     depends_on:
       - calibre
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}{TZ}
+      - PUID=3001
+      - PGID=3000
+      - TZ=${TZ}
     volumes:
-      - /mnt/storagepool/master/Media/Books/ebooks:/books
-      - /mnt/storagepool/master/Media/Books/ebooks:/incoming
-      - /mnt/storagepool/scripts/calibre-importer:/scripts
-      - /mnt/storagepool/apps_config/calibre-importer:/config
+      - /path/to/data/master/Media/Books/ebooks:/books
+      - /path/to/data/master/Media/Books/ebooks:/incoming
+      - /path/to/data/scripts/calibre-importer:/scripts
+      - /path/to/data/apps_config/calibre-importer:/config
     command: >
       bash -c "
       apt-get update &&

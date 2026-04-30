@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  vikunja:
+    image: vikunja/vikunja:${VIKUNJA_TAG:-latest}
+    container_name: vikunja
+    user: "${PUID:-3001}:${PGID:-3000}"
+    environment:
+      VIKUNJA_SERVICE_PUBLICURL: changeme
+      VIKUNJA_SERVICE_SECRET: changeme-secret
+      VIKUNJA_DATABASE_HOST: db
+      VIKUNJA_DATABASE_PORT: 5432
+      VIKUNJA_DATABASE_TYPE: postgres
+      VIKUNJA_DATABASE_USER: vikunja
+      VIKUNJA_DATABASE_PASSWORD: changeme-db-pass
+      VIKUNJA_DATABASE_DATABASE: vikunja
+    volumes:
+      - ${STORAGE_ROOT}/files:/app/vikunja/files
+    ports:
+      - "${VIKUNJA_PORT:-3456}:3456"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - vikunja_net
+
+  db:
+    image: postgres:${POSTGRES_TAG:-18}
+    container_name: vikunja-db
+    environment:
+      POSTGRES_USER: vikunja
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: vikunja
+    volumes:
+      - ${STORAGE_ROOT}/db:/var/lib/postgresql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U vikunja"]
+      interval: 5s
+      start_period: 30s
+      retries: 5
+    networks:
+      - vikunja_net
+
+networks:
+  vikunja_net:
+    driver: bridge

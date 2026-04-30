@@ -1,30 +1,23 @@
-# census-stack
+# Census Stack
 
-Docker stack managed by Portainer
+> Docker Compose stack for **census-stack**
+
+## Status
+
+🔴 Inactive
 
 ## Services
 
-```
-  • options
-  • census-server
-```
+| Service | Description |
+|---------|-------------|
+| `census-server` | - |
 
-## Key Env Vars
+## Source
 
-- `AUTH_ENABLED`
-- `AUTH_PASSWORD`
-- `AUTH_USERNAME`
-- `TZ`
-
-## Deployment
-
-```bash
-cd census-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

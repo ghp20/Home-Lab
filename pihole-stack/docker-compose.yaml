@@ -5,13 +5,13 @@ services:
     restart: unless-stopped
     network_mode: host
     environment:
-      TZ=${TZ}{TZ}
-      WEB_PORT: "${WEB_PORT}"
-      FTLCONF_webserver_port: "${WEB_PORT}"
+      TZ: ${TZ}
+      WEB_PORT: "changeme"
+      FTLCONF_webserver_port: "changeme"
       FTLCONF_dns_listeningMode: "all"
       FTLCONF_NTP_IPV4_ACTIVE: "false"
       FTLCONF_NTP_IPV6_ACTIVE: "false"
-      FTLCONF_admin_password: "${ADMIN_PASSWORD}"
+      FTLCONF_admin_password: "changeme"
     volumes:
       - ${STORAGE_ROOT}/etc-pihole:/etc/pihole
       - ${STORAGE_ROOT}/etc-dnsmasq.d:/etc/dnsmasq.d

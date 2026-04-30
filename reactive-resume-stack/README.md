@@ -1,42 +1,25 @@
-# reactive-resume-stack
+# Reactive Resume Stack
 
-Docker stack managed by Portainer
+> Docker Compose stack for **reactive-resume-stack**
+
+## Status
+
+🟢 Active
 
 ## Services
 
-```
-  • postgres
-  • printer
-  • app
-```
+| Service | Description |
+|---------|-------------|
+| `postgres` | - |
+| `printer` | - |
+| `app` | - |
 
-## Key Env Vars
+## Source
 
-- `APP_URL`
-- `AUTH_SECRET`
-- `CONCURRENT`
-- `DATABASE_URL`
-- `FLAG_DEBUG_PRINTER`
-- `FLAG_DISABLE_EMAIL_AUTH`
-- `FLAG_DISABLE_SIGNUPS`
-- `HEALTH`
-- `NODE_ENV`
-- `PORT`
-- `POSTGRES_DB`
-- `POSTGRES_PASSWORD`
-- `POSTGRES_USER`
-- `PRINTER_ENDPOINT`
-- `SMTP_FROM`
-
-## Deployment
-
-```bash
-cd reactive-resume-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

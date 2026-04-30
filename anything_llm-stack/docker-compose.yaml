@@ -11,12 +11,12 @@ services:
     image: mintplexlabs/anythingllm:${ALLM_TAG:-latest}
     container_name: anything-llm
     environment:
-      - SERVER_PORT=${CONTAINER_PORT}
-      - STORAGE_DIR=${STORAGE_DIR}
-      - DATABASE_URL=${DATABASE_URL}
-      - JWT_SECRET=${JWT_SECRET}{JWT_SECRET}
-      - ENCRYPTION_KEY=${ENCRYPTION_KEY}{ENCRYPTION_KEY}
-      - DISABLE_TELEMETRY=${DISABLE_TELEMETRY:-1}
+      - SERVER_PORT=changeme
+      - STORAGE_DIR=changeme
+      - DATABASE_URL=changeme
+      - JWT_SECRET=changeme-secret
+      - ENCRYPTION_KEY=changeme-secret
+      - DISABLE_TELEMETRY=changeme
     volumes:
       - ${STORAGE_ROOT}:/app/server/storage
       - ${STORAGE_ROOT}:/app/storage

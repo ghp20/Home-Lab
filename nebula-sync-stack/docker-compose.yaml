@@ -5,15 +5,15 @@ services:
     container_name: orbital-sync
     user: "3001:3000"
     environment:
-      - PIHOLE_VERSION=${PIHOLE_VERSION}
-      - PRIMARY_HOST_BASE_URL=${PRIMARY_HOST_BASE_URL}
-      - PRIMARY_HOST_PASSWORD=${PRIMARY_HOST_PASSWORD}
-      - PRIMARY_HOST_PATH=${PRIMARY_HOST_PATH}
-      - SECONDARY_HOSTS_1_BASE_URL=${SECONDARY_HOSTS_1_BASE_URL}
-      - SECONDARY_HOSTS_1_PASSWORD=${SECONDARY_HOSTS_1_PASSWORD}
-      - SECONDARY_HOSTS_1_PATH=${SECONDARY_HOSTS_1_PATH}
-      - INTERVAL_MINUTES=${INTERVAL_MINUTES}
+      - PIHOLE_VERSION=changeme
+      - PRIMARY_HOST_BASE_URL=changeme
+      - PRIMARY_HOST_PASSWORD=changeme
+      - PRIMARY_HOST_PATH=changeme
+      - SECONDARY_HOSTS_1_BASE_URL=changeme
+      - SECONDARY_HOSTS_1_PASSWORD=changeme
+      - SECONDARY_HOSTS_1_PATH=changeme
+      - INTERVAL_MINUTES=changeme
       - VERBOSE=true
     restart: unless-stopped
     volumes:
-      - /mnt/storagepool/apps_config/orbital-sync/data:/app/data
+      - /path/to/data/apps_config/orbital-sync/data:/app/data

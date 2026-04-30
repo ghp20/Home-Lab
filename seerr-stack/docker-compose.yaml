@@ -7,9 +7,9 @@ services:
     container_name: seerr-db
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}
+      POSTGRES_DB: changeme
+      POSTGRES_USER: changeme
+      POSTGRES_PASSWORD: changeme
     volumes:
       - ${STORAGE_ROOT}/db:/var/lib/postgresql/data
     healthcheck:
@@ -28,12 +28,12 @@ services:
       seerr-db:
         condition: service_healthy
     environment:
-      DB_TYPE: ${DB_TYPE}
-      DB_HOST: ${DB_HOST}
+      DB_TYPE: changeme
+      DB_HOST: changeme
       DB_PORT: 5432
-      DB_USER: ${DB_USER}
-      DB_PASS=${DB_PASS}{DB_PASS}
-      DB_NAME: ${DB_NAME}
-      TZ=${TZ}{TZ}
+      DB_USER: changeme
+      DB_PASS: changeme-db-pass
+      DB_NAME: changeme
+      TZ: ${TZ}
     volumes:
       - ${STORAGE_ROOT}/config:/app/config

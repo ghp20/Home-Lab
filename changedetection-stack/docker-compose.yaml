@@ -14,15 +14,15 @@ services:
       - "30159:5000"
 
     environment:
-      - TZ=${TZ}{TZ}
-      - BASE_URL=${BASE_URL}
-      - PLAYWRIGHT_DRIVER_URL=${PLAYWRIGHT_DRIVER_URL}
+      - TZ=${TZ}
+      - BASE_URL=changeme
+      - PLAYWRIGHT_DRIVER_URL=changeme
       - FETCH_WORKERS=5
       - MINIMUM_SECONDS_RECHECK_TIME=60
       - HIDE_REFERER=true
 
     volumes:
-      - /mnt/storagepool/apps_config/changedetection/datastore:/datastore
+      - /path/to/data/apps_config/changedetection/datastore:/datastore
 
     networks:
       - changedetection_net

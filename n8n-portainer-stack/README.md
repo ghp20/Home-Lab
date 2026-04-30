@@ -1,25 +1,26 @@
-# n8n-portainer-stack
+# N8N Portainer Stack
 
-Workflow automation — n8n
+> Docker Compose stack for **n8n-portainer-stack**
+
+## Status
+
+🟢 Active
 
 ## Services
 
-```
-  • n8n
-  • n8n-postgres
-  • default
-  • trading-net-ron
-```
+| Service | Description |
+|---------|-------------|
+| `n8n` | - |
+| `n8n-postgres` | - |
+| `default` | - |
+| `trading-net-ron` | - |
 
-## Deployment
+## Source
 
-```bash
-cd n8n-portainer-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     network_mode: host
     environment:
-      - TZ=${TZ}{TZ}
+      - TZ=${TZ}
     volumes:
       - ${STORAGE_ROOT}:/opt/unbound/etc/unbound
     healthcheck:

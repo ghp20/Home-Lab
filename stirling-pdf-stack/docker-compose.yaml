@@ -6,17 +6,17 @@ services:
       - '8084:8080'
     restart: unless-stopped
     volumes:
-      - /mnt/storagepool/apps_config/stirlingpdf/tesseract_data:/usr/share/tessdata
-      - /mnt/storagepool/apps_config/stirlingpdf/config:/configs
-      - /mnt/storagepool/apps_config/stirlingpdf/files_storage:/output
-      - /mnt/storagepool/apps_config/stirlingpdf/logs:/logs
-      - /mnt/storagepool/apps_config/stirlingpdf/pipeline:/pipeline
+      - /path/to/data/apps_config/stirlingpdf/tesseract_data:/usr/share/tessdata
+      - /path/to/data/apps_config/stirlingpdf/config:/configs
+      - /path/to/data/apps_config/stirlingpdf/files_storage:/output
+      - /path/to/data/apps_config/stirlingpdf/logs:/logs
+      - /path/to/data/apps_config/stirlingpdf/pipeline:/pipeline
     environment:
       - DOCKER_ENABLE_SECURITY=false
-      - LANGS=${LANGS}
+      - LANGS=changeme
       - SERVER_PORT=8080
-      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - ALLOWED_HOSTS=changeme
       - PASSWORD_PROTECT=true
-      - USERNAME=${USERNAME}
-      - PASSWORD=${PASSWORD}
+      - USERNAME=changeme
+      - PASSWORD=changeme
       - SECURITY_ENABLELOGIN=true

@@ -6,9 +6,9 @@ services:
     container_name: vaultwarden-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}{POSTGRES_PASSWORD}
+      POSTGRES_DB: changeme
+      POSTGRES_USER: changeme
+      POSTGRES_PASSWORD: changeme
     volumes:
       - ${STORAGE_ROOT}/postgres:/var/lib/postgresql/data
     networks:
@@ -21,11 +21,11 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: ${DATABASE_URL}
-      ADMIN_TOKEN=${ADMIN_TOKEN}{ADMIN_TOKEN}
-      ROCKET_PORT: ${ROCKET_PORT}
-      DOMAIN: ${DOMAIN}
-      WEBSOCKET_ENABLED: ${WEBSOCKET_ENABLED}
+      DATABASE_URL: changeme
+      ADMIN_TOKEN: your-api-key-here
+      ROCKET_PORT: changeme
+      DOMAIN: changeme
+      WEBSOCKET_ENABLED: changeme
     ports:
       - "${HOST_PORT}:${ROCKET_PORT}"
     volumes:

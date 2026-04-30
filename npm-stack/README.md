@@ -1,22 +1,23 @@
-# npm-stack
+# Npm Stack
 
-Reverse proxy — Nginx Proxy Manager
+> Docker Compose stack for **npm-stack**
+
+## Status
+
+🟢 Active
 
 ## Services
 
-```
-  • npm
-```
+| Service | Description |
+|---------|-------------|
+| `npm` | - |
 
-## Deployment
+## Source
 
-```bash
-cd npm-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

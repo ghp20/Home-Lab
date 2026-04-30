@@ -1,29 +1,24 @@
-# dispatcharr-stack
+# Dispatcharr Stack
 
-Docker stack managed by Portainer
+> Docker Compose stack for **dispatcharr-stack**
+
+## Status
+
+🔴 Inactive
 
 ## Services
 
-```
-  • dispatcharr
-  • gluetun-iptv
-```
+| Service | Description |
+|---------|-------------|
+| `dispatcharr` | - |
+| `gluetun-iptv` | - |
 
-## Volumes
+## Source
 
-- `/dev/dri/renderD128`
-- `/dev/dri/card0`
-- `/dev/net/tun`
-
-## Deployment
-
-```bash
-cd dispatcharr-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

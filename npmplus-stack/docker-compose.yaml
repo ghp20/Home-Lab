@@ -5,12 +5,12 @@ services:
     container_name: npmplus
     restart: always
     environment:
-      - PUID=${PUID}{PUID}
-      - PGID=${PGID}{PGID}
-      - TZ=${TZ}{TZ}
+      - PUID=changeme
+      - PGID=changeme
+      - TZ=${TZ}
       - DISABLE_HTTP=true
-      - CROWDSEC_LAPI_URL=${CROWDSEC_LAPI_URL}
-      - CROWDSEC_LAPI_KEY=${API_KEY}{CROWDSEC_LAPI_KEY}
+      - CROWDSEC_LAPI_URL=changeme
+      - CROWDSEC_LAPI_KEY=your-api-key-here
     ports:
       - "${HTTPS_PORT}:443/tcp"
       - "${HTTPS_PORT}:443/udp"

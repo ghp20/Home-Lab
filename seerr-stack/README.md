@@ -1,36 +1,24 @@
-# seerr-stack
+# Seerr Stack
 
-Media requests — Seerr
+> Docker Compose stack for **seerr-stack**
+
+## Status
+
+🟢 Active
 
 ## Services
 
-```
-  • seerr-db
-  • seerr
-```
+| Service | Description |
+|---------|-------------|
+| `seerr-db` | - |
+| `seerr` | - |
 
-## Key Env Vars
+## Source
 
-- `DB_HOST`
-- `DB_NAME`
-- `DB_PASS`
-- `DB_PORT`
-- `DB_TYPE`
-- `DB_USER`
-- `POSTGRES_DB`
-- `POSTGRES_PASSWORD`
-- `POSTGRES_USER`
-- `TZ`
-
-## Deployment
-
-```bash
-cd seerr-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

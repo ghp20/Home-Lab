@@ -1,43 +1,28 @@
-# vpn-stack
+# Vpn Stack
 
-VPN download stack — Gluetun, qBittorrent, SABnzbd, BitMagnet
+> Docker Compose stack for **vpn-stack**
+
+## Status
+
+🟢 Active
 
 ## Services
 
-```
-  • arrnet
-  • options
-  • gluetun
-  • qbittorrent
-  • sabnzbd
-  • postgres-bitmagnet
-  • bitmagnet-process
-  • bitmagnet-worker
-```
+| Service | Description |
+|---------|-------------|
+| `gluetun` | - |
+| `qbittorrent` | - |
+| `sabnzbd` | - |
+| `postgres-bitmagnet` | - |
+| `bitmagnet-process` | - |
+| `bitmagnet-worker` | - |
 
-## Key Env Vars
+## Source
 
-- `POSTGRES_DB`
-- `POSTGRES_PASSWORD`
-- `POSTGRES_USER`
-
-## Ports
-
-- `8085`
-- `6881`
-- `6881`
-- `3333`
-- `8089`
-
-## Deployment
-
-```bash
-cd vpn-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

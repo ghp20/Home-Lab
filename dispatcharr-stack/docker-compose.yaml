@@ -6,11 +6,11 @@ services:
     volumes:
       - ${STORAGE_ROOT_DISPATCHARR}:/data
     environment:
-      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}{SECRET_KEY}{DJANGO_SECRET_KEY}
-      - DISPATCHARR_ENV=${DISPATCHARR_ENV}
-      - REDIS_HOST=${REDIS_HOST}
-      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
-      - DISPATCHARR_LOG_LEVEL=${DISPATCHARR_LOG_LEVEL}
+      - DJANGO_SECRET_KEY=your-api-key-here
+      - DISPATCHARR_ENV=changeme
+      - REDIS_HOST=changeme
+      - CELERY_BROKER_URL=changeme
+      - DISPATCHARR_LOG_LEVEL=changeme
     network_mode: "service:gluetun-iptv"
     devices:
       - /dev/dri/renderD128:/dev/dri/renderD128
@@ -24,15 +24,15 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     environment:
-      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}{VPN_SERVICE_PROVIDER}
-      - VPN_TYPE=${VPN_TYPE}{VPN_TYPE}
-      - OPENVPN_USER=${OPENVPN_USER}
-      - OPENVPN_PASSWORD=${OPENVPN_PASSWORD}{OPENVPN_PASSWORD}
-      - SERVER_COUNTRIES=${SERVER_COUNTRIES}{SERVER_COUNTRIES}
-      - SERVER_CITIES=${SERVER_CITIES}
-      - SERVER_SELECTION=${SERVER_SELECTION}
-      - TZ=${TZ}{TZ}
-      - DNS_ADDRESS=${DNS_ADDRESS}
+      - VPN_SERVICE_PROVIDER=changeme
+      - VPN_TYPE=changeme
+      - OPENVPN_USER=changeme
+      - OPENVPN_PASSWORD=changeme
+      - SERVER_COUNTRIES=changeme
+      - SERVER_CITIES=changeme
+      - SERVER_SELECTION=changeme
+      - TZ=${TZ}
+      - DNS_ADDRESS=changeme
       - DOT=${DOT}
     ports:
       - "${HOST_PORT}:9191"

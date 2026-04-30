@@ -1,9 +1,9 @@
 version: "3.9"
 
 x-common-env: &common-env
-  PUID=${PUID}{PUID}
-  PGID=${PGID}{PGID}
-  TZ=${TZ}{TZ}
+  PUID: ${PUID}
+  PGID: ${PGID}
+  TZ: ${TZ}
 
 x-logging: &gelf_logging
   driver: gelf
@@ -38,7 +38,8 @@ services:
     environment: *common-env
     volumes:
       - ${APPS_CONFIG}/radarr/config:/config
-      - ${MEDIA_ROOT}/Movies:/movies
+      - ${MEDIA_ROOT}/movies-english:/movies-english
+      - ${MEDIA_ROOT}/movies-hindi:/movies-hindi
       - ${DOWNLOAD_ROOT}:/downloadsq
       - ${USENET_ROOT}:/downloads
     restart: unless-stopped
@@ -69,7 +70,8 @@ services:
     environment: *common-env
     volumes:
       - ${APPS_CONFIG}/bazarr/config:/config
-      - ${MEDIA_ROOT}/Movies:/movies
+      - ${MEDIA_ROOT}/movies-english:/movies-english
+      - ${MEDIA_ROOT}/movies-hindi:/movies-hindi
       - ${MEDIA_ROOT}/Tv:/tv
     logging: *gelf_logging
   

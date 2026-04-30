@@ -6,8 +6,8 @@ services:
     container_name: crowdsec
     restart: unless-stopped
     environment:
-      - TZ=${TZ}{TZ}
-      - COLLECTIONS=${COLLECTIONS}
+      - TZ=${TZ}
+      - COLLECTIONS=changeme
     volumes:
       - ${STORAGE_ROOT}/config/acquis.yaml:/etc/crowdsec/acquis.yaml
       - ${STORAGE_ROOT}/data:/var/lib/crowdsec/data

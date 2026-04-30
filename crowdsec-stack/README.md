@@ -1,28 +1,25 @@
-# crowdsec-stack
+# Crowdsec Stack
 
-Security — CrowdSec
+> Docker Compose stack for **crowdsec-stack**
+
+## Status
+
+🟢 Active
 
 ## Services
 
-```
-  • crowdsec
-  • crowdsec-cloudflare-bouncer
-  • crowdsec-net
-```
+| Service | Description |
+|---------|-------------|
+| `crowdsec` | - |
+| `crowdsec-cloudflare-bouncer` | - |
+| `crowdsec-net` | - |
 
-## Volumes
+## Source
 
-- `/var/log`
-
-## Deployment
-
-```bash
-cd crowdsec-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

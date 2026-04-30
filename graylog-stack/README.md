@@ -1,36 +1,25 @@
-# graylog-stack
+# Graylog Stack
 
-Log management — Graylog
+> Docker Compose stack for **graylog-stack**
+
+## Status
+
+🔴 Inactive
 
 ## Services
 
-```
-  • graylog_net
-  • mongodb
-  • datanode
-  • graylog
-```
+| Service | Description |
+|---------|-------------|
+| `mongodb` | - |
+| `datanode` | - |
+| `graylog` | - |
 
-## Key Env Vars
+## Source
 
-- `GRAYLOG_DATANODE_HTTP_EXTERNAL_URI`
-- `GRAYLOG_DATANODE_MONGODB_URI`
-- `GRAYLOG_DATANODE_NODE_ID_FILE`
-- `GRAYLOG_DATANODE_OPENSEARCH_HEAP`
-- `GRAYLOG_DATANODE_PASSWORD_SECRET`
-- `GRAYLOG_HTTP_EXTERNAL_URI`
-- `GRAYLOG_MONGODB_URI`
-- `GRAYLOG_PASSWORD_SECRET`
-
-## Deployment
-
-```bash
-cd graylog-stack
-docker compose up -d
-```
+Managed via [Portainer](https://192.168.1.12:31015) — Stack ID: see Portainer
 
 ## Notes
 
-- Managed by **Portainer** on TrueNAS SCALE
-- All secrets injected as env vars via Portainer stack
-- See `docker-compose.yaml` for full configuration
+- Sanitized and synced by Alex (homelab sysadmin)
+- All secrets, passwords, and PII replaced with placeholders
+- **Never deploy with placeholder values** — fill in real credentials first

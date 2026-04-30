@@ -13,7 +13,7 @@ services:
       - ${IMPORT_ROOT}:/import
       - ${IMMICH_ROOT}:/immich:ro
     environment:
-      TZ=${TZ}{TZ}
-      XDG_CONFIG_HOME: ${XDG_CONFIG_HOME}
-      TLZ_ORIGIN: ${TLZ_ORIGIN}
+      TZ: ${TZ}
+      XDG_CONFIG_HOME: changeme
+      TLZ_ORIGIN: changeme
     user: "${PUID}:${PGID}" 
