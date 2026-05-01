@@ -6,10 +6,10 @@ services:
     container_name: firefly-db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: changeme-root-pass
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_PASSWORD: changeme-db-pass
     volumes:
       - ${STORAGE_ROOT}/database:/var/lib/mysql
 
@@ -20,13 +20,13 @@ services:
     depends_on:
       - firefly-db
     environment:
-      APP_KEY: ${APP_KEY}
+      APP_KEY: your-api-key-here
       DB_CONNECTION: ${DB_CONNECTION}
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
       DB_DATABASE: ${DB_DATABASE}
       DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PASSWORD: changeme-db-pass
       TRUSTED_PROXIES: ${TRUSTED_PROXIES}
     ports:
       - "${CORE_HOST_PORT}:${CORE_CONTAINER_PORT}"
@@ -41,7 +41,7 @@ services:
       - "${IMP_HOST_PORT}:${IMP_CONTAINER_PORT}"
     environment:
       FIREFLY_III_URL: ${FIREFLY_III_URL}
-      FIREFLY_III_ACCESS_TOKEN: ${FIREFLY_III_ACCESS_TOKEN}
+      FIREFLY_III_ACCESS_TOKEN: your-api-key-here
       APP_URL: ${APP_URL}
       TRUSTED_PROXIES: ${TRUSTED_PROXIES}
     depends_on:

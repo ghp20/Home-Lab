@@ -20,7 +20,7 @@ services:
       - crowdsec-net
 
   crowdsec-cloudflare-bouncer:
-    image: crowdsecurity/cloudflare-bouncer:${CF_BOUNCER_TAG:-latest}
+    image: your-api-key-here
     container_name: crowdsec-cloudflare-bouncer
     restart: unless-stopped
     volumes:

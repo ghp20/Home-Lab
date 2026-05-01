@@ -26,7 +26,7 @@ services:
     environment:
       - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}
       - VPN_TYPE=${VPN_TYPE}
-      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - WIREGUARD_PRIVATE_KEY=your-private-key-here
       - SERVER_COUNTRIES=${SERVER_COUNTRIES}
       - TZ=${TZ}
       - CONTROL_SERVER_ADDRESS=:8000
@@ -82,14 +82,14 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: changeme-db-pass
     volumes:
       - ${APPS_CONFIG}/bitmagnet/postgres:/var/lib/postgresql/data
 
   bitmagnet-process:
     image: ghcr.io/bitmagnet-io/bitmagnet:${BITMAGNET_TAG:-latest}
     container_name: bitmagnet-process
-    restart: unless-stopped
+    restart: on-failure
     network_mode: "service:gluetun"
     depends_on: [postgres-bitmagnet]
     environment:

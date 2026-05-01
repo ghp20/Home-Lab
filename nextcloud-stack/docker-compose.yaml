@@ -15,9 +15,9 @@ services:
       - POSTGRES_HOST=postgres
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_PASSWORD=changeme-db-pass
       - REDIS_HOST=redis
-      - REDIS_HOST_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_HOST_PASSWORD=changeme
       - NEXTCLOUD_TRUSTED_DOMAINS=${NC_TRUSTED_DOMAINS}
       - OVERWRITEHOST=${NC_OVERWRITE_HOST}
       - OVERWRITEPROTOCOL=${NC_OVERWRITE_PROTOCOL}
@@ -36,7 +36,7 @@ services:
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_PASSWORD=changeme-db-pass
       - PGDATA=/var/lib/postgresql/17/docker
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d ${DB_NAME} -U ${DB_USER}"]
@@ -48,9 +48,9 @@ services:
     image: valkey/valkey:${VALKEY_TAG:-9.0.3}
     container_name: nextcloud-redis
     restart: unless-stopped
-    command: --port 6379 --requirepass ${REDIS_PASSWORD}
+    command: your-api-key-here
     healthcheck:
-      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      test: your-api-key-here
       interval: 10s
       timeout: 5s
       retries: 5

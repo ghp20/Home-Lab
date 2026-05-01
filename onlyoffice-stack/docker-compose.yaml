@@ -17,4 +17,4 @@ services:
       - ${STORAGE_ROOT}/logs:/var/log/onlyoffice
     environment:
       - JWT_ENABLED=${JWT_ENABLED:-true}
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=your-api-key-here

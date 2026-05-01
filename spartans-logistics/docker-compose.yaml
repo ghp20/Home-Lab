@@ -5,9 +5,9 @@ services:
     image: postgres:${PG_TAG:-16-alpine}
     container_name: spartans-db
     environment:
-      POSTGRES_DB: changeme
-      POSTGRES_USER: changeme
-      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: changeme-db-pass
     volumes:
       - ${STORAGE_ROOT}/db:/var/lib/postgresql/data
     restart: unless-stopped
@@ -21,12 +21,12 @@ services:
     image: spartans-backend:${BACKEND_TAG:-latest}
     container_name: spartans-backend
     environment:
-      DATABASE_URL: changeme
+      DATABASE_URL: ${DATABASE_URL_EXP}
       SECRET_KEY: your-api-key-here
-      ADMIN_USERNAME: changeme
-      ADMIN_PASSWORD: changeme
+      ADMIN_USERNAME: ${ADMIN_USERNAME}
+      ADMIN_PASSWORD: changeme-root-pass
       ACCESS_TOKEN_EXPIRE_MINUTES: your-api-key-here
-      CORS_ORIGINS: changeme
+      CORS_ORIGINS: ${CORS_ORIGINS}
     volumes:
       - ${STORAGE_ROOT}/backend:/app/assets
     depends_on:

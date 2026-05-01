@@ -17,5 +17,5 @@ services:
     environment:
       - DATABASE_PATH=${DATABASE_PATH}
       - PORT=${CONTAINER_PORT}
-      - TRUENAS_API_KEY=${TRUENAS_API_KEY}
+      - TRUENAS_API_KEY=your-api-key-here
       - TRUENAS_WS_BASE=${TRUENAS_WS_BASE}

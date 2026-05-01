@@ -15,7 +15,7 @@ services:
       MONETR_PG_ADDRESS: ${MONETR_PG_ADDRESS}
       MONETR_PG_PORT: ${MONETR_PG_PORT}
       MONETR_PG_USERNAME: ${MONETR_PG_USERNAME}
-      MONETR_PG_PASSWORD: ${MONETR_PG_PASSWORD}
+      MONETR_PG_PASSWORD: changeme
       MONETR_PG_DATABASE: ${MONETR_PG_DATABASE}
       MONETR_REDIS_ENABLED: ${MONETR_REDIS_ENABLED}
       MONETR_REDIS_ADDRESS: ${MONETR_REDIS_ADDRESS}
@@ -34,7 +34,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${MONETR_PG_USERNAME}
-      POSTGRES_PASSWORD: ${MONETR_PG_PASSWORD}
+      POSTGRES_PASSWORD: changeme-db-pass
       POSTGRES_DB: ${MONETR_PG_DATABASE}
     volumes:
       - ${STORAGE_ROOT}/postgres:/var/lib/postgresql/data

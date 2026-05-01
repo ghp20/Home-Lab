@@ -8,9 +8,9 @@ services:
     tty: true
     working_dir: /workspace
     environment:
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - ANTHROPIC_API_KEY=your-api-key-here
       - PATH=${PATH}
-      - CLAUDE_DISABLE_OAUTH=true
+      - CLAUDE_DISABLE_OAUTH=your-api-key-here
     volumes:
       - ${STORAGE_ROOT}:/root/.claude
       - ${WORKSPACE_ROOT}:/workspace

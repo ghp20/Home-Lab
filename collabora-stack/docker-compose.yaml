@@ -16,7 +16,7 @@ services:
       - domain=${domain}
       - server_name=${server_name}
       - username=${username}
-      - password=${password}
+      - password=changeme
       - extra_params=${EXTRA_PARAMS}
     ports:
       - "${HOST_PORT}:${CONTAINER_PORT}"

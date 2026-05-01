@@ -28,11 +28,11 @@ services:
 
       # Downloads (normalized)
       - /path/to/data/master/Media/downloads:/downloads/torrents
-      - /path/to/data/master/Media/usenet/downloads:/downloads/usenet
+      - your-private-key-here:/downloads/usenet
 
       # Final libraries
       - /path/to/data/master/Media/Books/ebooks:/ebooks
-      - /path/to/data/master/Media/Books/audiobooks:/audiobooks
+      - your-private-key-here:/audiobooks
 
     security_opt:
       - no-new-privileges:true
@@ -86,7 +86,7 @@ services:
     volumes:
       - /path/to/data/apps_config/audiobookshelf/config:/config
       - /path/to/data/apps_config/audiobookshelf/metadata:/metadata
-      - /path/to/data/master/Media/Books/audiobooks:/audiobooks
+      - your-private-key-here:/audiobooks
     restart: unless-stopped
 
   calibre-importer:

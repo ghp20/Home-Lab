@@ -18,5 +18,5 @@ services:
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
       - PASSWORD_PROTECT=changeme
       - USERNAME=${USERNAME}
-      - PASSWORD=${PASSWORD}
+      - PASSWORD=changeme
       - SECURITY_ENABLELOGIN=true

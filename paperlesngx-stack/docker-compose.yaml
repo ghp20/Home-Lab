@@ -9,7 +9,7 @@ services:
     environment:
       POSTGRES_DB: ${PAPERLESS_DBNAME}
       POSTGRES_USER: ${PAPERLESS_DBUSER}
-      POSTGRES_PASSWORD: ${PAPERLESS_DBPASS}
+      POSTGRES_PASSWORD: changeme-db-pass
       TZ: ${TZ}
     volumes:
       - ${STORAGE_ROOT}/postgres/17/docker:/var/lib/postgresql/data
@@ -62,7 +62,7 @@ services:
       PAPERLESS_GOTENBERG_ENDPOINT: http://gotenberg:3000
       PAPERLESS_ENABLE_TRASH: "1"
       PAPERLESS_TOTP_ENABLED: "1"
-      PAPERLESS_SECRET_KEY: ${PAPERLESS_SECRET_KEY}
+      PAPERLESS_SECRET_KEY: your-api-key-here
     volumes:
       - ${STORAGE_ROOT}/data:/usr/src/paperless/data
       - ${STORAGE_ROOT}/media:/usr/src/paperless/media

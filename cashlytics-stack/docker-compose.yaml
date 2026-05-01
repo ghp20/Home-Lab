@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: changeme-db-pass
     volumes:
       - ${STORAGE_ROOT}/postgres:/var/lib/postgresql/data
 
@@ -24,12 +24,12 @@ services:
       NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
       NEXT_PUBLIC_DEFAULT_LOCALE: ${NEXT_PUBLIC_DEFAULT_LOCALE}
       NEXT_PUBLIC_DEFAULT_CURRENCY: ${NEXT_PUBLIC_DEFAULT_CURRENCY}
-      AUTH_SECRET: ${AUTH_SECRET}
-      AUTH_TRUST_HOST: ${AUTH_TRUST_HOST}
+      AUTH_SECRET: your-api-key-here
+      AUTH_TRUST_HOST: your-api-key-here
       SINGLE_USER_MODE: ${SINGLE_USER_MODE}
       SINGLE_USER_EMAIL: ${SINGLE_USER_EMAIL}
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
-      CRON_SECRET: ${CRON_SECRET}
+      OPENAI_API_KEY: your-api-key-here
+      CRON_SECRET: your-api-key-here
     user: "${PUID}:${PGID}"
 
   cashlytics-cron:

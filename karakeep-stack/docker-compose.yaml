@@ -20,9 +20,9 @@ services:
       MEILI_ADDR: ${MEILI_ADDR}
       BROWSER_WEB_URL: ${BROWSER_WEB_URL}
       DATA_DIR: ${DATA_DIR}
-      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
-      NEXTAUTH_URL: ${NEXTAUTH_URL}
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      NEXTAUTH_SECRET: your-api-key-here
+      NEXTAUTH_URL: your-api-key-here
+      OPENAI_API_KEY: your-api-key-here
     depends_on:
       - meilisearch
       - chrome

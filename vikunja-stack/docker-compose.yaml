@@ -7,12 +7,12 @@ services:
     user: "${PUID:-3001}:${PGID:-3000}"
     environment:
       VIKUNJA_SERVICE_PUBLICURL: ${VIKUNJA_PUBLIC_URL}
-      VIKUNJA_SERVICE_SECRET: ${VIKUNJA_SECRET}
+      VIKUNJA_SERVICE_SECRET: your-api-key-here
       VIKUNJA_DATABASE_HOST: db
       VIKUNJA_DATABASE_PORT: 5432
       VIKUNJA_DATABASE_TYPE: postgres
       VIKUNJA_DATABASE_USER: vikunja
-      VIKUNJA_DATABASE_PASSWORD: ${DB_PASSWORD}
+      VIKUNJA_DATABASE_PASSWORD: changeme-db-pass
       VIKUNJA_DATABASE_DATABASE: vikunja
     volumes:
       - ${STORAGE_ROOT}/files:/app/vikunja/files
@@ -30,7 +30,7 @@ services:
     container_name: vikunja-db
     environment:
       POSTGRES_USER: vikunja
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PASSWORD: changeme-db-pass
       POSTGRES_DB: vikunja
     volumes:
       - ${STORAGE_ROOT}/db:/var/lib/postgresql

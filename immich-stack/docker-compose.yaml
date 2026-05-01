@@ -15,9 +15,9 @@ services:
       - DB_HOSTNAME=${DB_HOSTNAME}
       - DB_USERNAME=${DB_USERNAME}
       - DB_DATABASE_NAME=${DB_DATABASE_NAME}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=changeme-db-pass
       - REDIS_HOSTNAME=${REDIS_HOSTNAME}
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_PASSWORD=changeme
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
@@ -55,14 +55,14 @@ services:
   redis:
     container_name: immich_redis
     image: valkey/valkey:${VALKEY_VERSION:-latest}
-    command: --port 6379 --requirepass ${REDIS_PASSWORD}
+    command: your-api-key-here
     restart: always
 
   database:
     container_name: immich_postgres
     image: ghcr.io/immich-app/postgres:${PG_VERSION:-latest}
     environment:
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_PASSWORD=changeme-db-pass
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_DB=${DB_DATABASE_NAME}
       - PGDATA=/var/lib/postgresql/18/docker
