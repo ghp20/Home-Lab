@@ -14,8 +14,8 @@ services:
       - SERVER_PORT=${CONTAINER_PORT}
       - STORAGE_DIR=${STORAGE_DIR}
       - DATABASE_URL=${DATABASE_URL}
-      - JWT_SECRET=your-api-key-here
-      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - JWT_SECRET=changeme
+      - ENCRYPTION_KEY=changeme
       - DISABLE_TELEMETRY=${DISABLE_TELEMETRY:-1}
     volumes:
       - ${STORAGE_ROOT}:/app/server/storage

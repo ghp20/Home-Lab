@@ -18,7 +18,7 @@ services:
       - N8N_SECURE_COOKIE=${N8N_SECURE_COOKIE}
       - N8N_AI_ENABLED=${N8N_AI_ENABLED}
       - N8N_ENABLE_COMMUNITY_NODES=${N8N_ENABLE_COMMUNITY_NODES}
-      - N8N_API_KEY=your-api-key-here}
+      - N8N_API_KEY=changeme
       - N8N_ALLOW_FILE_ACCESS=${N8N_ALLOW_FILE_ACCESS}
       - N8N_BLOCK_FILE_ACCESS_TO_N8N_FILES=${N8N_BLOCK_FILES_ACCESS}
       - GENERIC_TIMEZONE=${TZ}
@@ -27,7 +27,7 @@ services:
       - DB_POSTGRESDB_PORT=5432
       - DB_POSTGRESDB_DATABASE=${POSTGRES_DB}
       - DB_POSTGRESDB_USER=${POSTGRES_USER}
-      - DB_POSTGRESDB_PASSWORD=changeme-db-pass
+      - DB_POSTGRESDB_PASSWORD=changeme
     volumes:
       - ${STORAGE_ROOT}/portainer-restore-test:/home/node/.n8n
       - ${STORAGE_ROOT_BASE}/n8n/know_base:/home/node/.n8n-files
@@ -46,7 +46,7 @@ services:
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=changeme-db-pass
+      - POSTGRES_PASSWORD=changeme
     volumes:
       - ${STORAGE_ROOT}/postgres-data:/var/lib/postgresql/data
     healthcheck:

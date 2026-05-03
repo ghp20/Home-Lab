@@ -10,7 +10,7 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: changeme-db-pass
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
@@ -45,14 +45,14 @@ services:
       PORT: ${CONTAINER_PORT}
       APP_URL: ${APP_URL}
       TZ: ${TZ}
-      DATABASE_URL: your-api-key-here
-      AUTH_SECRET: your-api-key-here
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      AUTH_SECRET: ${AUTH_SECRET}
       PRINTER_ENDPOINT: ws://printer:3000
       SMTP_HOST: ${SMTP_HOST}
       SMTP_PORT: ${SMTP_PORT}
       SMTP_USER: ${SMTP_USER}
-      SMTP_PASS: changeme-smtp-pass}
+      SMTP_PASS: ${SMTP_PASS}
       SMTP_FROM: ${SMTP_FROM}
       FLAG_DEBUG_PRINTER: "false"
       FLAG_DISABLE_SIGNUPS: "false"
-      FLAG_DISABLE_EMAIL_AUTH: changeme-smtp-pass
+      FLAG_DISABLE_EMAIL_AUTH: "false" 

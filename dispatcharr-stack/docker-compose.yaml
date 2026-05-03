@@ -6,7 +6,7 @@ services:
     volumes:
       - ${STORAGE_ROOT_DISPATCHARR}:/data
     environment:
-      - DJANGO_SECRET_KEY=your-api-key-here
+      - DJANGO_SECRET_KEY=changeme
       - DISPATCHARR_ENV=${DISPATCHARR_ENV}
       - REDIS_HOST=${REDIS_HOST}
       - CELERY_BROKER_URL=${CELERY_BROKER_URL}

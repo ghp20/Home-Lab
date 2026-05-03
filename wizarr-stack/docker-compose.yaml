@@ -18,7 +18,7 @@ services:
       DB_HOSTNAME: "wizarr_postgres"
       DB_PORT: "5432"
       DB_USERNAME: ${DB_USER}
-      DB_PASSWORD: changeme-db-pass
+      DB_PASSWORD: ${DB_PASS}
       DB_NAME: ${DB_NAME}
       DB_TYPE: "postgres"
     volumes:
@@ -31,7 +31,7 @@ services:
     container_name: wizarr_postgres
     environment:
       POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: changeme-db-pass
+      POSTGRES_PASSWORD: ${DB_PASS}
       POSTGRES_DB: ${DB_NAME}
       TZ: ${TZ}
     volumes:

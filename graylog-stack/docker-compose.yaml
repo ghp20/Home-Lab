@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
     networks: [graylog_net]
     environment:
-      GRAYLOG_DATANODE_PASSWORD_SECRET: changeme
+      GRAYLOG_DATANODE_PASSWORD_SECRET: ${GRAYLOG_DATANODE_PASSWORD_SECRET}
       GRAYLOG_DATANODE_NODE_ID_FILE: "/var/lib/graylog-datanode/node-id"
       GRAYLOG_DATANODE_MONGODB_URI: "mongodb://mongodb:27017/graylog"
       GRAYLOG_DATANODE_HTTP_EXTERNAL_URI: "http://${HOST_IP}:${DATANODE_PORT}/"
@@ -42,7 +42,7 @@ services:
       - mongodb
       - datanode
     environment:
-      GRAYLOG_PASSWORD_SECRET: changeme
+      GRAYLOG_PASSWORD_SECRET: ${GRAYLOG_PASSWORD_SECRET}
       GRAYLOG_ROOT_PASSWORD_SHA2: ${GRAYLOG_ROOT_PASSWORD_SHA2}
       GRAYLOG_MONGODB_URI: "mongodb://mongodb:27017/graylog"
       GRAYLOG_HTTP_EXTERNAL_URI: "http://${HOST_IP}:${WEB_PORT}/"

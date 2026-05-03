@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: changeme-db-pass
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - ${STORAGE_ROOT}/postgres:/var/lib/postgresql/data
@@ -35,18 +35,18 @@ services:
       POSTGRES_SERVER: ${POSTGRES_SERVER}
       POSTGRES_PORT: "5432"
       POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: changeme-db-pass
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-      OPENAI_API_KEY: your-api-key-here
+      OPENAI_API_KEY: "${OPENAI_API_KEY}"
       OPENAI_MODEL: "${OPENAI_MODEL}"
       OPENAI_TEMPERATURE: "${OPENAI_TEMP}"
-      OPENAI_MAX_TOKENS: your-api-key-here
+      OPENAI_MAX_TOKENS: "${OPENAI_TOKENS}"
       SMTP_HOST: ${SMTP_HOST}
       SMTP_PORT: "${SMTP_PORT}"
       SMTP_FROM_NAME: "${SMTP_NAME}"
       SMTP_FROM_EMAIL: "${SMTP_EMAIL}"
       SMTP_USER: "${SMTP_USER}"
-      SMTP_PASSWORD: changeme
+      SMTP_PASSWORD: "${SMTP_PASS}"
       SMTP_TLS: "${SMTP_TLS}"
     volumes:
       - ${STORAGE_ROOT}/mealie/data:/app/data

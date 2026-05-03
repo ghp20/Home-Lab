@@ -26,6 +26,6 @@ services:
     environment:
       - LISTEN=${LISTEN}
       - HUB_URL=${HUB_URL}
-      - TOKEN=your-api-key-here
-      - KEY=${KEY}
+      - TOKEN=changeme
+      - KEY=changeme
       - TZ=${TZ}

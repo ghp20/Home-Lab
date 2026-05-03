@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: changeme-db-pass
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       PGDATA: ${PGDATA}
       TZ: ${TZ}
     volumes:
@@ -37,15 +37,15 @@ services:
       POSTGRES_PORT: 5432
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: changeme-db-pass
-      SECRET_KEY: your-api-key-here
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SECRET_KEY: ${SECRET_KEY}
       FRACTION_PREF_DEFAULT: "0"
       COMMENT_PREF_DEFAULT: "1"
       SHOPPING_AUTO_SYNC: "1"
       GUNICORN_MEDIA: "1"
       AI_ENABLE: "1"
       AI_PROVIDER: openai
-      OPENAI_API_KEY: your-api-key-here
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
       OPENAI_MODEL: ${OPENAI_MODEL}
     volumes:
       - ${STORAGE_ROOT}/files:/opt/recipes/files

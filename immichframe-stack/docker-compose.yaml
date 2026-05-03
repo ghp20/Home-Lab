@@ -9,8 +9,8 @@ services:
     environment:
       TZ: ${TZ}
       ImmichServerUrl: ${IMMICH_URL}
-      ApiKey: your-api-key-here
-      AuthenticationSecret: your-api-key-here
+      ApiKey: ${IMMICH_API_KEY}
+      AuthenticationSecret: ${AUTH_SECRET}
       Interval: ${INTERVAL}
       TransitionDuration: ${TRANSITION_DURATION}
       ImageZoom: ${IMAGE_ZOOM}
@@ -29,7 +29,7 @@ services:
       ImageLocationFormat: ${IMAGE_LOCATION_FORMAT}
       ImagePan: ${IMAGE_PAN}
       ShowVideos: ${SHOW_VIDEOS}
-      WeatherApiKey: your-api-key-here
+      WeatherApiKey: ${WEATHER_API_KEY}
       ShowWeatherDescription: ${SHOW_WEATHER_DESCRIPTION}
       UnitSystem: ${UNIT_SYSTEM}
       WeatherLatLong: ${WEATHER_LAT_LONG}

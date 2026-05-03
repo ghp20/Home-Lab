@@ -11,7 +11,7 @@ services:
       FTLCONF_dns_listeningMode: "all"
       FTLCONF_NTP_IPV4_ACTIVE: "false"
       FTLCONF_NTP_IPV6_ACTIVE: "false"
-      FTLCONF_admin_password: changeme-root-pass
+      FTLCONF_admin_password: "${ADMIN_PASSWORD}"
     volumes:
       - ${STORAGE_ROOT}/etc-pihole:/etc/pihole
       - ${STORAGE_ROOT}/etc-dnsmasq.d:/etc/dnsmasq.d

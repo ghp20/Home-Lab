@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: changeme-db-pass
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - ${STORAGE_ROOT}/postgres17:/var/lib/postgresql/data
@@ -27,15 +27,15 @@ services:
       - "${HOST_PORT}:3000"
     environment:
       DATABASE_URL: ${DATABASE_URL_EXP}
-      NEXTAUTH_SECRET: your-api-key-here
-      NEXTAUTH_URL: your-api-key-here
-      NEXTAUTH_URL_INTERNAL: your-api-key-here
-      AUTH_EMAIL_ENABLED: changeme-smtp-pass
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      NEXTAUTH_URL_INTERNAL: ${NEXTAUTH_URL_INTERNAL}
+      AUTH_EMAIL_ENABLED: ${AUTH_EMAIL_ENABLED}
       FROM_EMAIL: ${FROM_EMAIL}
       EMAIL_SERVER_HOST: ${EMAIL_SERVER_HOST}
       EMAIL_SERVER_PORT: ${EMAIL_SERVER_PORT}
       EMAIL_SERVER_USER: ${EMAIL_SERVER_USER}
-      EMAIL_SERVER_PASSWORD: changeme
+      EMAIL_SERVER_PASSWORD: ${EMAIL_SERVER_PASSWORD}
       DISABLE_EMAIL_SIGNUP: ${DISABLE_EMAIL_SIGNUP}
       ENABLE_SENDING_INVITES: ${ENABLE_SENDING_INVITES}
     volumes:
