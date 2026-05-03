@@ -1,3 +1,11 @@
 # syncthing-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`syncthing`
+
+## Volumes
+
+`/path/to/data`

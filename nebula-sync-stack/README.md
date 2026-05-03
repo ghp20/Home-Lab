@@ -1,3 +1,11 @@
 # nebula-sync-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`orbital-sync`
+
+## Volumes
+
+`/path/to/data`

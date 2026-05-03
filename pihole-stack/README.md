@@ -1,3 +1,11 @@
 # pihole-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`pihole`
+
+## Volumes
+
+`/path/to/data`

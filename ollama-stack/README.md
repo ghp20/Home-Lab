@@ -1,3 +1,11 @@
 # ollama-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`ollama`
+
+## Volumes
+
+`/path/to/data`

@@ -1,3 +1,11 @@
 # wygiwyh-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`db`, `wygiwyh`
+
+## Volumes
+
+`/path/to/data`

@@ -1,3 +1,11 @@
 # collabora-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`options`, `collabora`
+
+## Volumes
+
+`/path/to/data`

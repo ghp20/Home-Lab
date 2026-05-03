@@ -1,3 +1,11 @@
 # tdarr-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`tdarr`, `tdarr-node`
+
+## Volumes
+
+`/path/to/data`

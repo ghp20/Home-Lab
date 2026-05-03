@@ -1,3 +1,11 @@
 # spartans-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`react-app`
+
+## Volumes
+
+`/path/to/data`

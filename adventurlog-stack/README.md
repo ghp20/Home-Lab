@@ -1,3 +1,11 @@
 # adventurlog-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`options`, `db`, `backend`, `frontend`
+
+## Volumes
+
+`/path/to/data`

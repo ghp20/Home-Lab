@@ -8,7 +8,7 @@ x-logging: &gelf_logging
     
 services:
   wireguard-us-server:
-    image: lscr.io/linuxserver/wireguard:latest
+    image: lscr.io/linuxserver/wireguard:${WG_TAG:-latest}
     container_name: wireguard-us-server
     cap_add:
       - NET_ADMIN

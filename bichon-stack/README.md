@@ -1,3 +1,11 @@
 # bichon-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`bichon`
+
+## Volumes
+
+`/path/to/data`

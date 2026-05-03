@@ -1,3 +1,11 @@
 # unbound-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`unbound`
+
+## Volumes
+
+`/path/to/data`

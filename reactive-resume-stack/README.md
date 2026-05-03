@@ -1,3 +1,11 @@
 # reactive-resume-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`postgres`, `printer`, `app`
+
+## Volumes
+
+`/path/to/data`

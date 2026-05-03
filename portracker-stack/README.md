@@ -1,3 +1,11 @@
 # portracker-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`portracker`
+
+## Volumes
+
+`/path/to/data`

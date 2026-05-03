@@ -1,77 +1,88 @@
-# Home-Lab
+# 🏠 Home-Lab
 
-Portainer stacks synced automatically.
+Synced from Portainer — 71 stacks total.
 
-## Stacks (71 total)
+## Overview
 
-- **stirling-pdf-stack**: 🟢 Active
-- **dashapp-stack**: 🟢 Active
-- **onlyoffice-stack**: 🟢 Active
-- **syncthing-stack**: 🟢 Active
-- **spartans-stack**: 🟢 Active
-- **firefly3-stack**: 🔴 Inactive
-- **collabora-stack**: 🟢 Active
-- **vaultwarden-stack**: 🟢 Active
-- **immichframe-stack**: 🟢 Active
-- **anything_llm-stack**: 🟢 Active
-- **portracker-stack**: 🟢 Active
-- **adventurlog-stack**: 🔴 Inactive
-- **karakeep-stack**: 🟢 Active
-- **tugtainer-stack**: 🟢 Active
-- **census-stack**: 🔴 Inactive
-- **wireguard-us-server-stack**: 🟢 Active
-- **n8n-portainer-stack**: 🟢 Active
-- **unbound-stack**: 🔴 Inactive
-- **wygiwyh-stack**: 🔴 Inactive
-- **nebula-sync-stack**: 🟢 Active
-- **npm-stack**: 🟢 Active
-- **lubelogger-stack**: 🟢 Active
-- **tracktor-stack**: 🔴 Inactive
-- **journiv-stack**: 🟢 Active
-- **crowdsec-stack**: 🟢 Active
-- **plex-stack**: 🔴 Inactive
-- **monitoring-stack**: 🟢 Active
-- **graylog-stack**: 🔴 Inactive
-- **home-assistant-stack**: 🟢 Active
-- **matter-server**: 🟢 Active
-- **beszel-stack**: 🟢 Active
-- **metube-stack**: 🟢 Active
-- **music-assistant-stack**: 🟢 Active
-- **tandoor-recipes-stack**: 🔴 Inactive
-- **mealie-stack**: 🟢 Active
-- **bichon-stack**: 🟢 Active
-- **it-tools-stack**: 🟢 Active
-- **bichon-ai-digest-stack**: 🟢 Active
-- **tdarr-stack**: 🔴 Inactive
-- **reactive-resume-stack**: 🟢 Active
-- **timelinize-stack**: 🔴 Inactive
-- **dispatcharr-stack**: 🔴 Inactive
-- **seerr-stack**: 🟢 Active
-- **jellystat-stack**: 🟢 Active
-- **wizarr-stack**: 🟢 Active
-- **autoheal-stack**: 🟢 Active
-- **jellyfin-telegram-stack**: 🟢 Active
-- **paperlesngx-stack**: 🟢 Active
-- **pihole-stack**: 🟢 Active
-- **arr-stack**: 🟢 Active
-- **qdrant-stack**: 🟢 Active
-- **vpn-stack**: 🟢 Active
-- **jellyfin-stack**: 🟢 Active
-- **cashlytics-stack**: 🔴 Inactive
-- **monetr-stack**: 🔴 Inactive
-- **searxng-stack**: 🟢 Active
-- **finboard-stack**: 🟢 Active
-- **spartans-logistics**: 🟢 Active
-- **sample-plan-stack**: 🟢 Active
-- **split-pro-stack**: 🔴 Inactive
-- **claude-code-stack**: 🟢 Active
-- **changedetection-stack**: 🟢 Active
-- **book-stack**: 🟢 Active
-- **ollama-stack**: 🔴 Inactive
-- **trading-agent-ron-stack**: 🟢 Active
-- **trailing-stop-stack**: 🟢 Active
-- **immich-stack**: 🟢 Active
-- **nextcloud-stack**: 🟢 Active
-- **npmplus-stack**: 🔴 Inactive
-- **homarr-stack**: 🟢 Active
-- **vikunja-stack**: 🟢 Active
+| Metric | Count |
+|--------|-------|
+| Total Stacks | 71 |
+| 🟢 Active | 54 |
+| 🔴 Inactive | 17 |
+
+## Stacks
+
+- 🟢 **stirling-pdf-stack**
+- 🟢 **dashapp-stack**
+- 🟢 **onlyoffice-stack**
+- 🟢 **syncthing-stack**
+- 🟢 **spartans-stack**
+- 🔴 **firefly3-stack**
+- 🟢 **collabora-stack**
+- 🟢 **vaultwarden-stack**
+- 🟢 **immichframe-stack**
+- 🟢 **anything_llm-stack**
+- 🟢 **portracker-stack**
+- 🔴 **adventurlog-stack**
+- 🟢 **karakeep-stack**
+- 🟢 **tugtainer-stack**
+- 🔴 **census-stack**
+- 🟢 **wireguard-us-server-stack**
+- 🟢 **n8n-portainer-stack**
+- 🔴 **unbound-stack**
+- 🔴 **wygiwyh-stack**
+- 🟢 **nebula-sync-stack**
+- 🟢 **npm-stack**
+- 🟢 **lubelogger-stack**
+- 🔴 **tracktor-stack**
+- 🟢 **journiv-stack**
+- 🟢 **crowdsec-stack**
+- 🔴 **plex-stack**
+- 🟢 **monitoring-stack**
+- 🔴 **graylog-stack**
+- 🟢 **home-assistant-stack**
+- 🟢 **matter-server**
+- 🟢 **beszel-stack**
+- 🟢 **metube-stack**
+- 🟢 **music-assistant-stack**
+- 🔴 **tandoor-recipes-stack**
+- 🟢 **mealie-stack**
+- 🟢 **bichon-stack**
+- 🟢 **it-tools-stack**
+- 🟢 **bichon-ai-digest-stack**
+- 🔴 **tdarr-stack**
+- 🟢 **reactive-resume-stack**
+- 🔴 **timelinize-stack**
+- 🔴 **dispatcharr-stack**
+- 🟢 **seerr-stack**
+- 🟢 **jellystat-stack**
+- 🟢 **wizarr-stack**
+- 🟢 **autoheal-stack**
+- 🟢 **jellyfin-telegram-stack**
+- 🟢 **paperlesngx-stack**
+- 🟢 **pihole-stack**
+- 🟢 **arr-stack**
+- 🟢 **qdrant-stack**
+- 🟢 **vpn-stack**
+- 🟢 **jellyfin-stack**
+- 🔴 **cashlytics-stack**
+- 🔴 **monetr-stack**
+- 🟢 **searxng-stack**
+- 🟢 **finboard-stack**
+- 🟢 **spartans-logistics**
+- 🟢 **sample-plan-stack**
+- 🔴 **split-pro-stack**
+- 🟢 **claude-code-stack**
+- 🟢 **changedetection-stack**
+- 🟢 **book-stack**
+- 🔴 **ollama-stack**
+- 🟢 **trading-agent-ron-stack**
+- 🟢 **trailing-stop-stack**
+- 🟢 **immich-stack**
+- 🟢 **nextcloud-stack**
+- 🔴 **npmplus-stack**
+- 🟢 **homarr-stack**
+- 🟢 **vikunja-stack**
+
+---
+_Last synced: 2026-05-03T23:00:10.993292+00:00_

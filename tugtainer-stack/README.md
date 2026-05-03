@@ -1,3 +1,11 @@
 # tugtainer-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`app`
+
+## Volumes
+
+`/path/to/data`

@@ -1,3 +1,11 @@
 # split-pro-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`postgres`, `splitpro`
+
+## Volumes
+
+`/path/to/data`

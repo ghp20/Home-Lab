@@ -1,3 +1,11 @@
 # jellyfin-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`jellyfin`
+
+## Volumes
+
+`/path/to/data`

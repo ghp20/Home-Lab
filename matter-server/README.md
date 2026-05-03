@@ -1,3 +1,11 @@
 # matter-server
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`matter-server`
+
+## Volumes
+
+`/path/to/data`

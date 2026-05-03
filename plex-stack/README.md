@@ -1,3 +1,11 @@
 # plex-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`plex`
+
+## Volumes
+
+`/path/to/data`

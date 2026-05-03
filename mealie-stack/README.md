@@ -1,3 +1,11 @@
 # mealie-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`postgres`, `mealie`, `default`
+
+## Volumes
+
+`/path/to/data`

@@ -1,3 +1,11 @@
 # lubelogger-stack
 
-Stack from Portainer.
+Stack from Portainer
+
+## Services
+
+`lubelogger`
+
+## Volumes
+
+`/path/to/data`
