@@ -77,12 +77,12 @@ Synced from Portainer — 71 stacks total.
 - 🟢 **book-stack**
 - 🔴 **ollama-stack**
 - 🟢 **trading-agent-ron-stack**
-- 🟢 **trailing-stop-stack**
 - 🟢 **immich-stack**
 - 🟢 **nextcloud-stack**
 - 🔴 **npmplus-stack**
 - 🟢 **homarr-stack**
 - 🟢 **vikunja-stack**
+- 🟢 **trailing-stop-stack**
 
 ---
-_Last synced: 2026-05-03T23:02:54.867095+00:00_
+_Last synced: 2026-05-04T22:00:59.398965+00:00_

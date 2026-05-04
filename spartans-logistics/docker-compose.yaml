@@ -20,6 +20,8 @@ services:
   backend:
     image: spartans-backend:${BACKEND_TAG:-latest}
     container_name: spartans-backend
+    ports:                                # <-- ADD THIS LINE
+      - "8003:8000" 
     environment:
       DATABASE_URL: ${DATABASE_URL_EXP}
       SECRET_KEY: ${SECRET_KEY}
