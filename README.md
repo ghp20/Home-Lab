@@ -1,88 +1,163 @@
-# 🏠 Home-Lab
+<div align='center'>
 
-Synced from Portainer — 71 stacks total.
+# 🏠 **Home-Lab**
 
-## Overview
+_A self-hosted infrastructure powering media, automation, productivity, and more._
 
-| Metric | Count |
+![Docker](https://img.shields.io/badge/Docker-27.5.0-blue?logo=docker) ![TrueNAS](https://img.shields.io/badge/TrueNAS-25.04-success?logo=truenas) ![Containers](https://img.shields.io/badge/Containers-126_running-green) ![Stacks](https://img.shields.io/badge/Stacks-71-informational)
+
+</div>
+
+## 📊 Quick Stats
+
+| Metric | Value |
 |--------|-------|
-| Total Stacks | 71 |
-| 🟢 Active | 54 |
-| 🔴 Inactive | 17 |
+| 🟢 Active Stacks | **54** |
+| 🔴 Inactive Stacks | **17** |
+| 🐳 Running Containers | **126** / 129 |
+| ✅ Healthy Containers | **56** |
+| 📦 Docker Images | **148** |
+| 💾 Volumes | **948** |
 
-## Stacks
+## 🖥️ Server Hardware
 
-- 🟢 **stirling-pdf-stack**
-- 🟢 **dashapp-stack**
-- 🟢 **onlyoffice-stack**
-- 🟢 **syncthing-stack**
-- 🟢 **spartans-stack**
-- 🔴 **firefly3-stack**
-- 🟢 **collabora-stack**
-- 🟢 **vaultwarden-stack**
-- 🟢 **immichframe-stack**
-- 🟢 **anything_llm-stack**
-- 🟢 **portracker-stack**
-- 🔴 **adventurlog-stack**
-- 🟢 **karakeep-stack**
-- 🟢 **tugtainer-stack**
-- 🔴 **census-stack**
-- 🟢 **wireguard-us-server-stack**
-- 🟢 **n8n-portainer-stack**
-- 🔴 **unbound-stack**
-- 🔴 **wygiwyh-stack**
-- 🟢 **nebula-sync-stack**
-- 🟢 **npm-stack**
-- 🟢 **lubelogger-stack**
-- 🔴 **tracktor-stack**
-- 🟢 **journiv-stack**
-- 🟢 **crowdsec-stack**
-- 🔴 **plex-stack**
-- 🟢 **monitoring-stack**
-- 🔴 **graylog-stack**
-- 🟢 **home-assistant-stack**
-- 🟢 **matter-server**
-- 🟢 **beszel-stack**
-- 🟢 **metube-stack**
-- 🟢 **music-assistant-stack**
-- 🔴 **tandoor-recipes-stack**
-- 🟢 **mealie-stack**
-- 🟢 **bichon-stack**
-- 🟢 **it-tools-stack**
-- 🟢 **bichon-ai-digest-stack**
-- 🔴 **tdarr-stack**
-- 🟢 **reactive-resume-stack**
-- 🔴 **timelinize-stack**
-- 🔴 **dispatcharr-stack**
-- 🟢 **seerr-stack**
-- 🟢 **jellystat-stack**
-- 🟢 **wizarr-stack**
-- 🟢 **autoheal-stack**
-- 🟢 **jellyfin-telegram-stack**
-- 🟢 **paperlesngx-stack**
-- 🟢 **pihole-stack**
-- 🟢 **arr-stack**
-- 🟢 **qdrant-stack**
-- 🟢 **vpn-stack**
-- 🟢 **jellyfin-stack**
-- 🔴 **cashlytics-stack**
-- 🔴 **monetr-stack**
-- 🟢 **searxng-stack**
-- 🟢 **finboard-stack**
-- 🟢 **spartans-logistics**
-- 🟢 **sample-plan-stack**
-- 🔴 **split-pro-stack**
-- 🟢 **claude-code-stack**
-- 🟢 **changedetection-stack**
-- 🟢 **book-stack**
-- 🔴 **ollama-stack**
-- 🟢 **trading-agent-ron-stack**
-- 🟢 **immich-stack**
-- 🟢 **nextcloud-stack**
-- 🔴 **npmplus-stack**
-- 🟢 **homarr-stack**
-- 🟢 **vikunja-stack**
-- 🟢 **trailing-stop-stack**
+<details>
+<summary><b>Click to expand hardware specifications</b></summary>
+
+| Component | Specification |
+|-----------|--------------|
+| **CPU** | AMD Ryzen 5 2600 6-Core (12 threads) |
+| **RAM** | 125.7 GB |
+| **HDD Storage** | 32 TB (HDD pool: /mnt/storagepool) |
+| **NVMe Storage** | 870 GB (NVMe pool: /mnt/nvmepool) |
+| **Operating System** | TrueNAS CE 25.04.2.6 |
+| **Kernel** | 6.12.15-production+truenas |
+| **Architecture** | x86_64 |
+| **Docker Version** | 27.5.0 |
+| **Storage Driver** | overlay2 on ZFS |
+| **Cgroup** | v2 |
+| **Hostname** | truenas-us |
+
+</details>
+
+## 📁 Stack Categories
+
+### 🎬 Media & Entertainment
+
+| Stack | Status | Description |
+|-------|--------|-------------|
+| [`arr-stack`](./arr-stack/) | 🟢 | The *Arr stack is a suite of media management applications for automating the... |
+| [`immich-stack`](./immich-stack/) | 🟢 | Immich is a self-hosted photo and video backup solution, an alternative to Go... |
+| [`immichframe-stack`](./immichframe-stack/) | 🟢 | ImmichFrame is a digital photo frame application that displays your Immich ph... |
+| [`jellyfin-stack`](./jellyfin-stack/) | 🟢 | Jellyfin is a free and open-source media system that lets you stream your med... |
+| [`jellyfin-telegram-stack`](./jellyfin-telegram-stack/) | 🟢 | Telegram bot integration for Jellyfin, providing notifications and control vi... |
+| [`jellystat-stack`](./jellystat-stack/) | 🟢 | JellyStat is a statistics and monitoring dashboard for Jellyfin, tracking pla... |
+| [`metube-stack`](./metube-stack/) | 🟢 | MeTube is a web GUI for yt-dlp, allowing you to download videos from YouTube ... |
+| [`music-assistant-stack`](./music-assistant-stack/) | 🟢 | Music Assistant is a music library manager and player that integrates with st... |
+| [`plex-stack`](./plex-stack/) | 🔴 | Plex Media Server organizes video, music, and photos from personal media libr... |
+| [`seerr-stack`](./seerr-stack/) | 🟢 | Overseerr / Jellyseerr — a request management portal for your media server, a... |
+| [`tdarr-stack`](./tdarr-stack/) | 🔴 | Tdarr is a distributed transcoding system for automating media library health... |
+
+### 🌐 Networking & VPN
+
+| Stack | Status | Description |
+|-------|--------|-------------|
+| [`changedetection-stack`](./changedetection-stack/) | 🟢 | Changedetection.io monitors websites for changes and sends notifications when... |
+| [`crowdsec-stack`](./crowdsec-stack/) | 🟢 | CrowdSec is a collaborative intrusion prevention and detection system that sh... |
+| [`dispatcharr-stack`](./dispatcharr-stack/) | 🔴 | DispatchArr is a dispatch and scheduling management tool. |
+| [`npm-stack`](./npm-stack/) | 🟢 | Nginx Proxy Manager provides a web interface for managing Nginx reverse proxy... |
+| [`npmplus-stack`](./npmplus-stack/) | 🔴 | NPM Plus — an enhanced version of Nginx Proxy Manager with additional feature... |
+| [`pihole-stack`](./pihole-stack/) | 🟢 | Pi-hole is a network-level ad and internet tracker blocking application actin... |
+| [`searxng-stack`](./searxng-stack/) | 🟢 | SearXNG is a privacy-respecting metasearch engine that aggregates results fro... |
+| [`unbound-stack`](./unbound-stack/) | 🔴 | Unbound is a validating, recursive, caching DNS resolver that provides DNSSEC... |
+| [`vpn-stack`](./vpn-stack/) | 🟢 | WireGuard VPN server for secure remote access to the homelab network, providi... |
+| [`wireguard-us-server-stack`](./wireguard-us-server-stack/) | 🟢 | WireGuard VPN server configured for US exit, providing secure tunneling with ... |
+
+### 🔧 Infrastructure & Monitoring
+
+| Stack | Status | Description |
+|-------|--------|-------------|
+| [`autoheal-stack`](./autoheal-stack/) | 🟢 | Autoheal monitors Docker containers and automatically restarts unhealthy ones... |
+| [`beszel-stack`](./beszel-stack/) | 🟢 | Beszel is a lightweight server monitoring tool with a clean web UI for tracki... |
+| [`census-stack`](./census-stack/) | 🔴 | Census provides infrastructure asset inventory and configuration management t... |
+| [`graylog-stack`](./graylog-stack/) | 🔴 | Graylog is a centralized log management platform that collects, indexes, and ... |
+| [`monitoring-stack`](./monitoring-stack/) | 🟢 | Full monitoring stack with Prometheus, Grafana, Alertmanager, and exporters f... |
+| [`portracker-stack`](./portracker-stack/) | 🟢 | PortRacker is a network port tracking and service inventory tool for monitori... |
+| [`stirling-pdf-stack`](./stirling-pdf-stack/) | 🟢 | Stirling PDF is a self-hosted web application for PDF manipulation — merge, s... |
+| [`tugtainer-stack`](./tugtainer-stack/) | 🟢 | Tugtainer provides container management utilities and tools for Docker enviro... |
+
+### 📝 Productivity & Collaboration
+
+| Stack | Status | Description |
+|-------|--------|-------------|
+| [`book-stack`](./book-stack/) | 🟢 | BookStack is a self-hosted platform for organizing and storing documentation ... |
+| [`collabora-stack`](./collabora-stack/) | 🟢 | Collabora Online is a LibreOffice-based online office suite that integrates w... |
+| [`homarr-stack`](./homarr-stack/) | 🟢 | Homarr is a sleek, customizable dashboard for managing and accessing all your... |
+| [`home-assistant-stack`](./home-assistant-stack/) | 🟢 | Home Assistant is an open-source home automation platform that integrates wit... |
+| [`lubelogger-stack`](./lubelogger-stack/) | 🟢 | LubeLogger is a web-based vehicle maintenance and service record tracker for ... |
+| [`matter-server`](./matter-server/) | 🟢 | Matter Server stack |
+| [`mealie-stack`](./mealie-stack/) | 🟢 | Mealie is a self-hosted recipe manager and meal planner with a clean web inte... |
+| [`nextcloud-stack`](./nextcloud-stack/) | 🟢 | Nextcloud is a self-hosted productivity platform providing file sharing, coll... |
+| [`onlyoffice-stack`](./onlyoffice-stack/) | 🟢 | ONLYOFFICE Docs is an online office suite for creating, editing, and collabor... |
+| [`paperlesngx-stack`](./paperlesngx-stack/) | 🟢 | Paperless-ngx is a document management system that scans, indexes, and archiv... |
+| [`syncthing-stack`](./syncthing-stack/) | 🟢 | Syncthing is a continuous file synchronization program that syncs files betwe... |
+| [`tandoor-recipes-stack`](./tandoor-recipes-stack/) | 🔴 | Tandoor is a recipe manager with meal planning, shopping lists, and recipe sh... |
+| [`vaultwarden-stack`](./vaultwarden-stack/) | 🟢 | Vaultwarden is a lightweight Bitwarden-compatible password manager server wri... |
+| [`vikunja-stack`](./vikunja-stack/) | 🟢 | Vikunja is an open-source to-do and project management application with kanba... |
+
+### 🤖 AI & Development
+
+| Stack | Status | Description |
+|-------|--------|-------------|
+| [`anything_llm-stack`](./anything_llm-stack/) | 🟢 | AnythingLLM is an all-in-one AI document chatbot — connect LLMs to your docum... |
+| [`claude-code-stack`](./claude-code-stack/) | 🟢 | Claude Code provides an AI-powered code assistant environment for software de... |
+| [`n8n-portainer-stack`](./n8n-portainer-stack/) | 🟢 | n8n is a workflow automation platform with a visual node-based editor for con... |
+| [`ollama-stack`](./ollama-stack/) | 🔴 | Ollama runs large language models locally with a simple API, supporting Llama... |
+| [`qdrant-stack`](./qdrant-stack/) | 🟢 | Qdrant is a high-performance vector similarity search engine for AI/ML applic... |
+
+### 💰 Finance
+
+| Stack | Status | Description |
+|-------|--------|-------------|
+| [`cashlytics-stack`](./cashlytics-stack/) | 🔴 | Cashlytics provides cash flow analytics and financial forecasting tools. |
+| [`finboard-stack`](./finboard-stack/) | 🟢 | FinBoard is a financial dashboard for tracking investments, portfolio perform... |
+| [`firefly3-stack`](./firefly3-stack/) | 🔴 | Firefly III is a self-hosted personal finance manager for budgeting, expense ... |
+| [`monetr-stack`](./monetr-stack/) | 🔴 | Monetr is a budgeting and financial planning application designed for long-te... |
+| [`split-pro-stack`](./split-pro-stack/) | 🔴 | Split Pro is an expense splitting application for sharing costs among groups,... |
+| [`trading-agent-ron-stack`](./trading-agent-ron-stack/) | 🟢 | Trading Agent Ron is an automated trading bot infrastructure for monitoring a... |
+| [`trailing-stop-stack`](./trailing-stop-stack/) | 🟢 | Trailing Stop provides automated trailing stop-loss order management for cryp... |
+
+### 🎛️ Dashboards & Utilities
+
+| Stack | Status | Description |
+|-------|--------|-------------|
+| [`dashapp-stack`](./dashapp-stack/) | 🟢 | DashApp provides a custom dashboard application for homelab service access an... |
+| [`it-tools-stack`](./it-tools-stack/) | 🟢 | IT-Tools is a collection of handy online tools for developers — encoders, dec... |
+| [`nebula-sync-stack`](./nebula-sync-stack/) | 🟢 | Nebula Sync provides configuration synchronization across multiple Pi-hole in... |
+| [`reactive-resume-stack`](./reactive-resume-stack/) | 🟢 | Reactive Resume is a free and open-source resume builder with real-time colla... |
+| [`sample-plan-stack`](./sample-plan-stack/) | 🟢 | Sample Plan is a template and planning tool for homelab project management. |
+| [`wizarr-stack`](./wizarr-stack/) | 🟢 | Wizarr is a tool for managing invitations and onboarding for Plex/Jellyfin me... |
+
+### ⚙️ Custom Applications
+
+| Stack | Status | Description |
+|-------|--------|-------------|
+| [`adventurlog-stack`](./adventurlog-stack/) | 🔴 | AdventurLog is an adventure and travel logging application for recording trip... |
+| [`bichon-ai-digest-stack`](./bichon-ai-digest-stack/) | 🟢 | Bichon AI Digest generates AI-powered content digests and summaries from vari... |
+| [`bichon-stack`](./bichon-stack/) | 🟢 | Bichon is a custom homelab application for automation and service management. |
+| [`journiv-stack`](./journiv-stack/) | 🟢 | Journiv is a journaling and life-tracking application for personal reflection... |
+| [`karakeep-stack`](./karakeep-stack/) | 🟢 | Karakeep is a bookmark and knowledge management system for saving and organiz... |
+| [`spartans-logistics`](./spartans-logistics/) | 🟢 | Spartans Logistics extends the Spartans platform with supply chain and logist... |
+| [`spartans-stack`](./spartans-stack/) | 🟢 | Spartans is a custom application for homelab task coordination and team manag... |
+| [`timelinize-stack`](./timelinize-stack/) | 🔴 | Timelinize organizes personal data into chronological timelines from multiple... |
+| [`tracktor-stack`](./tracktor-stack/) | 🔴 | Tracktor is a tracking and monitoring application for managing assets, packag... |
+| [`wygiwyh-stack`](./wygiwyh-stack/) | 🔴 | WYGIWYH (What You Get Is What You Have) is a custom inventory and asset manag... |
 
 ---
-_Last synced: 2026-05-04T22:00:59.398965+00:00_
+
+<div align='center'>
+
+_Last synced: 2026-05-05 19:24 UTC_  
+_Maintained by [Alex](https://github.com/ghp20) • Powered by [Portainer](https://www.portainer.io/)_
+
+</div>
