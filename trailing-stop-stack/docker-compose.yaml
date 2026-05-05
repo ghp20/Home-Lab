@@ -93,6 +93,7 @@ services:
       HOST_IP: ${HOST_IP}
       PYTHONUNBUFFERED: ${PYTHONUNBUFFERED}
       DATA_FEED: ${DATA_FEED}
+      SPY_REGIME_FILTER: ${SPY_REGIME_FILTER}
     volumes:
       - /path/to/data/apps_config/ron/trailing-stop/logs:/app/logs
       - /path/to/data/apps_config/ron/trailing-stop/backtest:/app/backtest_results
