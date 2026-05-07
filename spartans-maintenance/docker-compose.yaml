@@ -1,0 +1,83 @@
+version: "3.9"
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  Dhol Maintenance Tracker — TrueNAS / Portainer production stack
+#
+#  Datasets required on TrueNAS (create before deploying):
+#    /path/to/data/apps_config/spartans-maintenance/db
+#
+#  Build images first (from source directory on your build machine):
+#    docker build -t spartans-maintenance-backend:latest  ./backend
+#    docker build -t spartans-maintenance-frontend:latest ./frontend
+#
+#  Then push to your local registry or load on TrueNAS:
+#    docker save spartans-maintenance-backend:latest  | ssh root@truenas docker load
+#    docker save spartans-maintenance-frontend:latest | ssh root@truenas docker load
+#
+#  In Portainer → Stacks → Add Stack → paste this file
+#  Set all environment variables marked CHANGE_ME in Portainer's env editor
+# ─────────────────────────────────────────────────────────────────────────────
+
+services:
+
+  # ── FastAPI backend ───────────────────────────────────────────────────────
+  backend:
+    image: spartans-maintenance-backend:latest
+    container_name: spartans-maintenance-backend
+    restart: unless-stopped
+    # user 3001:3000 is set inside the Dockerfile via USER directive
+
+    environment:
+      # CHANGE_ME — generate with: python3 -c "import secrets; print(secrets.token_hex(32))"
+      SECRET_KEY: ${SECRET_KEY}
+
+      # SQLite stored on TrueNAS dataset
+      DATABASE_URL: sqlite:////data/maintenance.db
+
+      # Auto-create DB tables on startup
+      AUTO_MIGRATE: "true"
+
+      # No CORS needed — nginx frontend and backend share same origin
+      CORS_ORIGINS: ""
+
+      ENVIRONMENT: production
+      # Deployed over plain HTTP on the LAN — must be false so the auth cookie is sent
+      SECURE_COOKIES: "false"
+      ACCESS_TOKEN_EXPIRE_MINUTES: "120"
+      MAX_LOGIN_ATTEMPTS: "5"
+      LOCKOUT_MINUTES: "30"
+
+    volumes:
+      - /path/to/data/apps_config/spartans-maintenance/db:/data
+
+    expose:
+      - "8000"          # internal only — nginx proxies /api/ to this
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  # ── nginx + React frontend ────────────────────────────────────────────────
+  frontend:
+    image: spartans-maintenance-frontend:latest
+    container_name: spartans-maintenance-frontend
+    restart: unless-stopped
+
+    ports:
+      # CHANGE_ME — set to whatever port you want to access the app on
+      # e.g. "8765:80" → access via http://truenas-ip:8765
+      - "${APP_PORT:-8765}:80"
+
+    depends_on:
+      backend:
+        condition: service_healthy
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
