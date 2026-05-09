@@ -46,6 +46,9 @@ services:
       ACCESS_TOKEN_EXPIRE_MINUTES: "120"
       MAX_LOGIN_ATTEMPTS: "5"
       LOCKOUT_MINUTES: "30"
+      WEBAUTHN_RP_ID: maintenance.example.com
+      WEBAUTHN_ORIGIN: https://maintenance.example.com
+   
 
     volumes:
       - /path/to/data/apps_config/spartans-maintenance/db:/data
