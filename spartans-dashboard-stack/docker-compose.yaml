@@ -1,0 +1,89 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: spartans-dashboard-postgres
+    environment:
+      POSTGRES_USER:     spartans
+      POSTGRES_PASSWORD: HDq9xpK6X2L8XkE1fwCY
+      POSTGRES_DB:       spartans_dashboard
+    volumes:
+      - dashboard-pgdata:/var/lib/postgresql/data
+    networks:
+      - dashboard-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U spartans -d spartans_dashboard"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  backend:
+    image: spartans-dashboard-backend:latest
+    container_name: spartans-dashboard-backend
+    environment:
+      DATABASE_URL:                "postgresql://spartans:HDq9xpK6X2L8XkE1fwCY@postgres:5432/spartans_dashboard"
+      SECRET_KEY:                  "dashboard-secret-change-in-production"
+      ADMIN_USERNAME:              "admin"
+      ADMIN_PASSWORD:              "Whiteknight007!"
+      ACCESS_TOKEN_EXPIRE_MINUTES: "120"
+      MAX_LOGIN_ATTEMPTS:          "5"
+      LOCKOUT_MINUTES:             "30"
+      ENVIRONMENT:                 "production"
+      POLL_INTERVAL_SECONDS:       "10"
+      CORS_ORIGINS:                "https://dashboard.example.com"
+      EVENTS_SECRET_KEY:           "KGEErBBYPra5LPbk4RTGhpXWqRlL4Gm1"
+      LOGISTICS_SECRET_KEY:        "S0meS3cur3S3cr3tK3y123!"
+      LOGISTICS_DASHBOARD_USER_ID: "14"
+      MAINTENANCE_SECRET_KEY:      "a0dc290b7890f0da849e0a61d38cb88faa105459b571690ad820a9d30a47644d"
+      PRACTICE_SECRET_KEY:         "79cb9cde0eb5344e707b0aefd9f017c39ced821e6fc83ac17eca73f62a2a6b1d"
+    networks:
+      - dashboard-net
+      - spartans-events-stack_backend-net
+      - spartans-logistics_backend-net
+      - spartans-maintenance_default
+      - spartans-practice_backend-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')\""]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  frontend:
+    image: spartans-dashboard-frontend:latest
+    container_name: spartans-dashboard-frontend
+    ports:
+      - "8102:8080"
+    networks:
+      - dashboard-net
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1:8080/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  dashboard-net:
+  spartans-events-stack_backend-net:
+    external: true
+  spartans-logistics_backend-net:
+    external: true
+  spartans-maintenance_default:
+    external: true
+  spartans-practice_backend-net:
+    external: true
+
+volumes:
+  dashboard-pgdata:
