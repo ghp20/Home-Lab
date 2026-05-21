@@ -34,7 +34,8 @@ services:
       ADMIN_PASSWORD:              Spartans2026!
       ACCESS_TOKEN_EXPIRE_MINUTES: 120
       ENVIRONMENT:                 production
-      CORS_ORIGINS:
+      CORS_ORIGINS:                https://practice.example.com
+      ARYA_API_KEY:                bed731abbae7432991fee3c8e79ed828
     volumes:
       - /path/to/data/apps_config/spartans-practice/uploads:/app/assets/uploads
     restart: unless-stopped
