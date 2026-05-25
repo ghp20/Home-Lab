@@ -1,23 +1,23 @@
-# Tugtainer Stack
+# Spartans Maintenance
 
-> Tugtainer provides container management utilities and tools for Docker environments.
+> The Spartans Maintenance stack.
 
 **Status:** 🟢 Active  
-**Stack:** `tugtainer-stack`
+**Stack:** `spartans-maintenance`
 
 ## 📦 Services
 
 | Container | Image | Port Mappings | Status |
 |-----------|-------|---------------|--------|
-| `app` | `quenary/tugtainer:${TUG_TAG:-latest}` | — | 🔴 — |
+| `backend` | `spartans-maintenance-backend:latest` | — | 🔴 — |
+| `frontend` | `spartans-maintenance-frontend:latest` | — | 🔴 — |
 
 ## 💾 Volumes
 
 | Service | Mount | Notes |
 |---------|-------|-------|
-| `app` | `${HOST_PORT}:${CONTAINER_PORT}` | Config/data |
-| `app` | `${DOCKER_SOCK}:/var/run/docker.sock` | Config/data |
-| `app` | `${STORAGE_ROOT}:/config` | Config/data |
+| `backend` | `/path/to/data/apps_config/spartans-maintenance/db:/data` | Config/data |
+| `frontend` | `${APP_PORT:-8765}:80` | Config/data |
 
 ## 📊 Resource Recommendations
 
@@ -26,7 +26,7 @@ _No explicit resource limits configured. Defaults apply._
 ## 🚀 Deployment via Portainer
 
 1. Navigate to **Portainer** → **Stacks** → **Add stack**
-2. Name the stack: `tugtainer-stack`
+2. Name the stack: `spartans-maintenance`
 3. Paste the `docker-compose.yaml` content into the web editor
 4. Configure required environment variables (see above)
 5. Set up required volume mount paths on the host

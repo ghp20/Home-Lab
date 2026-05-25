@@ -30,6 +30,42 @@
         "wygiwyh-stack/README.md",
         "nebula-sync-stack/README.md"
       ]
+    },
+    {
+      "timestamp": "2026-05-25T17:01:29.857806+00:00",
+      "stacks_total": 65,
+      "files_added": 5,
+      "files_updated": 61,
+      "files_unchanged": 0,
+      "added": [
+        "seafile-stack/README.md",
+        "spartans-maintenance/README.md",
+        "spartans-events-stack/README.md",
+        "spartans-dashboard-stack/README.md",
+        "spartans-practice/README.md"
+      ],
+      "updated": [
+        "stirling-pdf-stack/README.md",
+        "dashapp-stack/README.md",
+        "onlyoffice-stack/README.md",
+        "syncthing-stack/README.md",
+        "spartans-stack/README.md",
+        "collabora-stack/README.md",
+        "vaultwarden-stack/README.md",
+        "immichframe-stack/README.md",
+        "anything_llm-stack/README.md",
+        "portracker-stack/README.md",
+        "karakeep-stack/README.md",
+        "tugtainer-stack/README.md",
+        "census-stack/README.md",
+        "wireguard-us-server-stack/README.md",
+        "n8n-portainer-stack/README.md",
+        "unbound-stack/README.md",
+        "nebula-sync-stack/README.md",
+        "npm-stack/README.md",
+        "lubelogger-stack/README.md",
+        "tracktor-stack/README.md"
+      ]
     }
   ]
 }
