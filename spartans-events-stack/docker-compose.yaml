@@ -32,8 +32,9 @@ services:
       ADMIN_USERNAME:              admin
       ADMIN_PASSWORD:              Pn27jAzGnAJUL24zsiGg
       ACCESS_TOKEN_EXPIRE_MINUTES: 120
-      ENVIRONMENT:                 production
+      ENVIRONMENT:                 local
       CORS_ORIGINS:
+      GOOGLE_MAPS_API_KEY:         AIzaSyBGg4L-WvLLdSQoT_Qx-iHBdMU2TQ_TkFw
     volumes:
       - /path/to/data/apps_config/spartans-events/uploads:/app/assets/uploads
     restart: unless-stopped
