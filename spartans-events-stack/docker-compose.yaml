@@ -24,7 +24,7 @@ services:
   backend:
     networks:
       - backend-net
-    image: spartans-events-backend:latest
+    image: spartans-events-backend:20260529-J
     container_name: spartans-events-backend
     environment:
       DATABASE_URL:                postgresql://spartans:bZZ42icnK1WJbh@postgres:5432/spartans_events
@@ -34,7 +34,7 @@ services:
       ACCESS_TOKEN_EXPIRE_MINUTES: 120
       ENVIRONMENT:                 local
       CORS_ORIGINS:
-      GOOGLE_MAPS_API_KEY:         AIzaSyBGg4L-WvLLdSQoT_Qx-iHBdMU2TQ_TkFw
+      GOOGLE_MAPS_API_KEY:         AIzaSyDHiANGIgKJggDdJ9jyrGfbWmPikSQahxQ
     volumes:
       - /path/to/data/apps_config/spartans-events/uploads:/app/assets/uploads
     restart: unless-stopped
@@ -51,7 +51,7 @@ services:
   frontend:
     networks:
       - backend-net
-    image: spartans-events-frontend:latest
+    image: spartans-events-frontend:20260529-M
     container_name: spartans-events-frontend
     ports:
       - "8098:80"
