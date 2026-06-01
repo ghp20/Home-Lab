@@ -4,7 +4,7 @@
 
 _A self-hosted infrastructure powering media, automation, productivity, and more._
 
-![Docker](https://img.shields.io/badge/Docker-27.5.0-blue?logo=docker) ![TrueNAS](https://img.shields.io/badge/TrueNAS-25.04-success?logo=truenas) ![Containers](https://img.shields.io/badge/Containers-137_running-green) ![Stacks](https://img.shields.io/badge/Stacks-65-informational)
+![Docker](https://img.shields.io/badge/Docker-27.5.0-blue?logo=docker) ![TrueNAS](https://img.shields.io/badge/TrueNAS-25.04-success?logo=truenas) ![Containers](https://img.shields.io/badge/Containers-132_running-green) ![Stacks](https://img.shields.io/badge/Stacks-65-informational)
 
 </div>
 
@@ -12,11 +12,11 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 
 | Metric | Value |
 |--------|-------|
-| 🟢 Active Stacks | **57** |
-| 🔴 Inactive Stacks | **8** |
-| 🐳 Running Containers | **137** / 140 |
-| ✅ Healthy Containers | **68** |
-| 📦 Docker Images | **557** |
+| 🟢 Active Stacks | **55** |
+| 🔴 Inactive Stacks | **10** |
+| 🐳 Running Containers | **132** / 135 |
+| ✅ Healthy Containers | **63** |
+| 📦 Docker Images | **581** |
 | 💾 Volumes | **957** |
 
 ## 🖥️ Server Hardware
@@ -116,8 +116,8 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 | Stack | Status | Description |
 |-------|--------|-------------|
 | [`finboard-stack`](./finboard-stack/) | 🟢 | FinBoard is a financial dashboard for tracking investments, portfolio perform... |
-| [`trading-agent-ron-stack`](./trading-agent-ron-stack/) | 🟢 | Trading Agent Ron is an automated trading bot infrastructure for monitoring a... |
-| [`trailing-stop-stack`](./trailing-stop-stack/) | 🟢 | Trailing Stop provides automated trailing stop-loss order management for cryp... |
+| [`trading-agent-ron-stack`](./trading-agent-ron-stack/) | 🔴 | Trading Agent Ron is an automated trading bot infrastructure for monitoring a... |
+| [`trailing-stop-stack`](./trailing-stop-stack/) | 🔴 | Trailing Stop provides automated trailing stop-loss order management for cryp... |
 
 ### 🎛️ Dashboards & Utilities
 
@@ -156,7 +156,7 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 
 <div align='center'>
 
-_Last synced: 2026-05-25 17:01 UTC_  
+_Last synced: 2026-06-01 17:00 UTC_  
 _Maintained by [Alex](https://github.com/ghp20) • Powered by [Portainer](https://www.portainer.io/)_
 
 </div>
