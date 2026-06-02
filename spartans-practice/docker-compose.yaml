@@ -9,7 +9,7 @@ services:
     container_name: spartans-practice-postgres
     environment:
       POSTGRES_USER:     spartans
-      POSTGRES_PASSWORD: fce7aeb4203bae06aa04f84f1ee94796a9180825
+      POSTGRES_PASSWORD: changeme
       POSTGRES_DB:       spartans_practice
     volumes:
       - /path/to/data/apps_config/spartans-practice/postgres-data:/var/lib/postgresql/data
@@ -29,13 +29,13 @@ services:
     container_name: spartans-practice-backend
     environment:
       DATABASE_URL:                postgresql://spartans:fce7aeb4203bae06aa04f84f1ee94796a9180825@postgres:5432/spartans_practice
-      SECRET_KEY:                  79cb9cde0eb5344e707b0aefd9f017c39ced821e6fc83ac17eca73f62a2a6b1d
+      SECRET_KEY: changeme
       ADMIN_USERNAME:              superadmin
-      ADMIN_PASSWORD:              Spartans2026!
+      ADMIN_PASSWORD: changeme
       ACCESS_TOKEN_EXPIRE_MINUTES: 120
       ENVIRONMENT:                 production
       CORS_ORIGINS:                https://practice.example.com
-      ARYA_API_KEY:                bed731abbae7432991fee3c8e79ed828
+      ARYA_API_KEY: changeme
     volumes:
       - /path/to/data/apps_config/spartans-practice/uploads:/app/assets/uploads
     restart: unless-stopped

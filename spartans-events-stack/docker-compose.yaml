@@ -9,7 +9,7 @@ services:
     container_name: spartans-events-postgres
     environment:
       POSTGRES_USER: spartans
-      POSTGRES_PASSWORD: bZZ42icnK1WJbh
+      POSTGRES_PASSWORD: changeme
       POSTGRES_DB: spartans_events
     volumes:
       - pgdata:/var/lib/postgresql/data
@@ -28,13 +28,13 @@ services:
     container_name: spartans-events-backend
     environment:
       DATABASE_URL:                postgresql://spartans:bZZ42icnK1WJbh@postgres:5432/spartans_events
-      SECRET_KEY:                  KGEErBBYPra5LPbk4RTGhpXWqRlL4Gm1
+      SECRET_KEY: changeme
       ADMIN_USERNAME:              admin
-      ADMIN_PASSWORD:              Pn27jAzGnAJUL24zsiGg
+      ADMIN_PASSWORD: changeme
       ACCESS_TOKEN_EXPIRE_MINUTES: 120
       ENVIRONMENT:                 local
       CORS_ORIGINS:
-      GOOGLE_MAPS_API_KEY:         AIzaSyDHiANGIgKJggDdJ9jyrGfbWmPikSQahxQ
+      GOOGLE_MAPS_API_KEY: changeme
     volumes:
       - /path/to/data/apps_config/spartans-events/uploads:/app/assets/uploads
     restart: unless-stopped

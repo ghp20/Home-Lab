@@ -25,7 +25,7 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: changeme
       PGDATA: ${PGDATA}
     volumes:
       - /path/to/data/apps_config/ron/trailing-stop/postgres:/var/lib/postgresql/data
@@ -58,18 +58,18 @@ services:
       DB_PORT: ${DB_PORT}
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PASSWORD: changeme
       DB_POOL_MIN: ${DB_POOL_MIN}
       DB_POOL_MAX: ${DB_POOL_MAX}
       DB_SSLMODE: ${DB_SSLMODE}
-      ALPACA_API_KEY: ${ALPACA_API_KEY}
-      ALPACA_SECRET_KEY: ${ALPACA_SECRET_KEY}
+      ALPACA_API_KEY: changeme
+      ALPACA_SECRET_KEY: changeme
       ALPACA_PAPER: ${ALPACA_PAPER}
       N8N_WEBHOOK_URL: ${N8N_WEBHOOK_URL}
-      N8N_WEBHOOK_SECRET: ${N8N_WEBHOOK_SECRET}
+      N8N_WEBHOOK_SECRET: changeme
       N8N_MIN_SEVERITY: ${N8N_MIN_SEVERITY}
       NOTIFY_RATE_LIMIT_SECS: ${NOTIFY_RATE_LIMIT_SECS}
-      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      TELEGRAM_BOT_TOKEN: changeme
       TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID}
       PRINCIPAL: ${PRINCIPAL}
       EQUITY_CAP: ${EQUITY_CAP}

@@ -6,7 +6,7 @@ services:
     container_name: spartans-dashboard-postgres
     environment:
       POSTGRES_USER:     spartans
-      POSTGRES_PASSWORD: HDq9xpK6X2L8XkE1fwCY
+      POSTGRES_PASSWORD: changeme
       POSTGRES_DB:       spartans_dashboard
     volumes:
       - dashboard-pgdata:/var/lib/postgresql/data
@@ -25,20 +25,20 @@ services:
     container_name: spartans-dashboard-backend
     environment:
       DATABASE_URL:                "postgresql://spartans:HDq9xpK6X2L8XkE1fwCY@postgres:5432/spartans_dashboard"
-      SECRET_KEY:                  "dashboard-secret-change-in-production"
+      SECRET_KEY: changeme
       ADMIN_USERNAME:              "admin"
-      ADMIN_PASSWORD:              "Whiteknight007!"
+      ADMIN_PASSWORD: changeme
       ACCESS_TOKEN_EXPIRE_MINUTES: "120"
       MAX_LOGIN_ATTEMPTS:          "5"
       LOCKOUT_MINUTES:             "30"
       ENVIRONMENT:                 "production"
       POLL_INTERVAL_SECONDS:       "10"
       CORS_ORIGINS:                "https://dashboard.example.com"
-      EVENTS_SECRET_KEY:           "KGEErBBYPra5LPbk4RTGhpXWqRlL4Gm1"
-      LOGISTICS_SECRET_KEY:        "S0meS3cur3S3cr3tK3y123!"
+      EVENTS_SECRET_KEY: changeme
+      LOGISTICS_SECRET_KEY: changeme
       LOGISTICS_DASHBOARD_USER_ID: "14"
-      MAINTENANCE_SECRET_KEY:      "a0dc290b7890f0da849e0a61d38cb88faa105459b571690ad820a9d30a47644d"
-      PRACTICE_SECRET_KEY:         "79cb9cde0eb5344e707b0aefd9f017c39ced821e6fc83ac17eca73f62a2a6b1d"
+      MAINTENANCE_SECRET_KEY: changeme
+      PRACTICE_SECRET_KEY: changeme
     networks:
       - dashboard-net
       - spartans-events-stack_backend-net

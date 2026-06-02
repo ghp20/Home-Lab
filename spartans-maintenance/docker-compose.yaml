@@ -29,7 +29,7 @@ services:
 
     environment:
       # CHANGE_ME — generate with: python3 -c "import secrets; print(secrets.token_hex(32))"
-      SECRET_KEY: ${SECRET_KEY}
+      SECRET_KEY: changeme
 
       # SQLite stored on TrueNAS dataset
       DATABASE_URL: sqlite:////data/maintenance.db
