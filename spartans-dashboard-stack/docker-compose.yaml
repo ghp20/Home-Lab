@@ -43,7 +43,7 @@ services:
       - dashboard-net
       - spartans-events-stack_backend-net
       - spartans-logistics_backend-net
-      - spartans-maintenance_default
+      - spartans-maintenance_backend-net
       - spartans-practice_backend-net
     depends_on:
       postgres:
@@ -80,7 +80,7 @@ networks:
     external: true
   spartans-logistics_backend-net:
     external: true
-  spartans-maintenance_default:
+  spartans-maintenance_backend-net:
     external: true
   spartans-practice_backend-net:
     external: true
