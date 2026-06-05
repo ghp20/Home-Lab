@@ -54,7 +54,7 @@ services:
   frontend:
     networks:
       - backend-net
-    image: spartans-maintenance-frontend:latest
+    image: spartans-maintenance-frontend:20260604-nginx-cache
     container_name: spartans-maintenance-frontend
     ports:
       - "8765:80"
