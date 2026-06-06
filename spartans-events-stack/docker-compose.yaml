@@ -27,7 +27,7 @@ services:
     image: spartans-events-backend:latest
     container_name: spartans-events-backend
     environment:
-      DATABASE_URL:                postgresql://spartans:bZZ42icnK1WJbh@postgres:5432/spartans_events
+      DATABASE_URL:                postgresql://spartans:changeme@postgres:5432/spartans_events
       SECRET_KEY: changeme
       ADMIN_USERNAME:              admin
       ADMIN_PASSWORD: changeme
@@ -71,5 +71,5 @@ volumes:
 #   1. Stop the backend container
 #   2. Run pgloader:
 #      pgloader sqlite:////path/to/data/apps_config/spartans-events/data/spartans_events.db \
-#               postgresql://spartans:SET_ME_IN_PORTAINER@localhost:5432/spartans_events
+#               postgresql://spartans:changeme@localhost:5432/spartans_events
 #   3. Start all services

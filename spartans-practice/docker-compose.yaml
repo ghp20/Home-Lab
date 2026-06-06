@@ -28,7 +28,7 @@ services:
     image: spartans-practice-backend:latest
     container_name: spartans-practice-backend
     environment:
-      DATABASE_URL:                postgresql://spartans:fce7aeb4203bae06aa04f84f1ee94796a9180825@postgres:5432/spartans_practice
+      DATABASE_URL:                postgresql://spartans:changeme@postgres:5432/spartans_practice
       SECRET_KEY: changeme
       ADMIN_USERNAME:              superadmin
       ADMIN_PASSWORD: changeme

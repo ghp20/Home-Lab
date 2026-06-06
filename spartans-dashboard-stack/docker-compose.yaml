@@ -24,7 +24,7 @@ services:
     image: spartans-dashboard-backend:latest
     container_name: spartans-dashboard-backend
     environment:
-      DATABASE_URL:                "postgresql://spartans:HDq9xpK6X2L8XkE1fwCY@postgres:5432/spartans_dashboard"
+      DATABASE_URL:                "postgresql://spartans:changeme@postgres:5432/spartans_dashboard"
       SECRET_KEY: changeme
       ADMIN_USERNAME:              "admin"
       ADMIN_PASSWORD: changeme
