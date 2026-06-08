@@ -4,7 +4,7 @@
 
 _A self-hosted infrastructure powering media, automation, productivity, and more._
 
-![Docker](https://img.shields.io/badge/Docker-27.5.0-blue?logo=docker) ![TrueNAS](https://img.shields.io/badge/TrueNAS-25.04-success?logo=truenas) ![Containers](https://img.shields.io/badge/Containers-132_running-green) ![Stacks](https://img.shields.io/badge/Stacks-65-informational)
+![Docker](https://img.shields.io/badge/Docker-28.3.1-blue?logo=docker) ![TrueNAS](https://img.shields.io/badge/TrueNAS-25.04-success?logo=truenas) ![Containers](https://img.shields.io/badge/Containers-134_running-green) ![Stacks](https://img.shields.io/badge/Stacks-64-informational)
 
 </div>
 
@@ -13,11 +13,11 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 | Metric | Value |
 |--------|-------|
 | 🟢 Active Stacks | **55** |
-| 🔴 Inactive Stacks | **10** |
-| 🐳 Running Containers | **132** / 135 |
-| ✅ Healthy Containers | **63** |
-| 📦 Docker Images | **581** |
-| 💾 Volumes | **957** |
+| 🔴 Inactive Stacks | **9** |
+| 🐳 Running Containers | **134** / 137 |
+| ✅ Healthy Containers | **64** |
+| 📦 Docker Images | **676** |
+| 💾 Volumes | **958** |
 
 ## 🖥️ Server Hardware
 
@@ -31,9 +31,9 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 | **HDD Storage** | 32 TB (HDD pool: /mnt/storagepool) |
 | **NVMe Storage** | 870 GB (NVMe pool: /mnt/nvmepool) |
 | **Operating System** | TrueNAS CE 25.04.2.6 |
-| **Kernel** | 6.12.15-production+truenas |
+| **Kernel** | 6.12.33-production+truenas |
 | **Architecture** | x86_64 |
-| **Docker Version** | 27.5.0 |
+| **Docker Version** | 28.3.1 |
 | **Storage Driver** | overlay2 on ZFS |
 | **Cgroup** | v2 |
 | **Hostname** | truenas-us |
@@ -139,7 +139,6 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 | [`journiv-stack`](./journiv-stack/) | 🟢 | Journiv is a journaling and life-tracking application for personal reflection... |
 | [`karakeep-stack`](./karakeep-stack/) | 🟢 | Karakeep is a bookmark and knowledge management system for saving and organiz... |
 | [`spartans-logistics`](./spartans-logistics/) | 🟢 | Spartans Logistics extends the Spartans platform with supply chain and logist... |
-| [`spartans-stack`](./spartans-stack/) | 🔴 | Spartans is a custom application for homelab task coordination and team manag... |
 | [`tracktor-stack`](./tracktor-stack/) | 🔴 | Tracktor is a tracking and monitoring application for managing assets, packag... |
 
 ### 📦 Other Stacks
@@ -156,7 +155,7 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 
 <div align='center'>
 
-_Last synced: 2026-06-01 17:00 UTC_  
+_Last synced: 2026-06-08 17:00 UTC_  
 _Maintained by [Alex](https://github.com/ghp20) • Powered by [Portainer](https://www.portainer.io/)_
 
 </div>
