@@ -3,44 +3,46 @@ version: "3.8"
 services:
 
   postgres:
-    networks:
-      - backend-net
     image: postgres:15
     container_name: spartans-maintenance-postgres
+    restart: unless-stopped
+    networks:
+      - backend-net
     environment:
-      POSTGRES_USER: ${DB_USER}
+      POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: changeme
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - /path/to/data/apps_config/spartans-maintenance/postgres-data:/var/lib/postgresql/data
-      - /path/to/data/apps_config/spartans-maintenance/backups:/backups
-    restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 15s
 
   backend:
-    networks:
-      - backend-net
     image: spartans-maintenance-backend:latest
     container_name: spartans-maintenance-backend
+    restart: unless-stopped
+    networks:
+      - backend-net
     environment:
-      DATABASE_URL:                postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+      DATABASE_URL: ${DATABASE_URL}
       SECRET_KEY: changeme
-      ADMIN_USERNAME:              ${ADMIN_USERNAME}
+      ADMIN_USERNAME: ${ADMIN_USERNAME}
       ADMIN_PASSWORD: changeme
       ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES}
-      ENVIRONMENT:                 ${ENVIRONMENT}
-      CORS_ORIGINS:                ${CORS_ORIGINS}
-      WEBAUTHN_RP_ID:              ${WEBAUTHN_RP_ID}
-      WEBAUTHN_ORIGIN:             ${WEBAUTHN_ORIGIN}
-      AUTO_MIGRATE:                "true"
+      ENVIRONMENT: ${ENVIRONMENT}
+      CORS_ORIGINS: ${CORS_ORIGINS}
+      WEBAUTHN_RP_ID: ${WEBAUTHN_RP_ID}
+      WEBAUTHN_ORIGIN: ${WEBAUTHN_ORIGIN}
+      AUTO_MIGRATE: "true"
+      SECURE_COOKIES: "false"
+      MAX_LOGIN_ATTEMPTS: "5"
+      LOCKOUT_MINUTES: "30"
     volumes:
       - /path/to/data/apps_config/spartans-maintenance/db:/data
-    restart: unless-stopped
     depends_on:
       postgres:
         condition: service_healthy
@@ -52,13 +54,13 @@ services:
       start_period: 20s
 
   frontend:
-    networks:
-      - backend-net
     image: spartans-maintenance-frontend:latest
     container_name: spartans-maintenance-frontend
-    ports:
-      - "8765:80"
     restart: unless-stopped
+    networks:
+      - backend-net
+    ports:
+      - "${APP_PORT}:80"
     depends_on:
       - backend
     healthcheck:
@@ -70,3 +72,4 @@ services:
 
 networks:
   backend-net:
+    name: spartans-maintenance_backend-net
