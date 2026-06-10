@@ -6,7 +6,7 @@ x-common-env: &common-env
   TZ: ${TZ}
 
 x-logging: &gelf_logging
-  driver: gelf
+  driver: json-file
   options:
     gelf-address: "udp://${GELF_HOST}:${GELF_PORT}"
     tag: "{{.Name}}"

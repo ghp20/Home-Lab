@@ -1,7 +1,7 @@
 version: "3.8"
 
 x-logging: &gelf_logging
-  driver: gelf
+  driver: json-file
   options:
     gelf-address: "udp://${GELF_HOST}:${GELF_PORT}"
     tag: "{{.Name}}"

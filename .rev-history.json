@@ -770,6 +770,23 @@
       "files_unchanged": 64,
       "added": [],
       "updated": []
+    },
+    {
+      "timestamp": "2026-06-10T22:00:52.261740+00:00",
+      "stacks_total": 64,
+      "files_added": 0,
+      "files_updated": 7,
+      "files_unchanged": 57,
+      "added": [],
+      "updated": [
+        "collabora-stack/docker-compose.yaml",
+        "anything_llm-stack/docker-compose.yaml",
+        "karakeep-stack/docker-compose.yaml",
+        "census-stack/docker-compose.yaml",
+        "wireguard-us-server-stack/docker-compose.yaml",
+        "arr-stack/docker-compose.yaml",
+        "vpn-stack/docker-compose.yaml"
+      ]
     }
   ]
 }
