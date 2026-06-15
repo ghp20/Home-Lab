@@ -4,6 +4,8 @@ services:
   db:
     image: postgres:${PG_TAG:-16-alpine}
     container_name: spartans-db
+    networks:
+      - backend-net
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -20,6 +22,8 @@ services:
   backend:
     image: spartans-backend:${BACKEND_TAG:-latest}
     container_name: spartans-backend
+    networks:
+      - backend-net
     ports:                                # <-- ADD THIS LINE
       - "8003:8000" 
     environment:
@@ -38,6 +42,8 @@ services:
   frontend:
     image: spartans-frontend:${FRONTEND_TAG:-latest}
     container_name: spartans-frontend
+    networks:
+      - backend-net
     ports:
       - "${HOST_PORT}:80"
     volumes:
@@ -45,3 +51,7 @@ services:
       - ${STORAGE_ROOT}/frontend/logo.png:/usr/share/nginx/html/logo.png:ro
     depends_on: [backend]
     restart: unless-stopped
+
+networks:
+  backend-net:
+    name: spartans-logistics_backend-net
