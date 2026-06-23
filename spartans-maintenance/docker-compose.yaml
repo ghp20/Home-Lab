@@ -22,7 +22,7 @@ services:
       start_period: 15s
 
   backend:
-    image: spartans-maintenance-backend:latest
+    image: spartans-maintenance-backend:phase1.1
     container_name: spartans-maintenance-backend
     restart: unless-stopped
     networks:
@@ -54,7 +54,7 @@ services:
       start_period: 20s
 
   frontend:
-    image: spartans-maintenance-frontend:latest
+    image: spartans-maintenance-frontend:phase1.1
     container_name: spartans-maintenance-frontend
     restart: unless-stopped
     networks:

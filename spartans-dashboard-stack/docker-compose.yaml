@@ -21,7 +21,7 @@ services:
       start_period: 15s
 
   backend:
-    image: spartans-dashboard-backend:latest
+    image: spartans-dashboard-backend:phase1.1
     container_name: spartans-dashboard-backend
     environment:
       DATABASE_URL:                "postgresql://spartans:changeme@postgres:5432/spartans_dashboard"
@@ -41,7 +41,7 @@ services:
       PRACTICE_SECRET_KEY: changeme
     networks:
       - dashboard-net
-      - spartans-events-stack_backend-net
+      - spartans-events_backend-net
       - spartans-logistics_backend-net
       - spartans-maintenance_backend-net
       - spartans-practice_backend-net
@@ -57,7 +57,7 @@ services:
       start_period: 20s
 
   frontend:
-    image: spartans-dashboard-frontend:latest
+    image: spartans-dashboard-frontend:phase1.1
     container_name: spartans-dashboard-frontend
     ports:
       - "8102:8080"
@@ -76,7 +76,7 @@ services:
 
 networks:
   dashboard-net:
-  spartans-events-stack_backend-net:
+  spartans-events_backend-net:
     external: true
   spartans-logistics_backend-net:
     external: true

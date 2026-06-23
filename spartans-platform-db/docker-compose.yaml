@@ -1,0 +1,45 @@
+# ============================================================================
+# Shared platform Postgres — PRODUCTION (Phase 2)
+# The single source of truth for identity (users), members, seasons, audit.
+# Deploy as its OWN Portainer stack. App stacks reach it over the external
+# docker network `spartans-platform-net` (host: spartans-platform-db:5432).
+#
+# Data lives in the spartans-platform dataset:
+#     /path/to/data/apps_config/spartans-platform/platform-db
+#
+# One-time host prep (see deploy/PLATFORM_STORAGE_SETUP.md):
+#     sudo zfs create storagepool/apps_config/spartans-platform
+#     sudo mkdir -p /path/to/data/apps_config/spartans-platform/platform-db
+#     docker network create spartans-platform-net
+#
+# Provide secrets via a .env file next to this compose (see .env.example).
+# NEVER commit the real .env — it is gitignored.
+# ============================================================================
+services:
+  platform-db:
+    image: postgres:16
+    container_name: spartans-platform-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: ${POSTGRES_DB:-spartans_platform}
+      # harden: scram auth + sane defaults
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
+    volumes:
+      - /path/to/data/apps_config/spartans-platform/platform-db:/var/lib/postgresql/data
+    ports:
+      # Host port for migrations/admin only. Restrict to the LAN/VPN in your
+      # firewall — app-to-DB traffic goes over the docker network, not this port.
+      - "5439:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB:-spartans_platform}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - spartans-platform-net
+
+networks:
+  spartans-platform-net:
+    external: true

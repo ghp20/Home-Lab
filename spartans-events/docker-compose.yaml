@@ -1,0 +1,69 @@
+version: "3.8"
+
+services:
+
+  postgres:
+    networks:
+      - backend-net
+    image: postgres:15
+    container_name: spartans-events-postgres
+    environment:
+      POSTGRES_USER: spartans
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: spartans_events
+    volumes:
+      - spartans-events-stack_pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U spartans -d spartans_events"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  backend:
+    networks:
+      - backend-net
+    image: spartans-events-backend:phase1.1
+    container_name: spartans-events-backend
+    environment:
+      DATABASE_URL:                postgresql://spartans:changeme@postgres:5432/spartans_events
+      SECRET_KEY: changeme
+      ADMIN_USERNAME:              admin
+      ADMIN_PASSWORD: changeme
+      ACCESS_TOKEN_EXPIRE_MINUTES: 120
+      ENVIRONMENT:                 local
+      CORS_ORIGINS:
+      VITE_GOOGLE_MAPS_API_KEY: changeme
+    volumes:
+      - /path/to/data/apps_config/spartans-events/uploads:/app/assets/uploads
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\""]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  frontend:
+    networks:
+      - backend-net
+    image: spartans-events-frontend:phase1.1
+    container_name: spartans-events-frontend
+    ports:
+      - "8098:80"
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+networks:
+  backend-net:
+    external: true
+    name: spartans-events_backend-net
+
+volumes:
+  spartans-events-stack_pgdata:
+    external: true
