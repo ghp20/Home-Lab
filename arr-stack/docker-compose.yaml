@@ -7,10 +7,6 @@ x-common-env: &common-env
 
 x-logging: &gelf_logging
   driver: json-file
-  options:
-    gelf-address: "udp://${GELF_HOST}:${GELF_PORT}"
-    tag: "{{.Name}}"
-
 networks:
   arrnet:
     external: true
