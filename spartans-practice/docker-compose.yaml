@@ -52,7 +52,7 @@ services:
   frontend:
     networks:
       - backend-net
-    image: spartans-practice-frontend:phase1.3
+    image: spartans-practice-frontend:phase1.4
     container_name: spartans-practice-frontend
     ports:
       - "3001:8080"

@@ -51,7 +51,7 @@ services:
   frontend:
     networks:
       - backend-net
-    image: spartans-events-frontend:phase1.1
+    image: spartans-events-frontend:phase1.2
     container_name: spartans-events-frontend
     ports:
       - "8098:80"
