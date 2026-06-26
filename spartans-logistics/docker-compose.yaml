@@ -24,10 +24,12 @@ services:
     container_name: spartans-backend
     networks:
       - backend-net
+      - spartans-platform-net
     ports:                                # <-- ADD THIS LINE
       - "8003:8000" 
     environment:
       DATABASE_URL: ${DATABASE_URL_EXP}
+      PLATFORM_DATABASE_URL: ${PLATFORM_DATABASE_URL}
       SECRET_KEY: changeme
       ADMIN_USERNAME: ${ADMIN_USERNAME}
       ADMIN_PASSWORD: changeme
@@ -55,3 +57,5 @@ services:
 networks:
   backend-net:
     name: spartans-logistics_backend-net
+  spartans-platform-net:
+    external: true

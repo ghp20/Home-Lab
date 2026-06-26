@@ -22,13 +22,15 @@ services:
       start_period: 15s
 
   backend:
-    image: spartans-maintenance-backend:phase1.3
+    image: spartans-maintenance-backend:latest
     container_name: spartans-maintenance-backend
     restart: unless-stopped
     networks:
       - backend-net
+      - spartans-platform-net
     environment:
       DATABASE_URL: ${DATABASE_URL}
+      PLATFORM_DATABASE_URL: ${PLATFORM_DATABASE_URL}
       SECRET_KEY: changeme
       ADMIN_USERNAME: ${ADMIN_USERNAME}
       ADMIN_PASSWORD: changeme
@@ -54,7 +56,7 @@ services:
       start_period: 20s
 
   frontend:
-    image: spartans-maintenance-frontend:phase1.4
+    image: spartans-maintenance-frontend:latest
     container_name: spartans-maintenance-frontend
     restart: unless-stopped
     networks:
@@ -73,3 +75,5 @@ services:
 networks:
   backend-net:
     name: spartans-maintenance_backend-net
+  spartans-platform-net:
+    external: true

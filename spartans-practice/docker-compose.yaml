@@ -25,10 +25,12 @@ services:
   backend:
     networks:
       - backend-net
-    image: spartans-practice-backend:phase1.1
+      - spartans-platform-net
+    image: spartans-practice-backend:latest
     container_name: spartans-practice-backend
     environment:
       DATABASE_URL:                postgresql://spartans:changeme@postgres:5432/spartans_practice
+      PLATFORM_DATABASE_URL:       postgresql://spartans:changeme@spartans-platform-db:5432/spartans_platform
       SECRET_KEY: changeme
       ADMIN_USERNAME:              superadmin
       ADMIN_PASSWORD: changeme
@@ -52,7 +54,7 @@ services:
   frontend:
     networks:
       - backend-net
-    image: spartans-practice-frontend:phase1.4
+    image: spartans-practice-frontend:latest
     container_name: spartans-practice-frontend
     ports:
       - "3001:8080"
@@ -68,3 +70,5 @@ services:
 
 networks:
   backend-net:
+  spartans-platform-net:
+    external: true

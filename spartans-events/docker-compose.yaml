@@ -24,10 +24,12 @@ services:
   backend:
     networks:
       - backend-net
-    image: spartans-events-backend:phase1.1
+      - spartans-platform-net
+    image: spartans-events-backend:latest
     container_name: spartans-events-backend
     environment:
-      DATABASE_URL:                postgresql://spartans:changeme@postgres:5432/spartans_events
+      DATABASE_URL: postgresql://spartans:changeme@spartans-events-postgres:5432/spartans_events
+      PLATFORM_DATABASE_URL: postgresql://spartans:changeme@spartans-platform-db:5432/spartans_platform
       SECRET_KEY: changeme
       ADMIN_USERNAME:              admin
       ADMIN_PASSWORD: changeme
@@ -51,7 +53,7 @@ services:
   frontend:
     networks:
       - backend-net
-    image: spartans-events-frontend:phase1.2
+    image: spartans-events-frontend:latest
     container_name: spartans-events-frontend
     ports:
       - "8098:80"
@@ -63,6 +65,8 @@ networks:
   backend-net:
     external: true
     name: spartans-events_backend-net
+  spartans-platform-net:
+    external: true
 
 volumes:
   spartans-events-stack_pgdata:
