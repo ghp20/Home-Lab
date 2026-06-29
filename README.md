@@ -4,7 +4,7 @@
 
 _A self-hosted infrastructure powering media, automation, productivity, and more._
 
-![Docker](https://img.shields.io/badge/Docker-28.3.1-blue?logo=docker) ![TrueNAS](https://img.shields.io/badge/TrueNAS-25.04-success?logo=truenas) ![Containers](https://img.shields.io/badge/Containers-134_running-green) ![Stacks](https://img.shields.io/badge/Stacks-64-informational)
+![Docker](https://img.shields.io/badge/Docker-28.3.1-blue?logo=docker) ![TrueNAS](https://img.shields.io/badge/TrueNAS-25.04-success?logo=truenas) ![Containers](https://img.shields.io/badge/Containers-133_running-green) ![Stacks](https://img.shields.io/badge/Stacks-65-informational)
 
 </div>
 
@@ -12,12 +12,12 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 
 | Metric | Value |
 |--------|-------|
-| 🟢 Active Stacks | **55** |
-| 🔴 Inactive Stacks | **9** |
-| 🐳 Running Containers | **134** / 134 |
-| ✅ Healthy Containers | **63** |
-| 📦 Docker Images | **132** |
-| 💾 Volumes | **420** |
+| 🟢 Active Stacks | **51** |
+| 🔴 Inactive Stacks | **14** |
+| 🐳 Running Containers | **133** / 133 |
+| ✅ Healthy Containers | **64** |
+| 📦 Docker Images | **265** |
+| 💾 Volumes | **421** |
 
 ## 🖥️ Server Hardware
 
@@ -67,8 +67,8 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 | [`pihole-stack`](./pihole-stack/) | 🟢 | Pi-hole is a network-level ad and internet tracker blocking application actin... |
 | [`searxng-stack`](./searxng-stack/) | 🟢 | SearXNG is a privacy-respecting metasearch engine that aggregates results fro... |
 | [`unbound-stack`](./unbound-stack/) | 🔴 | Unbound is a validating, recursive, caching DNS resolver that provides DNSSEC... |
-| [`vpn-stack`](./vpn-stack/) | 🟢 | WireGuard VPN server for secure remote access to the homelab network, providi... |
-| [`wireguard-us-server-stack`](./wireguard-us-server-stack/) | 🟢 | WireGuard VPN server configured for US exit, providing secure tunneling with ... |
+| [`vpn-stack`](./vpn-stack/) | 🔴 | WireGuard VPN server for secure remote access to the homelab network, providi... |
+| [`wireguard-us-server-stack`](./wireguard-us-server-stack/) | 🔴 | WireGuard VPN server configured for US exit, providing secure tunneling with ... |
 
 ### 🔧 Infrastructure & Monitoring
 
@@ -88,7 +88,7 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 | Stack | Status | Description |
 |-------|--------|-------------|
 | [`book-stack`](./book-stack/) | 🟢 | BookStack is a self-hosted platform for organizing and storing documentation ... |
-| [`collabora-stack`](./collabora-stack/) | 🟢 | Collabora Online is a LibreOffice-based online office suite that integrates w... |
+| [`collabora-stack`](./collabora-stack/) | 🔴 | Collabora Online is a LibreOffice-based online office suite that integrates w... |
 | [`homarr-stack`](./homarr-stack/) | 🟢 | Homarr is a sleek, customizable dashboard for managing and accessing all your... |
 | [`home-assistant-stack`](./home-assistant-stack/) | 🟢 | Home Assistant is an open-source home automation platform that integrates wit... |
 | [`lubelogger-stack`](./lubelogger-stack/) | 🟢 | LubeLogger is a web-based vehicle maintenance and service record tracker for ... |
@@ -105,7 +105,7 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 
 | Stack | Status | Description |
 |-------|--------|-------------|
-| [`anything_llm-stack`](./anything_llm-stack/) | 🟢 | AnythingLLM is an all-in-one AI document chatbot — connect LLMs to your docum... |
+| [`anything_llm-stack`](./anything_llm-stack/) | 🔴 | AnythingLLM is an all-in-one AI document chatbot — connect LLMs to your docum... |
 | [`claude-code-stack`](./claude-code-stack/) | 🟢 | Claude Code provides an AI-powered code assistant environment for software de... |
 | [`n8n-portainer-stack`](./n8n-portainer-stack/) | 🟢 | n8n is a workflow automation platform with a visual node-based editor for con... |
 | [`ollama-stack`](./ollama-stack/) | 🔴 | Ollama runs large language models locally with a simple API, supporting Llama... |
@@ -137,7 +137,7 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 | [`bichon-ai-digest-stack`](./bichon-ai-digest-stack/) | 🟢 | Bichon AI Digest generates AI-powered content digests and summaries from vari... |
 | [`bichon-stack`](./bichon-stack/) | 🟢 | Bichon is a custom homelab application for automation and service management. |
 | [`journiv-stack`](./journiv-stack/) | 🟢 | Journiv is a journaling and life-tracking application for personal reflection... |
-| [`karakeep-stack`](./karakeep-stack/) | 🟢 | Karakeep is a bookmark and knowledge management system for saving and organiz... |
+| [`karakeep-stack`](./karakeep-stack/) | 🔴 | Karakeep is a bookmark and knowledge management system for saving and organiz... |
 | [`spartans-logistics`](./spartans-logistics/) | 🟢 | Spartans Logistics extends the Spartans platform with supply chain and logist... |
 | [`tracktor-stack`](./tracktor-stack/) | 🔴 | Tracktor is a tracking and monitoring application for managing assets, packag... |
 
@@ -147,15 +147,16 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 |-------|--------|-------------|
 | [`seafile-stack`](./seafile-stack/) | 🟢 | Seafile Stack stack |
 | [`spartans-dashboard-stack`](./spartans-dashboard-stack/) | 🟢 | Spartans Dashboard Stack stack |
-| [`spartans-events-stack`](./spartans-events-stack/) | 🟢 | Spartans Events Stack stack |
+| [`spartans-events`](./spartans-events/) | 🟢 | Spartans Events stack |
 | [`spartans-maintenance`](./spartans-maintenance/) | 🟢 | Spartans Maintenance stack |
+| [`spartans-platform-db`](./spartans-platform-db/) | 🟢 | Spartans Platform Db stack |
 | [`spartans-practice`](./spartans-practice/) | 🟢 | Spartans Practice stack |
 
 ---
 
 <div align='center'>
 
-_Last synced: 2026-06-22 17:01 UTC_  
+_Last synced: 2026-06-29 17:01 UTC_  
 _Maintained by [Alex](https://github.com/ghp20) • Powered by [Portainer](https://www.portainer.io/)_
 
 </div>
