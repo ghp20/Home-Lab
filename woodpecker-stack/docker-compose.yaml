@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  woodpecker-server:
+    image: woodpeckerci/woodpecker-server:v3
+    container_name: woodpecker-server
+    restart: unless-stopped
+    user: "3001:3000"
+    ports:
+      - "8081:8000"
+      - "9000:9000"
+    volumes:
+      - /path/to/data/apps_config/woodpecker/server:/var/lib/woodpecker
+    environment:
+      - WOODPECKER_HOST=https://pecker.example.com
+      - WOODPECKER_GITHUB=true
+      - WOODPECKER_FORGE_CLIENT=Ov23lioeRR7Pwhda6bVg
+      - WOODPECKER_FORGE_SECRET=changeme
+      - WOODPECKER_AGENT_SECRET=changeme
+      - WOODPECKER_ADMIN=ghp20
+      - WOODPECKER_OPEN=false
+      - WOODPECKER_LOG_LEVEL=info
+    healthcheck:
+      test: ["CMD", "/bin/woodpecker-server", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  woodpecker-agent:
+    image: woodpeckerci/woodpecker-agent:v3
+    container_name: woodpecker-agent
+    restart: unless-stopped
+    group_add:
+      - "999"   # docker group on TrueNAS
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WOODPECKER_SERVER=woodpecker-server:9000
+      - WOODPECKER_AGENT_SECRET=changeme
+      - WOODPECKER_MAX_WORKFLOWS=2
+      - WOODPECKER_LOG_LEVEL=info
+    depends_on:
+      woodpecker-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "/bin/woodpecker-agent", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
