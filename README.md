@@ -4,7 +4,7 @@
 
 _A self-hosted infrastructure powering media, automation, productivity, and more._
 
-![Docker](https://img.shields.io/badge/Docker-28.3.1-blue?logo=docker) ![TrueNAS](https://img.shields.io/badge/TrueNAS-25.04-success?logo=truenas) ![Containers](https://img.shields.io/badge/Containers-133_running-green) ![Stacks](https://img.shields.io/badge/Stacks-65-informational)
+![Docker](https://img.shields.io/badge/Docker-28.3.1-blue?logo=docker) ![TrueNAS](https://img.shields.io/badge/TrueNAS-25.04-success?logo=truenas) ![Containers](https://img.shields.io/badge/Containers-136_running-green) ![Stacks](https://img.shields.io/badge/Stacks-66-informational)
 
 </div>
 
@@ -12,12 +12,12 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 
 | Metric | Value |
 |--------|-------|
-| 🟢 Active Stacks | **51** |
+| 🟢 Active Stacks | **52** |
 | 🔴 Inactive Stacks | **14** |
-| 🐳 Running Containers | **133** / 133 |
-| ✅ Healthy Containers | **64** |
-| 📦 Docker Images | **265** |
-| 💾 Volumes | **421** |
+| 🐳 Running Containers | **136** / 137 |
+| ✅ Healthy Containers | **66** |
+| 📦 Docker Images | **378** |
+| 💾 Volumes | **423** |
 
 ## 🖥️ Server Hardware
 
@@ -68,7 +68,7 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 | [`searxng-stack`](./searxng-stack/) | 🟢 | SearXNG is a privacy-respecting metasearch engine that aggregates results fro... |
 | [`unbound-stack`](./unbound-stack/) | 🔴 | Unbound is a validating, recursive, caching DNS resolver that provides DNSSEC... |
 | [`vpn-stack`](./vpn-stack/) | 🔴 | WireGuard VPN server for secure remote access to the homelab network, providi... |
-| [`wireguard-us-server-stack`](./wireguard-us-server-stack/) | 🔴 | WireGuard VPN server configured for US exit, providing secure tunneling with ... |
+| [`wireguard-us-server-stack`](./wireguard-us-server-stack/) | 🟢 | WireGuard VPN server configured for US exit, providing secure tunneling with ... |
 
 ### 🔧 Infrastructure & Monitoring
 
@@ -94,7 +94,7 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 | [`lubelogger-stack`](./lubelogger-stack/) | 🟢 | LubeLogger is a web-based vehicle maintenance and service record tracker for ... |
 | [`matter-server`](./matter-server/) | 🟢 | Matter Server stack |
 | [`mealie-stack`](./mealie-stack/) | 🟢 | Mealie is a self-hosted recipe manager and meal planner with a clean web inte... |
-| [`nextcloud-stack`](./nextcloud-stack/) | 🟢 | Nextcloud is a self-hosted productivity platform providing file sharing, coll... |
+| [`nextcloud-stack`](./nextcloud-stack/) | 🔴 | Nextcloud is a self-hosted productivity platform providing file sharing, coll... |
 | [`onlyoffice-stack`](./onlyoffice-stack/) | 🟢 | ONLYOFFICE Docs is an online office suite for creating, editing, and collabor... |
 | [`paperlesngx-stack`](./paperlesngx-stack/) | 🟢 | Paperless-ngx is a document management system that scans, indexes, and archiv... |
 | [`syncthing-stack`](./syncthing-stack/) | 🟢 | Syncthing is a continuous file synchronization program that syncs files betwe... |
@@ -151,12 +151,13 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 | [`spartans-maintenance`](./spartans-maintenance/) | 🟢 | Spartans Maintenance stack |
 | [`spartans-platform-db`](./spartans-platform-db/) | 🟢 | Spartans Platform Db stack |
 | [`spartans-practice`](./spartans-practice/) | 🟢 | Spartans Practice stack |
+| [`woodpecker-stack`](./woodpecker-stack/) | 🟢 | Woodpecker Stack stack |
 
 ---
 
 <div align='center'>
 
-_Last synced: 2026-06-29 17:01 UTC_  
+_Last synced: 2026-07-06 17:00 UTC_  
 _Maintained by [Alex](https://github.com/ghp20) • Powered by [Portainer](https://www.portainer.io/)_
 
 </div>
