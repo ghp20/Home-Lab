@@ -1,17 +1,10 @@
 version: "3.8"
-
-x-logging: &gelf_logging
-  driver: json-file
-  options:
-    gelf-address: "udp://${GELF_HOST}:${GELF_PORT}"
-    tag: "{{.Name}}"
     
 services:
   web:
     image: ghcr.io/karakeep-app/karakeep:${KK_TAG:-release}
     container_name: karakeep_web
     restart: unless-stopped
-    logging: *gelf_logging
     ports:
       - "${HOST_PORT}:${CONTAINER_PORT}"
     volumes:
@@ -31,7 +24,6 @@ services:
     image: gcr.io/zenika-hub/alpine-chrome:${CHROME_TAG:-124}
     container_name: karakeep_chrome
     restart: unless-stopped
-    logging: *gelf_logging
     command:
       - --no-sandbox
       - --disable-gpu
@@ -44,7 +36,6 @@ services:
     image: getmeili/meilisearch:${MEILI_TAG:-v1.13.3}
     container_name: karakeep_meilisearch
     restart: unless-stopped
-    logging: *gelf_logging
     environment:
       MEILI_NO_ANALYTICS: "true"
     volumes:

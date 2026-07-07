@@ -4,12 +4,6 @@ networks:
   arrnet:
     external: true
 
-x-logging: &gelf_logging
-  driver: json-file
-  options:
-    gelf-address: "udp://${GELF_HOST}:${GELF_PORT}"
-    tag: "{{.Name}}"
-
 services:
   gluetun:
     image: qmcgaw/gluetun:${GLUETUN_TAG:-latest}
@@ -42,7 +36,6 @@ services:
     volumes:
       - ${APPS_CONFIG}/gluetun:/gluetun
     restart: unless-stopped
-    logging: *gelf_logging
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:${QBIT_TAG:-latest}

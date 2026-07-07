@@ -1,17 +1,10 @@
 version: '3.8'
-
-x-logging: &gelf_logging
-  driver: json-file
-  options:
-    gelf-address: "udp://${GELF_HOST}:${GELF_PORT}"
-    tag: "{{.Name}}"
     
 services:
   collabora:
     image: collabora/code:${COLLAB_TAG:-latest}
     container_name: collabora
     restart: unless-stopped
-    logging: *gelf_logging
     environment:
       - domain=${domain}
       - server_name=${server_name}
