@@ -12,12 +12,12 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 
 | Metric | Value |
 |--------|-------|
-| 🟢 Active Stacks | **52** |
-| 🔴 Inactive Stacks | **14** |
-| 🐳 Running Containers | **136** / 137 |
-| ✅ Healthy Containers | **66** |
-| 📦 Docker Images | **378** |
-| 💾 Volumes | **423** |
+| 🟢 Active Stacks | **55** |
+| 🔴 Inactive Stacks | **11** |
+| 🐳 Running Containers | **136** / 136 |
+| ✅ Healthy Containers | **67** |
+| 📦 Docker Images | **166** |
+| 💾 Volumes | **422** |
 
 ## 🖥️ Server Hardware
 
@@ -67,7 +67,7 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 | [`pihole-stack`](./pihole-stack/) | 🟢 | Pi-hole is a network-level ad and internet tracker blocking application actin... |
 | [`searxng-stack`](./searxng-stack/) | 🟢 | SearXNG is a privacy-respecting metasearch engine that aggregates results fro... |
 | [`unbound-stack`](./unbound-stack/) | 🔴 | Unbound is a validating, recursive, caching DNS resolver that provides DNSSEC... |
-| [`vpn-stack`](./vpn-stack/) | 🔴 | WireGuard VPN server for secure remote access to the homelab network, providi... |
+| [`vpn-stack`](./vpn-stack/) | 🟢 | WireGuard VPN server for secure remote access to the homelab network, providi... |
 | [`wireguard-us-server-stack`](./wireguard-us-server-stack/) | 🟢 | WireGuard VPN server configured for US exit, providing secure tunneling with ... |
 
 ### 🔧 Infrastructure & Monitoring
@@ -88,13 +88,13 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 | Stack | Status | Description |
 |-------|--------|-------------|
 | [`book-stack`](./book-stack/) | 🟢 | BookStack is a self-hosted platform for organizing and storing documentation ... |
-| [`collabora-stack`](./collabora-stack/) | 🔴 | Collabora Online is a LibreOffice-based online office suite that integrates w... |
+| [`collabora-stack`](./collabora-stack/) | 🟢 | Collabora Online is a LibreOffice-based online office suite that integrates w... |
 | [`homarr-stack`](./homarr-stack/) | 🟢 | Homarr is a sleek, customizable dashboard for managing and accessing all your... |
 | [`home-assistant-stack`](./home-assistant-stack/) | 🟢 | Home Assistant is an open-source home automation platform that integrates wit... |
 | [`lubelogger-stack`](./lubelogger-stack/) | 🟢 | LubeLogger is a web-based vehicle maintenance and service record tracker for ... |
 | [`matter-server`](./matter-server/) | 🟢 | Matter Server stack |
 | [`mealie-stack`](./mealie-stack/) | 🟢 | Mealie is a self-hosted recipe manager and meal planner with a clean web inte... |
-| [`nextcloud-stack`](./nextcloud-stack/) | 🔴 | Nextcloud is a self-hosted productivity platform providing file sharing, coll... |
+| [`nextcloud-stack`](./nextcloud-stack/) | 🟢 | Nextcloud is a self-hosted productivity platform providing file sharing, coll... |
 | [`onlyoffice-stack`](./onlyoffice-stack/) | 🟢 | ONLYOFFICE Docs is an online office suite for creating, editing, and collabor... |
 | [`paperlesngx-stack`](./paperlesngx-stack/) | 🟢 | Paperless-ngx is a document management system that scans, indexes, and archiv... |
 | [`syncthing-stack`](./syncthing-stack/) | 🟢 | Syncthing is a continuous file synchronization program that syncs files betwe... |
@@ -106,7 +106,7 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 | Stack | Status | Description |
 |-------|--------|-------------|
 | [`anything_llm-stack`](./anything_llm-stack/) | 🔴 | AnythingLLM is an all-in-one AI document chatbot — connect LLMs to your docum... |
-| [`claude-code-stack`](./claude-code-stack/) | 🟢 | Claude Code provides an AI-powered code assistant environment for software de... |
+| [`claude-code-stack`](./claude-code-stack/) | 🔴 | Claude Code provides an AI-powered code assistant environment for software de... |
 | [`n8n-portainer-stack`](./n8n-portainer-stack/) | 🟢 | n8n is a workflow automation platform with a visual node-based editor for con... |
 | [`ollama-stack`](./ollama-stack/) | 🔴 | Ollama runs large language models locally with a simple API, supporting Llama... |
 | [`qdrant-stack`](./qdrant-stack/) | 🟢 | Qdrant is a high-performance vector similarity search engine for AI/ML applic... |
@@ -137,7 +137,7 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 | [`bichon-ai-digest-stack`](./bichon-ai-digest-stack/) | 🟢 | Bichon AI Digest generates AI-powered content digests and summaries from vari... |
 | [`bichon-stack`](./bichon-stack/) | 🟢 | Bichon is a custom homelab application for automation and service management. |
 | [`journiv-stack`](./journiv-stack/) | 🟢 | Journiv is a journaling and life-tracking application for personal reflection... |
-| [`karakeep-stack`](./karakeep-stack/) | 🔴 | Karakeep is a bookmark and knowledge management system for saving and organiz... |
+| [`karakeep-stack`](./karakeep-stack/) | 🟢 | Karakeep is a bookmark and knowledge management system for saving and organiz... |
 | [`spartans-logistics`](./spartans-logistics/) | 🟢 | Spartans Logistics extends the Spartans platform with supply chain and logist... |
 | [`tracktor-stack`](./tracktor-stack/) | 🔴 | Tracktor is a tracking and monitoring application for managing assets, packag... |
 
@@ -157,7 +157,7 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 
 <div align='center'>
 
-_Last synced: 2026-07-06 17:00 UTC_  
+_Last synced: 2026-07-13 17:01 UTC_  
 _Maintained by [Alex](https://github.com/ghp20) • Powered by [Portainer](https://www.portainer.io/)_
 
 </div>
