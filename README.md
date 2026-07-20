@@ -16,8 +16,8 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 | 🔴 Inactive Stacks | **11** |
 | 🐳 Running Containers | **136** / 136 |
 | ✅ Healthy Containers | **67** |
-| 📦 Docker Images | **166** |
-| 💾 Volumes | **422** |
+| 📦 Docker Images | **264** |
+| 💾 Volumes | **432** |
 
 ## 🖥️ Server Hardware
 
@@ -157,7 +157,7 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 
 <div align='center'>
 
-_Last synced: 2026-07-13 17:01 UTC_  
+_Last synced: 2026-07-20 17:00 UTC_  
 _Maintained by [Alex](https://github.com/ghp20) • Powered by [Portainer](https://www.portainer.io/)_
 
 </div>
