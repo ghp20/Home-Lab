@@ -4,7 +4,7 @@
 
 _A self-hosted infrastructure powering media, automation, productivity, and more._
 
-![Docker](https://img.shields.io/badge/Docker-28.3.1-blue?logo=docker) ![TrueNAS](https://img.shields.io/badge/TrueNAS-25.04-success?logo=truenas) ![Containers](https://img.shields.io/badge/Containers-137_running-green) ![Stacks](https://img.shields.io/badge/Stacks-66-informational)
+![Docker](https://img.shields.io/badge/Docker-28.3.1-blue?logo=docker) ![TrueNAS](https://img.shields.io/badge/TrueNAS-25.04-success?logo=truenas) ![Containers](https://img.shields.io/badge/Containers-135_running-green) ![Stacks](https://img.shields.io/badge/Stacks-66-informational)
 
 </div>
 
@@ -12,12 +12,12 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 
 | Metric | Value |
 |--------|-------|
-| 🟢 Active Stacks | **55** |
-| 🔴 Inactive Stacks | **11** |
-| 🐳 Running Containers | **137** / 137 |
-| ✅ Healthy Containers | **67** |
-| 📦 Docker Images | **338** |
-| 💾 Volumes | **433** |
+| 🟢 Active Stacks | **54** |
+| 🔴 Inactive Stacks | **12** |
+| 🐳 Running Containers | **135** / 136 |
+| ✅ Healthy Containers | **61** |
+| 📦 Docker Images | **415** |
+| 💾 Volumes | **434** |
 
 ## 🖥️ Server Hardware
 
@@ -92,7 +92,7 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 | [`homarr-stack`](./homarr-stack/) | 🟢 | Homarr is a sleek, customizable dashboard for managing and accessing all your... |
 | [`home-assistant-stack`](./home-assistant-stack/) | 🟢 | Home Assistant is an open-source home automation platform that integrates wit... |
 | [`lubelogger-stack`](./lubelogger-stack/) | 🟢 | LubeLogger is a web-based vehicle maintenance and service record tracker for ... |
-| [`matter-server`](./matter-server/) | 🟢 | Matter Server stack |
+| [`matter-server`](./matter-server/) | 🔴 | Matter Server stack |
 | [`mealie-stack`](./mealie-stack/) | 🟢 | Mealie is a self-hosted recipe manager and meal planner with a clean web inte... |
 | [`nextcloud-stack`](./nextcloud-stack/) | 🟢 | Nextcloud is a self-hosted productivity platform providing file sharing, coll... |
 | [`onlyoffice-stack`](./onlyoffice-stack/) | 🟢 | ONLYOFFICE Docs is an online office suite for creating, editing, and collabor... |
@@ -157,7 +157,7 @@ _A self-hosted infrastructure powering media, automation, productivity, and more
 
 <div align='center'>
 
-_Last synced: 2026-07-27 17:01 UTC_  
+_Last synced: 2026-08-03 17:00 UTC_  
 _Maintained by [Alex](https://github.com/ghp20) • Powered by [Portainer](https://www.portainer.io/)_
 
 </div>
